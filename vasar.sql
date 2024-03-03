@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Feb 19. 22:39
+-- Létrehozás ideje: 2024. Már 03. 21:37
 -- Kiszolgáló verziója: 10.4.27-MariaDB
 -- PHP verzió: 8.2.0
 
@@ -37,7 +37,9 @@ CREATE TABLE `date_vasar` (
 --
 
 INSERT INTO `date_vasar` (`date_id`, `date`) VALUES
-(1, '2024-03-17');
+(1, '2024-03-17'),
+(2, '2024-04-21'),
+(3, '2024-05-19');
 
 -- --------------------------------------------------------
 
@@ -56,7 +58,9 @@ CREATE TABLE `place` (
 --
 
 INSERT INTO `place` (`place_id`, `place_number`, `place_price`) VALUES
-(1, 1, 1500);
+(1, 1, 1500),
+(2, 2, 1500),
+(3, 3, 1500);
 
 -- --------------------------------------------------------
 
@@ -71,6 +75,13 @@ CREATE TABLE `reservation` (
   `date_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- A tábla adatainak kiíratása `reservation`
+--
+
+INSERT INTO `reservation` (`reservation_id`, `user_id`, `place_id`, `date_id`) VALUES
+(1, 1, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -81,7 +92,7 @@ CREATE TABLE `userdata` (
   `user_Id` int(11) NOT NULL,
   `user_name` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
-  `name_company` varchar(50) DEFAULT NULL,
+  `name_company` varchar(50) NOT NULL,
   `contact` varchar(50) DEFAULT NULL,
   `telephone` varchar(20) NOT NULL,
   `email` varchar(50) NOT NULL,
@@ -91,6 +102,13 @@ CREATE TABLE `userdata` (
   `moderator` tinyint(1) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `userdata`
+--
+
+INSERT INTO `userdata` (`user_Id`, `user_name`, `password`, `name_company`, `contact`, `telephone`, `email`, `photo`, `online_availability`, `product _description`, `moderator`, `status`) VALUES
+(1, 'minta', 'minta', 'Minta Kft.', 'Minta Károly', '0670555555', 'minta@gmail.com', NULL, 'www.minta.hu', 'Sok-sok minta :)', 0, 1);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -121,7 +139,8 @@ ALTER TABLE `reservation`
 -- A tábla indexei `userdata`
 --
 ALTER TABLE `userdata`
-  ADD PRIMARY KEY (`user_Id`);
+  ADD PRIMARY KEY (`user_Id`),
+  ADD UNIQUE KEY `user_name` (`user_name`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
@@ -131,25 +150,25 @@ ALTER TABLE `userdata`
 -- AUTO_INCREMENT a táblához `date_vasar`
 --
 ALTER TABLE `date_vasar`
-  MODIFY `date_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `date_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `place`
 --
 ALTER TABLE `place`
-  MODIFY `place_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `place_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `userdata`
 --
 ALTER TABLE `userdata`
-  MODIFY `user_Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Megkötések a kiírt táblákhoz
