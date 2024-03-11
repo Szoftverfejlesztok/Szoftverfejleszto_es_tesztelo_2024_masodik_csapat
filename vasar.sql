@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Már 03. 21:37
+-- Létrehozás ideje: 2024. Már 11. 09:19
 -- Kiszolgáló verziója: 10.4.27-MariaDB
 -- PHP verzió: 8.2.0
 
@@ -60,7 +60,10 @@ CREATE TABLE `place` (
 INSERT INTO `place` (`place_id`, `place_number`, `place_price`) VALUES
 (1, 1, 1500),
 (2, 2, 1500),
-(3, 3, 1500);
+(3, 3, 1500),
+(4, 4, 1500),
+(5, 5, 1500),
+(6, 6, 1500);
 
 -- --------------------------------------------------------
 
@@ -80,7 +83,33 @@ CREATE TABLE `reservation` (
 --
 
 INSERT INTO `reservation` (`reservation_id`, `user_id`, `place_id`, `date_id`) VALUES
-(1, 1, 1, 1);
+(1, 1, 1, 1),
+(2, 1, 2, 1),
+(3, 2, 3, 2),
+(4, 2, 4, 1),
+(5, 1, 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `termek`
+--
+
+CREATE TABLE `termek` (
+  `termek_id` int(11) NOT NULL,
+  `termek_kategoria` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `termek`
+--
+
+INSERT INTO `termek` (`termek_id`, `termek_kategoria`) VALUES
+(1, 'méz'),
+(2, 'kerti szerszám'),
+(3, 'vetőmag'),
+(4, 'baba ruha'),
+(5, 'könyv');
 
 -- --------------------------------------------------------
 
@@ -98,7 +127,7 @@ CREATE TABLE `userdata` (
   `email` varchar(50) NOT NULL,
   `photo` varchar(150) DEFAULT NULL,
   `online_availability` varchar(500) DEFAULT NULL,
-  `product _description` varchar(300) NOT NULL,
+  `product_description` varchar(300) NOT NULL,
   `moderator` tinyint(1) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -107,8 +136,9 @@ CREATE TABLE `userdata` (
 -- A tábla adatainak kiíratása `userdata`
 --
 
-INSERT INTO `userdata` (`user_Id`, `user_name`, `password`, `name_company`, `contact`, `telephone`, `email`, `photo`, `online_availability`, `product _description`, `moderator`, `status`) VALUES
-(1, 'minta', 'minta', 'Minta Kft.', 'Minta Károly', '0670555555', 'minta@gmail.com', NULL, 'www.minta.hu', 'Sok-sok minta :)', 0, 1);
+INSERT INTO `userdata` (`user_Id`, `user_name`, `password`, `name_company`, `contact`, `telephone`, `email`, `photo`, `online_availability`, `product_description`, `moderator`, `status`) VALUES
+(1, 'brumm1', 'brumm', 'Brumm Kft', 'Jónás Patrícia', '+36705536254', 'brumm@gmail.com', NULL, 'www.brummkft.hu', 'Termékkínálatunkban többféle méz megtalálható, többek között akác, repce, vegyes virágméz.', 0, 1),
+(2, 'kovacsistvan', 'istvan', 'Kovács István egyéni vállalkozó', 'Kovács István', '+36705486325', 'istvankovacs@gmail.com', NULL, 'facebook.com/kovacs.istvan/', 'Kerti szerszámok készítésével foglalkozok. ', 0, 1);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -136,11 +166,18 @@ ALTER TABLE `reservation`
   ADD KEY `date_id` (`date_id`);
 
 --
+-- A tábla indexei `termek`
+--
+ALTER TABLE `termek`
+  ADD PRIMARY KEY (`termek_id`);
+
+--
 -- A tábla indexei `userdata`
 --
 ALTER TABLE `userdata`
   ADD PRIMARY KEY (`user_Id`),
-  ADD UNIQUE KEY `user_name` (`user_name`);
+  ADD UNIQUE KEY `user_name` (`user_name`),
+  ADD UNIQUE KEY `user_name_2` (`user_name`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
@@ -156,19 +193,25 @@ ALTER TABLE `date_vasar`
 -- AUTO_INCREMENT a táblához `place`
 --
 ALTER TABLE `place`
-  MODIFY `place_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `place_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT a táblához `termek`
+--
+ALTER TABLE `termek`
+  MODIFY `termek_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `userdata`
 --
 ALTER TABLE `userdata`
-  MODIFY `user_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -181,6 +224,12 @@ ALTER TABLE `reservation`
   ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `userdata` (`user_Id`),
   ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`place_id`) REFERENCES `place` (`place_id`),
   ADD CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`date_id`) REFERENCES `date_vasar` (`date_id`);
+
+--
+-- Megkötések a táblához `userdata`
+--
+ALTER TABLE `userdata`
+  ADD CONSTRAINT `userdata_ibfk_1` FOREIGN KEY (`user_Id`) REFERENCES `termek` (`termek_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
