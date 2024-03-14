@@ -12,7 +12,7 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
             throw new userException("Adja meg a felhasználónevét és jelszavát");
         }
 
-        $sqlLogin = "SELECT id, felhasznalonev,jelszo,teljesnev FROM  usere WHERE felhasznalonev=:felhasznalonev";
+        $sqlLogin = "SELECT user_Id,user_name,password,name_company FROM  userdata WHERE user_name=:felhasznalonev";
         $queryLogin = $dbconn->prepare($sqlLogin);
         $queryLogin->bindValue("felhasznalonev", $login, PDO::PARAM_STR);
         $queryLogin->execute();
@@ -20,7 +20,7 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
             throw new userException("Hibás felhasználói azonosító");
         }
         $user = $queryLogin->fetch(PDO::FETCH_ASSOC); //kiolvassuk az adatokat
-        if (!password_verify($jelszo,$user["jelszo"])){
+        if (!password_verify($jelszo,$user["password"])){
             throw new userException("Hibás jelszó");
         }    
 
