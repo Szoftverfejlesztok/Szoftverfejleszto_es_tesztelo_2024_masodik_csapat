@@ -14,7 +14,7 @@
     
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav flex-column">
-        <?php if (!isset($_SESSION["user"])){  //Ha ki vagyok jelentkezve, akkor a bejelentkezés és a regisztráció látható.
+        <?php if (isset($_SESSION["user"])){  //Ha ki vagyok jelentkezve, akkor a bejelentkezés és a regisztráció látható.
             echo '
             <li class="nav-item active">
                 <!--Bejelentkezés-->
@@ -32,11 +32,15 @@
             </li>
             <li class="nav-item active">
                 <!--Adminisztrátor: akkor látható, ha be van jelentkezve az admin-->
-                <a class="nav-link text-white" href=" ">Adminisztrátor - Felhasználó kezelés</a>
+                <a class="nav-link text-white" href="admin_users.php">Adminisztrátor - Felhasználó kezelés</a>
             </li>
             <li class="nav-item active">
                 <!--Adminisztrátor: akkor látható, ha be van jelentkezve az admin-->
-                <a class="nav-link text-white" href=" ">Adminisztrátor - Helyfoglalás kezelés</a>
+                <a class="nav-link text-white" href="admin_reservation.php">Adminisztrátor - Helyfoglalás kezelése</a>
+            </li>
+            <li class="nav-item active">
+            <!--Adminisztrátor: akkor látható, ha be van jelentkezve az admin-->
+            <a class="nav-link text-white" href="admin_new_product.php">Adminisztrátor - Új termék kategória</a>
             </li>
             <li class="nav-item active">
                 <!--Kijelentkezés-->

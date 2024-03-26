@@ -115,7 +115,6 @@ if (isset($_POST["submitTorol"]) && !empty($dbconn)){
                     if (!empty($tableNew)){
                         echo $tableNew;
                     } else echo "Nincs aktiválásra váró felhasználó!";
-
                     ?>
 
                 </form>

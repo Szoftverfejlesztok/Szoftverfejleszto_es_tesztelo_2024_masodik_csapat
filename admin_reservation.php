@@ -25,7 +25,7 @@ function setReservationStatus($reservation_id, $status, $dbconn){
 
         $msg = "A kérelem sikeres státusz módosítása megtörtént.";  
 
-    }catch(aktivalException $e){
+    }catch(ReservationException $e){
         $error = "Hiba lépett fel a státusz módosítás közben: ".$e->getMessage();
     }catch (PDOException $e){
         $error = "Adatbázis hiba: ".$e->getMessage(); 
@@ -142,6 +142,7 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
                 </form>
                 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
                     <h2>Felfüggesztett helyfoglalási kérelmek</h2>
+                    <!--MEgjegyzés, hogy miért-->
                     <!-- Kérelmek, amik valami apró hibát tartalmaznak -->
                     <!--reservation táblában a status: 2 -> a felfüggesztett helyfoglalások -->
                     <button type="submit" name="submitJovahagy">Jóváhagyás</button>
