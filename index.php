@@ -76,6 +76,7 @@ if(!empty($_COOKIE["id"]) && isset($dbconn)){     // 18. lépés, ha van cookie 
                     odio ultricies consectetur. Fusce nec sodales quam. Duis ac purus id velit
                     suscipit ultrices ut et augue.
                 </p>
+<?php require_once("admin_next_vasar.php"); ?>
             </div>
         </main>
     </div>

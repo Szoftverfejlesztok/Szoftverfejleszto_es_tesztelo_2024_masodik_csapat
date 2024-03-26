@@ -5,4 +5,15 @@ $(document).ready(function () {
   });
 });
 
+  function openPopup() {
+    document.getElementById('popup-dialog').style.display = 'block';
+}
+
+function closePopup() {
+    document.getElementById('popup-dialog').style.display = 'none';
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById('nextDatePopUp').addEventListener('click', openPopup);
+});
 
