@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Már 18. 21:29
+-- Létrehozás ideje: 2024. Már 26. 21:17
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -33,14 +33,17 @@ CREATE TABLE `date_vasar` (
   `is_next` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- A tábla adatainak kiíratása `date_vasar`
+-- Tábla szerkezet ehhez a táblához `kinalat`
 --
 
-/*INSERT INTO `date_vasar` (`date_id`, `date`, `is_next`) VALUES
-(1, '2024-03-17', NULL),
-(2, '2024-04-21', NULL),
-(3, '2024-05-19', NULL);*/
+CREATE TABLE `kinalat` (
+  `kinalat_id` int(11) NOT NULL,
+  `termek_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -54,17 +57,6 @@ CREATE TABLE `place` (
   `place_price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- A tábla adatainak kiíratása `place`
---
-
-/*INSERT INTO `place` (`place_id`, `place_number`, `place_price`) VALUES
-(1, 1, 1500),
-(2, 2, 1500),
-(3, 3, 1500),
-(4, 4, 1500),
-(5, 5, 1500),
-(6, 6, 1500);*/
 
 -- --------------------------------------------------------
 
@@ -80,16 +72,6 @@ CREATE TABLE `reservation` (
   `status` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- A tábla adatainak kiíratása `reservation`
---
-
-/*INSERT INTO `reservation` (`reservation_id`, `user_id`, `place_id`, `date_id`, `status`) VALUES
-(1, 1, 1, 1, 1),
-(2, 1, 2, 1, 0),
-(3, 2, 3, 2, 1),
-(4, 2, 4, 1, 0),
-(5, 1, 1, 2, 1);*/
 
 -- --------------------------------------------------------
 
@@ -99,18 +81,9 @@ CREATE TABLE `reservation` (
 
 CREATE TABLE `termek` (
   `termek_id` int(11) NOT NULL,
-  `termek_kategoria` varchar(30) NOT NULL,
-  `user_id` int(11) DEFAULT NULL
+  `termek_kategoria` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
---
--- A tábla adatainak kiíratása `termek`
---
-
-/*INSERT INTO `termek` (`termek_id`, `termek_kategoria`, `user_id`) VALUES
-(1, 'méz', 1),
-(2, 'vetőmag', 2),
-(3, 'kerti szerszám', 2);*/
 
 -- --------------------------------------------------------
 
@@ -133,15 +106,7 @@ CREATE TABLE `userdata` (
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- A tábla adatainak kiíratása `userdata`
---
 
-/*INSERT INTO `userdata` (`user_id`, `user_name`, `password`, `name_company`, `contact`, `telephone`, `email`, `photo`, `online_availability`, `product_description`, `moderator`, `status`) VALUES
-(1, 'brumm1', 'brumm', 'Brumm Kft', 'Jónás Patrícia', '+36705536254', 'brumm@gmail.com', NULL, 'www.brummkft.hu', 'Termékkínálatunkban többféle méz megtalálható, többek között akác, repce, vegyes virágméz.', 0, 1),
-(2, 'kovacsistvan', 'istvan', 'Kovács István egyéni vállalkozó', 'Kovács István', '+36705486325', 'istvankovacs@gmail.com', NULL, 'facebook.com/kovacs.istvan/', 'Kerti szerszámok készítésével foglalkozok. ', 0, 1);*/
-
---
 -- Indexek a kiírt táblákhoz
 --
 
@@ -150,6 +115,14 @@ CREATE TABLE `userdata` (
 --
 ALTER TABLE `date_vasar`
   ADD PRIMARY KEY (`date_id`);
+
+--
+-- A tábla indexei `kinalat`
+--
+ALTER TABLE `kinalat`
+  ADD PRIMARY KEY (`kinalat_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `termek_id` (`termek_id`);
 
 --
 -- A tábla indexei `place`
@@ -171,8 +144,7 @@ ALTER TABLE `reservation`
 --
 ALTER TABLE `termek`
   ADD PRIMARY KEY (`termek_id`),
-  ADD UNIQUE KEY `termek_kategoria` (`termek_kategoria`),
-  ADD KEY `user_id` (`user_id`);
+  ADD UNIQUE KEY `termek_kategoria` (`termek_kategoria`);
 
 --
 -- A tábla indexei `userdata`
@@ -190,6 +162,12 @@ ALTER TABLE `userdata`
 --
 ALTER TABLE `date_vasar`
   MODIFY `date_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- AUTO_INCREMENT a táblához `kinalat`
+--
+ALTER TABLE `kinalat`
+  MODIFY `kinalat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT a táblához `place`
@@ -220,6 +198,13 @@ ALTER TABLE `userdata`
 --
 
 --
+-- Megkötések a táblához `kinalat`
+--
+ALTER TABLE `kinalat`
+  ADD CONSTRAINT `kinalat_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `userdata` (`user_id`),
+  ADD CONSTRAINT `kinalat_ibfk_2` FOREIGN KEY (`termek_id`) REFERENCES `termek` (`termek_id`);
+
+--
 -- Megkötések a táblához `reservation`
 --
 ALTER TABLE `reservation`
@@ -227,12 +212,6 @@ ALTER TABLE `reservation`
   ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`place_id`) REFERENCES `place` (`place_id`),
   ADD CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`date_id`) REFERENCES `date_vasar` (`date_id`);
 
---
--- Megkötések a táblához `termek`
---
-ALTER TABLE `termek`
-  ADD CONSTRAINT `termek_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `userdata` (`user_id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
