@@ -1,0 +1,1 @@
+# Szoftverfejleszto_es_tesztelo_2024_masodik_csapat
