@@ -27,12 +27,12 @@ INSERT INTO `reservation` (`user_id`, `place_id`, `date_id`, `status`) VALUES
 (2, 4, 1, 0),
 (1, 1, 2, 1);
 
-INSERT INTO `termek` (`termek_kategoria`) VALUES
+INSERT INTO `product` (`product_category`) VALUES
 ('méz'),
 ('vetőmag'),
 ('kerti szerszám');
 
-INSERT INTO `kinalat` (`kinalat_id`, `termek_id`, `user_id`) VALUES
+INSERT INTO `product_range` (`product_range_id`, `product_id`, `user_id`) VALUES
 (1, 1, 1),
 (2, 3, 2),
 (3, 1, 2);

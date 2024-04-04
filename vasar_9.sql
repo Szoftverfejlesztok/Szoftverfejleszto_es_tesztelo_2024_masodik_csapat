@@ -39,9 +39,9 @@ CREATE TABLE `date_vasar` (
 -- Tábla szerkezet ehhez a táblához `kinalat`
 --
 
-CREATE TABLE `kinalat` (
-  `kinalat_id` int(11) NOT NULL,
-  `termek_id` int(11) NOT NULL,
+CREATE TABLE `product_range` (
+  `product_range_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -79,9 +79,9 @@ CREATE TABLE `reservation` (
 -- Tábla szerkezet ehhez a táblához `termek`
 --
 
-CREATE TABLE `termek` (
-  `termek_id` int(11) NOT NULL,
-  `termek_kategoria` varchar(30) NOT NULL
+CREATE TABLE `product` (
+  `product_id` int(11) NOT NULL,
+  `product_category` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 
@@ -117,12 +117,12 @@ ALTER TABLE `date_vasar`
   ADD PRIMARY KEY (`date_id`);
 
 --
--- A tábla indexei `kinalat`
+-- A tábla indexei `product_range`
 --
-ALTER TABLE `kinalat`
-  ADD PRIMARY KEY (`kinalat_id`),
+ALTER TABLE `product_range`
+  ADD PRIMARY KEY (`product_range_id`),
   ADD KEY `user_id` (`user_id`),
-  ADD KEY `termek_id` (`termek_id`);
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- A tábla indexei `place`
@@ -142,9 +142,9 @@ ALTER TABLE `reservation`
 --
 -- A tábla indexei `termek`
 --
-ALTER TABLE `termek`
-  ADD PRIMARY KEY (`termek_id`),
-  ADD UNIQUE KEY `termek_kategoria` (`termek_kategoria`);
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`product_id`),
+  ADD UNIQUE KEY `product_category` (`product_category`);
 
 --
 -- A tábla indexei `userdata`
@@ -166,8 +166,8 @@ ALTER TABLE `date_vasar`
 --
 -- AUTO_INCREMENT a táblához `kinalat`
 --
-ALTER TABLE `kinalat`
-  MODIFY `kinalat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+ALTER TABLE `product_range`
+  MODIFY `product_range_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT a táblához `place`
@@ -184,8 +184,8 @@ ALTER TABLE `reservation`
 --
 -- AUTO_INCREMENT a táblához `termek`
 --
-ALTER TABLE `termek`
-  MODIFY `termek_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+ALTER TABLE `product`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT a táblához `userdata`
@@ -200,9 +200,9 @@ ALTER TABLE `userdata`
 --
 -- Megkötések a táblához `kinalat`
 --
-ALTER TABLE `kinalat`
-  ADD CONSTRAINT `kinalat_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `userdata` (`user_id`),
-  ADD CONSTRAINT `kinalat_ibfk_2` FOREIGN KEY (`termek_id`) REFERENCES `termek` (`termek_id`);
+ALTER TABLE `product_range`
+  ADD CONSTRAINT `product_range_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `userdata` (`user_id`),
+  ADD CONSTRAINT `product_range_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
 --
 -- Megkötések a táblához `reservation`
