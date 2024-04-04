@@ -1,5 +1,6 @@
 <?php
 require_once("dbconnect.php");
+session_start(); 
 // Ellenőrizzük, hogy van-e érték a vásárokidőpontok listából
 if(isset($_GET['dateId'])){
     $dateId = $_GET['dateId'];

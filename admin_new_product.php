@@ -5,12 +5,7 @@ $msg = "";
 class ProductException extends Exception{}
 
 require_once("dbconnect.php");
-
-session_start(); //olyan helyen legyen, ami minden oldalra be van require-olva, pl header, footer. De csak egyszer!
-/* if (!isset($_SESSION["user"])){
-    header("location:/index.php");   //? 
-} */
-
+session_start(); 
 
 function addNewProduct($termek_kategoria, $dbconn){
 
@@ -18,7 +13,7 @@ function addNewProduct($termek_kategoria, $dbconn){
         if (empty($termek_kategoria)){
             throw new ProductException("Kérem, írja be az új termékkategóriát!");
         }
-        $sql = "INSERT INTO termek (termek_kategoria) VALUES (:termek_kategoria)";
+        $sql = "INSERT INTO product (product_category) VALUES (:termek_kategoria)";
         $query = $dbconn->prepare($sql);
         $query->bindValue("termek_kategoria", $termek_kategoria, PDO::PARAM_STR);
         $query->execute();
@@ -34,7 +29,7 @@ function addNewProduct($termek_kategoria, $dbconn){
 function generateTable($dbconn){
     try {
         if (!empty($dbconn)){
-            $sql = "SELECT termek_kategoria FROM termek";
+            $sql = "SELECT product_category FROM product";
             // a futtatandó sql utasítás
             $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
             $query->execute();  // lekérdezés futtatása
