@@ -94,7 +94,7 @@ CREATE TABLE `product` (
 CREATE TABLE `userdata` (
   `user_id` int(11) NOT NULL,
   `user_name` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL,
+  `password` varchar(80) NOT NULL,
   `name_company` varchar(50) NOT NULL,
   `contact` varchar(50) DEFAULT NULL,
   `telephone` varchar(20) NOT NULL,
