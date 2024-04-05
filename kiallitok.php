@@ -2,6 +2,9 @@
 <?php
 $error = "";
 $msg = "";
+
+
+
   // Kiállítók lekérdezése
   $sqlKiallitok = "SELECT photo, name_company, product_description, online_availability FROM userdata;";
   $queryKiallitok = $dbconn->prepare($sqlKiallitok);

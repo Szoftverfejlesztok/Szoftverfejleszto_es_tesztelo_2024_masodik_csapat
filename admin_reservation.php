@@ -5,11 +5,7 @@ $msg = "";
 class ReservationException extends Exception{}
 
 require_once("dbconnect.php");
-
-session_start(); //olyan helyen legyen, ami minden oldalra be van require-olva, pl header, footer. De csak egyszer!
-/* if (!isset($_SESSION["user"])){
-    header("location:/index.php");   //? 
-} */
+session_start(); 
 
 function setReservationStatus($reservation_id, $status, $dbconn){
     try{

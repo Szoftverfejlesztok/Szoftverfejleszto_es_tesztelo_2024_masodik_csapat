@@ -14,6 +14,9 @@ function closePopup() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById('nextDatePopUp').addEventListener('click', openPopup);
+  if ( document.getElementById('nextDatePopUp') != null) {
+    document.getElementById('nextDatePopUp').addEventListener('click', openPopup);
+  }
+ 
 });
 

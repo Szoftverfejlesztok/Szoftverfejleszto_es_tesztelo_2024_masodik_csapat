@@ -161,3 +161,15 @@ body {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+.content-container {
+  display: flex;
+  flex-direction: row; 
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100%;
+  overflow-y: auto; 
+}

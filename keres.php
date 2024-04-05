@@ -1,6 +1,7 @@
 <?php
 // Adatbázis kapcsolódás
 require_once("dbconnect.php"); 
+session_start(); 
 ?>
 <html>
 <head>

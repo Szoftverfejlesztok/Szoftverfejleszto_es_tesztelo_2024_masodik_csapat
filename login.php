@@ -3,6 +3,7 @@
 class UserException extends Exception{}
 
 require_once("dbconnect.php");
+session_start(); 
 
 if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
     try{
@@ -12,7 +13,7 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
             throw new userException("Adja meg a felhasználónevét és jelszavát");
         }
 
-        $sqlLogin = "SELECT user_Id,user_name,password,name_company FROM  userdata WHERE user_name=:felhasznalonev";
+        $sqlLogin = "SELECT * FROM  userdata WHERE user_name=:felhasznalonev";
         $queryLogin = $dbconn->prepare($sqlLogin);
         $queryLogin->bindValue("felhasznalonev", $login, PDO::PARAM_STR);
         $queryLogin->execute();
@@ -24,10 +25,21 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
             throw new userException("Hibás jelszó");
         }    
 
-        $msg = "Sikeres bejelentkezés: ".$user["teljesnev"];  //ez már nem kell írányítsuk át a bejelentkezett profilra
-
-        $_SESSION["user"] = array("felhasznalonev"=>$user["felhasznalonev"], "teljesnev"=>$user["teljesnev"], "id"=>$user["id"]);//írjuk be a session tömbbe a felhasználói adatainkat
-        setcookie("id",$user["id"],time()+60*3); //16. be kell állítani a cookiet, csak a felhasználói azonosítóját tároljuk,1.hogy hívjuk 2. milyen érétke van 3.mikor járjon le (4. site melyik részére érvényes)
+        $msg = "Sikeres bejelentkezés: ".$user["user_name"];  //ez már nem kell írányítsuk át a bejelentkezett profilra
+        $_SESSION["user"] = array(
+            "user_id"=>$user["user_id"], 
+            "user_name"=>$user["user_name"], 
+            "name_company"=>$user["name_company"], 
+            "contact"=>$user["contact"], 
+            "telephone"=>$user["telephone"],
+            "email"=>$user["email"],
+            "photo"=>$user["photo"],
+            "online_availability"=>$user["online_availability"],
+            "product_description"=>$user["product_description"],
+            "moderator"=>$user["moderator"],
+            "status"=>$user["status"]
+        );//írjuk be a session tömbbe a felhasználói adatainkat
+        setcookie("user_id",$user["user_id"],time()+60*3); //16. be kell állítani a cookiet, csak a felhasználói azonosítóját tároljuk,1.hogy hívjuk 2. milyen érétke van 3.mikor járjon le (4. site melyik részére érvényes)
 
 
 
@@ -57,9 +69,9 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
 <body>
 <div class="container-fluid">
     <div class="row">
-    <?php require_once("dbconnect.php"); ?>
-    <?php require_once("oldalso_menu.php"); ?>
+
     <?php require_once("header.php"); ?>
+    <?php require_once("oldalso_menu.php"); ?>
    
 <?php   
     if (!empty($error)){
