@@ -2,11 +2,8 @@
 $error = "";        // hibakezelés
 $msg = ""; 
 
-class ProductException extends Exception{}
-
 require_once("dbconnect.php");
 session_start(); 
-
 function addNewProduct($termek_kategoria, $dbconn){
 
     try{
@@ -64,34 +61,35 @@ if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){
 
 }
 
-
 ?>
-
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adminisztrátor - Új termékkategóriák felvétele</title>
+    <title>Vásár</title>
     <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style2.css">
     <link rel="stylesheet" href="style.css">
     <script src="jquery.min.js"></script>
     <script src="bootstrap.min.js"></script>
-
     <script src="main.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
-    <?php require_once("oldalso_menu.php"); ?>
+
     <?php require_once("header.php"); ?>
-   
-    <!-- Main Content -->
-       <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
-          <!--itt kell tartalommal feltölteni az oldalt -->
-              <div class="container mt-3">
-                <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
+
+    <div class="container-fluid">
+        <div class="row">
+            <?php require_once("oldalso_menu.php"); ?>
+
+
+            <!-- Main Content -->
+            <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
+                <!--itt kell tartalommal feltölteni az oldalt -->
+                    <div class="container mt-3">
+                    <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
                     <h2>Új termékkategóriák felvétele</h2><br><br>
 
                     <input type="text" id="termek_kategoria" name="termek_kategoria" placeholder="Új termékkategória"><br><br>
@@ -102,33 +100,22 @@ if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){
                     if (!empty($tableNew)){
                         echo $tableNew;
                     } else echo "Nincs megjeleníthető termékkategória felvéve!";
-
                     ?>
-
                 </form>
-            </div>
-        </main>
+         
+                    </div>
+                </main>
+        </div>
     </div>
-</div>
-<?php   
-                    if (!empty($error)){
-                    echo "<p class=\"error\">$error</p>\n";
-                    }
-                    if (!empty($msg)){
-                    echo "<p class=\"msg\">$msg</p>\n";
-                    }
-                ?>
-<?php require_once("footer.html"); ?>
+
+    <?php require_once("footer.html"); ?>
 
 
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
-
-    
-</body>
-</html>
-
-
-
-    
 </body>
 </html>
