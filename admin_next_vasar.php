@@ -107,7 +107,13 @@ if (isset($_POST["submitKivalaszt"]) && !empty($dbconn)){
 <h2>A következő vásár időpontja:</h2>
 <div>
     <div class="kiemel">
-        <a href="#" id="nextDatePopUp">Szerkesztés</a>
+        <?php 
+        if (isset($_SESSION["user"]) && ($_SESSION["user"]["moderator"] == 1))
+        {
+        echo'
+        <a href="#" id="nextDatePopUp">Szerkesztés</a>';
+        }
+        ?>
 
         <h2>
             <?php

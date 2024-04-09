@@ -1,9 +1,10 @@
 <?php
-
-class UserException extends Exception{}
+$error = "";        // hibakezelés
+$msg = ""; 
 
 require_once("dbconnect.php");
 session_start(); 
+class UserException extends Exception{}
 
 if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
     try{
@@ -41,8 +42,6 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
         );//írjuk be a session tömbbe a felhasználói adatainkat
         setcookie("user_id",$user["user_id"],time()+60*3); //16. be kell állítani a cookiet, csak a felhasználói azonosítóját tároljuk,1.hogy hívjuk 2. milyen érétke van 3.mikor járjon le (4. site melyik részére érvényes)
 
-
-
         header("location:index.php"); //12.lépés  átírányítás 
 
     }catch(userException $e){
@@ -51,51 +50,63 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
         $error = "Adatbázis hiba: ".$e->getMessage(); 
     }
 }
+
 ?>
-
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bejelentkezés</title>
     <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style2.css">
     <link rel="stylesheet" href="style.css">
     <script src="jquery.min.js"></script>
     <script src="bootstrap.min.js"></script>
     <script src="main.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
 
     <?php require_once("header.php"); ?>
-    <?php require_once("oldalso_menu.php"); ?>
-   
-<?php   
-    if (!empty($error)){
-    echo "<p class=\"error\">$error</p>\n";
-    }
-    if (!empty($msg)){
-    echo "<p class=\"msg\">$msg</p>\n";
-    }
-?>
 
-<div class="login-page">
-    <div class="form">
-        <form class="login-form" action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
-            <input type="text" placeholder="Felhasználónév" name= "felhnev"/>
-            <input type="password" placeholder="Jelszó" name="jelszo"/>
-            <input type="submit" value="Bejelentkezés" name="submitBejelentkezes">
-            <p class="message">Nem regisztrált még? <a href="#">Új regisztráció létrehozása</a></p>
-        </form>
+    <div class="container-fluid">
+        <div class="row">
+            <?php require_once("sidebar_menu.php"); ?>
+            <!-- Main Content -->
+            <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
+                <!--itt kell tartalommal feltölteni az oldalt -->
+                    <div class="container mt-3">
+                    <?php   
+                        if (!empty($error)){
+                        echo "<p class=\"error\">$error</p>\n";
+                        }
+                        if (!empty($msg)){
+                        echo "<p class=\"msg\">$msg</p>\n";
+                         }
+                    ?>
+
+                    <div class="login-page">
+                        <div class="form">
+                            <form class="login-form" action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
+                                <input type="text" placeholder="Felhasználónév" name= "felhnev"/>
+                                <input type="password" placeholder="Jelszó" name="jelszo"/>
+                                <input type="submit" value="Bejelentkezés" name="submitBejelentkezes">
+                                <p class="message">Nem regisztrált még? <a href="#">Új regisztráció létrehozása</a></p>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                </main>
+        </div>
     </div>
-</div>
 
+    <?php require_once("footer.html"); ?>
 
-</div>
-</div>
-<?php require_once("footer.html"); ?>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
 </body>
 </html>

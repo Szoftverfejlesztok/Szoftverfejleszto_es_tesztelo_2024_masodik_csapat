@@ -31,28 +31,33 @@
                 <a class="nav-link text-white" href="regisztracios_urlap.php" >Regisztráció</a>
             </li>';
         } else {   //Ha be vagyok lépve, akkor legyen látható a Profil, a Kijelentkezés. Az Adminisztrátor - Felhasználó kezelés és a Adminisztrátor - Helyfoglalás kezelés csak bizonyos feltételekkel.
+            
             echo '
             <li class="nav-item active">
                 <!--Profil-->
                 <a class="nav-link text-white" href="profil.php">Profil</a>
-            </li>
-            <li class="nav-item active">
-                <!--Adminisztrátor: akkor látható, ha be van jelentkezve az admin-->
-                <a class="nav-link text-white" href="admin_users.php">Adminisztrátor - Felhasználó kezelés</a>
-            </li>
-            <li class="nav-item active">
-                <!--Adminisztrátor: akkor látható, ha be van jelentkezve az admin-->
-                <a class="nav-link text-white" href="admin_reservation.php">Adminisztrátor - Helyfoglalás kezelése</a>
-            </li>
-            <li class="nav-item active">
-            <!--Adminisztrátor: akkor látható, ha be van jelentkezve az admin-->
-            <a class="nav-link text-white" href="admin_new_product.php">Adminisztrátor - Új termék kategória</a>
-            </li>
+            </li>';
+            if ($_SESSION["user"]["moderator"] == 1) {
+                echo'
+                    <li class="nav-item active">
+                        <!--Adminisztrátor: akkor látható, ha be van jelentkezve az admin-->
+                        <a class="nav-link text-white" href="admin_users.php">Adminisztrátor - Felhasználó kezelés</a>
+                    </li>
+                    <li class="nav-item active">
+                        <!--Adminisztrátor: akkor látható, ha be van jelentkezve az admin-->
+                        <a class="nav-link text-white" href="admin_reservation.php">Adminisztrátor - Helyfoglalás kezelése</a>
+                    </li>
+                    <li class="nav-item active">
+                        <!--Adminisztrátor: akkor látható, ha be van jelentkezve az admin-->
+                        <a class="nav-link text-white" href="admin_new_product.php">Adminisztrátor - Új termék kategória</a>
+                    </li>';
+            }
+            echo '
             <li class="nav-item active">
                 <!--Kijelentkezés-->
                 <a class="nav-link text-white" href="index.php?logout">Kijelentkezés</a>
             </li>';
-        }
+        } 
         ?>
         </ul>
     </div>

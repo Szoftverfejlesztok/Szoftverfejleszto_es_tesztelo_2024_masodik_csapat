@@ -1,3 +1,4 @@
+/* Oldalsó menü */
 .custom-navbar{
     background-color: #9AD768;
 }
@@ -7,7 +8,7 @@ a:hover {
     font-weight: bold;
 }
 
-
+/* Bejelentkezés */
 .login-page {
   width: 360px;
   padding: 8% 0 0;
@@ -103,6 +104,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
 }
+
+/* hibaüzenetek */
 .error {
     background-color: pink;
 }
@@ -112,6 +115,8 @@ body {
 .error, .msg{
     padding: 15px;
 }
+
+/* admin_new_product */
 .csikoz1 {
   background-color: lightgray;
 }
@@ -119,6 +124,7 @@ body {
   background-color: white;
 }
 
+/* admin_next_vasar */
 .popup {
   display: none;
   position: fixed;
@@ -142,7 +148,7 @@ body {
   right: 10px;
   cursor: pointer;
 }
-
+/* sidebar_menu mobil nézetben */
 .dropdown {
   position: relative;
   display: inline-block;
