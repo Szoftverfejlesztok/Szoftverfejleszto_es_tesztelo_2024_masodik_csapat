@@ -54,7 +54,7 @@ if(!empty($_COOKIE["id"]) && isset($dbconn)){     // 18. lépés, ha van cookie 
 
     <div class="container-fluid">
         <div class="row">
-            <?php require_once("oldalso_menu.php"); ?>
+            <?php require_once("sidebar_menu.php"); ?>
 
 
             <!-- Main Content -->

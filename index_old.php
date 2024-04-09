@@ -84,7 +84,7 @@ if(!empty($_COOKIE["id"]) && isset($dbconn)){     // 18. lépés, ha van cookie 
                     </div>
                 </main>
             <aside class="sidebar col-md-2 d-lg-block"> 
-                <?php require_once("oldalso_menu.php"); ?>
+                <?php require_once("sidebar_menu.php"); ?>
             </aside>
         </div>
     </div>

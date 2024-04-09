@@ -98,7 +98,7 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
 
     <div class="container-fluid">
         <div class="row">
-            <?php require_once("oldalso_menu.php"); ?>
+            <?php require_once("sidebar_menu.php"); ?>
 
 
             <!-- Main Content -->
