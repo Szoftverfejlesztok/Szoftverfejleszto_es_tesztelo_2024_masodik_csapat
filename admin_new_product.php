@@ -4,6 +4,11 @@ $msg = "";
 
 require_once("dbconnect.php");
 session_start(); 
+
+if (!(isset($_SESSION["user"]) && ($_SESSION["user"]["moderator"] == 1))){
+    header("location:index.php"); //  átírányítás 
+}
+
 function addNewProduct($termek_kategoria, $dbconn){
 
     try{
