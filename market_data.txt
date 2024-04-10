@@ -1,9 +1,9 @@
 1. kör (az idegen kulcsok miatt az alsó két táblát külön lehet feltölteni, legalábbis én erre jutottam, lehet van rá valami jobb megoldás :)
 
 INSERT INTO `date_vasar` (`date`, `is_next`) VALUES
-('2024-03-17', NULL),
-('2024-04-21', NULL),
-('2024-05-19', NULL);
+('2024-03-17', 0),
+('2024-04-21', 0),
+('2024-05-19', 0);
 
 INSERT INTO `place` (`place_number`, `place_price`) VALUES
 (1, 1500),

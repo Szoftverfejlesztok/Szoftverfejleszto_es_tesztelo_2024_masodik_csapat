@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `date_vasar` (
   `date_id` int(11) NOT NULL,
   `date` date NOT NULL,
-  `is_next` tinyint(1) DEFAULT NULL
+  `is_next` tinyint(1) DEFAULT 0 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -66,10 +66,10 @@ CREATE TABLE `place` (
 
 CREATE TABLE `reservation` (
   `reservation_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `place_id` int(11) DEFAULT NULL,
-  `date_id` int(11) DEFAULT NULL,
-  `status` tinyint(1) DEFAULT NULL
+  `user_id` int(11) NOT NULL,
+  `place_id` int(11) NOT NULL,
+  `date_id` int(11) NOT NULL,
+  `status` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -102,8 +102,8 @@ CREATE TABLE `userdata` (
   `photo` varchar(150) DEFAULT NULL,
   `online_availability` varchar(500) DEFAULT NULL,
   `product_description` varchar(300) NOT NULL,
-  `moderator` tinyint(1) NOT NULL,
-  `status` tinyint(1) NOT NULL
+  `moderator` tinyint(1) DEFAULT 0 NOT NULL,
+  `status` tinyint(1) DEFAULT 0 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
