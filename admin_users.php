@@ -42,7 +42,7 @@ function generateTable($statusNow, $dbconn){
                 $table .= "<table>\n";
                 $table .= "<tr><th>Felhasználó név: </th><th>Eladó/Cég név: </th></tr>\n";
                 while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
-                $table .= '<tr><td><input type="radio" name="user_id" value= "';
+                $table .= '<tr><td><input type="radio" required name="user_id" value= "';
                 $table .=$row["user_Id"];
                 $table .='">';
                 $table .=$row["user_name"];
@@ -61,18 +61,24 @@ function generateTable($statusNow, $dbconn){
 
 
 if (isset($_POST["submitAktival"]) && !empty($dbconn)){    
+     //if (isset($_POST["user_id"])){ 
     $user_id= trim($_POST["user_id"]);
     setUserStatus($user_id, 1, $dbconn);
+    //} else echo '<script>alert("Nincs kijelölt sor!")</script>';
 }
 
-if (isset($_POST["submitDeaktival"]) && !empty($dbconn)){    
+if (isset($_POST["submitDeaktival"]) && !empty($dbconn)){   
+    //if (isset($_POST["user_id"])){ 
     $user_id= trim($_POST["user_id"]);
     setUserStatus($user_id, 2, $dbconn);
+    //} else echo '<script>alert("Nincs kijelölt sor!")</script>';
 }
 
 if (isset($_POST["submitTorol"]) && !empty($dbconn)){    
+     //if (isset($_POST["user_id"])){ 
     $user_id= trim($_POST["user_id"]);
     setUserStatus($user_id, 3, $dbconn);
+    //} else echo '<script>alert("Nincs kijelölt sor!")</script>'; - berakni a gombokat disable-re, ha nincs megnyomható gomb, sql lekérdezést irni hozzá
 }
 
 ?>
