@@ -116,24 +116,21 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="container mt-3">
                     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-                    <h2>Új helyfoglalási kérelmek</h2>
+                    <h3>Új helyfoglalási kérelmek</h3>
                     <!--reservation táblában a status: 0 -> az elbirálás alatt álló helyfoglalások -->
                     
                     <button type="submit" name="submitJovahagy">Jóváhagyás</button>
                     <button type="submit" name="submitFelfuggeszt">Felfüggeszt</button>
-                    <button type="submit" name="submitElutasit">Elutasít</button><br>
+                    <button type="submit" name="submitElutasit">Elutasít</button><br><br>
                     <?php
                     $tableNew = generateTable(0, $dbconn);
                     if (!empty($tableNew)){
                         echo $tableNew;
                     } else echo "Nincs elbírálásra váró helyfoglalási kérelem!";
-
                     ?>
-
-                </form>
-
+                </form><br><br>
                 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-                    <h2>Jóváhagyott helyfoglalási kérelmek</h2>
+                    <h3>Jóváhagyott helyfoglalási kérelmek</h3>
                     <!--reservation táblában a status: 1 -> a jóváhagyott helyfoglalások -->
                     <?php
                     $tableAktiv = generateTable(1, $dbconn);
@@ -142,34 +139,31 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
                     } else echo "Nincs jóváhagyott helyfoglalási kérelem!";
                     ?>
                     
-                </form>
+                </form><br><br>
                 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-                    <h2>Felfüggesztett helyfoglalási kérelmek</h2>
+                    <h3>Felfüggesztett helyfoglalási kérelmek</h3>
                     <!--MEgjegyzés, hogy miért-->
                     <!-- Kérelmek, amik valami apró hibát tartalmaznak -->
                     <!--reservation táblában a status: 2 -> a felfüggesztett helyfoglalások -->
                     <button type="submit" name="submitJovahagy">Jóváhagyás</button>
-                    <button type="submit" name="submitElutasit">Elutasít</button><br>
+                    <button type="submit" name="submitElutasit">Elutasít</button><br><br>
                     <?php
                     $tableDeaktiv = generateTable(2, $dbconn);
                     if (!empty($tableDeaktiv)){
                         echo $tableDeaktiv;
                     } else echo "Nincs felfüggesztett helyfoglalási kérelem!";
                     ?>
- 
-                </form>
+                </form><br><br>
                 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-                    <h2>Elutasított helyfoglalási kérelmek</h2>
+                    <h3>Elutasított helyfoglalási kérelmek</h3>
                     <!--reservation táblában a status: 3 -> a törölt helyfoglalások -->
                     <?php
                     $tableTorolt = generateTable(3, $dbconn);
                     if (!empty($tableTorolt)){
                         echo $tableTorolt;
                     } else echo "Nincs törölt helyfoglalási kérelem!";
-                    ?>
-                    
+                    ?>    
                 </form>
-         
                     </div>
                 </main>
         </div>

@@ -79,24 +79,5 @@ session_start();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
-<style>
-  .exhibitors table {  
-    border-collapse: collapse;
-    width: 100%;
-    margin-left: 0; 
-    background-color: inherit;
-    
-  }
-  .exhibitors th, .exhibitors td, .exhibitors tr {
-    border: 1px solid #ddd;
-    padding: 20px; /* A sorok közötti nagyobb hely */
-    text-align: left;
-  }
-
-  /* Sötétebb sorok */
-  tr:nth-child(even) {
-  background: rgba(211, 211, 211, 0.2);
-  }
-  </style>
 </body>
 </html>

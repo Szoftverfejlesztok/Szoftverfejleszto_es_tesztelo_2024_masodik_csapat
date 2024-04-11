@@ -110,25 +110,24 @@ if (isset($_POST["submitTorol"]) && !empty($dbconn)){
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="container mt-3">
                     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-                    <h2>Új felhasználói jelentkezések</h2>
+                    <h3>Új felhasználói jelentkezések</h3>
                     <!--userdata táblában a status: 0 -> a még elbirálás alatt álló felhasználók -->
                     
-                    <button type="submit" name="submitAktival">Aktiválás</button><br>
+                    <button type="submit" name="submitAktival">Aktiválás</button><br><br>
                     <?php
                     $tableNew = generateTable(0, $dbconn);
                     if (!empty($tableNew)){
                         echo $tableNew;
                     } else echo "Nincs aktiválásra váró felhasználó!";
                     ?>
-
-                </form>
+                </form><br><br>
 
                 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-                    <h2>Aktív felhasználók</h2>
+                    <h3>Aktív felhasználók</h3>
                     <!--userdata táblában a status: 1 -> az aktiv felhasználók -->
 
                     <button type="submit" name="submitDeaktival">Felfüggeszt</button>
-                    <button type="submit" name="submitTorol">Töröl</button><br>
+                    <button type="submit" name="submitTorol">Töröl</button><br><br>
                     <?php
                     $tableAktiv = generateTable(1, $dbconn);
                     if (!empty($tableAktiv)){
@@ -136,12 +135,12 @@ if (isset($_POST["submitTorol"]) && !empty($dbconn)){
                     } else echo "Nincs aktív felhasználó!";
                     ?>
                     
-                </form>
+                </form><br><br>
                 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-                    <h2>Felfüggesztett felhasználók</h2>
+                    <h3>Felfüggesztett felhasználók</h3>
                     <!--userdata táblában a status: 2 -> a felfüggesztett felhasználók -->
                     <button type="submit" name="submitAktival">Aktiválás</button>
-                    <button type="submit" name="submitTorol">Töröl</button><br>
+                    <button type="submit" name="submitTorol">Töröl</button><br><br>
                     <?php
                     $tableDeaktiv = generateTable(2, $dbconn);
                     if (!empty($tableDeaktiv)){
@@ -149,9 +148,9 @@ if (isset($_POST["submitTorol"]) && !empty($dbconn)){
                     } else echo "Nincs felfüggesztett felhasználó!";
                     ?>
  
-                </form>
+                </form><br><br>
                 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-                    <h2>Törölt felhasználók</h2>
+                    <h3>Törölt felhasználók</h3>
                     <!--userdata táblában a status: 3 -> a törölt felhasználók -->
                     <?php
                     $tableTorolt = generateTable(3, $dbconn);
