@@ -199,7 +199,32 @@ tr:nth-child(even) {
 background: rgba(211, 211, 211, 0.2);
 }
 
-table {
+/*keresés-táblázat*/
+.search table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-left: 0; /*balra helyezés - nem műkszik*/
+  background-color: inherit;
+  
+}
+.search tr, .search th, .search td {
+  border: 1px solid #ddd;
+  padding: 10px; /* A sorok közötti nagyobb hely */
+  text-align: left;
+}
+  /* Sötétebb sorok */
+tr:nth-child(even) {
+  background: rgba(211, 211, 211, 0.2);
+  }
+
+
+  /*#keresEredmeny {
+      display: block; /* Alapértelmezett megjelenés 
+  }
+  #keresEredmeny.hidden {
+      display: none; }*/
+
+/*table {
   width: 100%;
   border-collapse: collapse;
 }
@@ -208,20 +233,20 @@ th, td {
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
-/* Sötétebb sorok */
+/* Sötétebb sorok 
 tr:nth-child(even) {
   background-color: #f2f2f2;
 }
-/* Világosabb sorok */
+/* Világosabb sorok 
 tr:nth-child(odd) {
   background-color: #ffffff;
-}
+}*/
 
-#keresEredmeny {
-  display: block; /* Alapértelmezett megjelenés */
+/*#keresEredmeny {
+  display: block; /* Alapértelmezett megjelenés 
 }
 #keresEredmeny.hidden {
-  display: none; }
+  display: none; }*/
 
   /* minden oldal bodyja*/
 body {
