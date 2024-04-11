@@ -1,35 +1,39 @@
+
+<?php
+$error = "";        // hibakezelés
+$msg = ""; 
+
+require_once("dbconnect.php");
+session_start(); 
+
+?>
 <!DOCTYPE html>
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
     <title>Vásár</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="main.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 </head>
 <body>
-</head>
-<body>
-    <header class="text-center">
-        <img src="nenipiac_kep.webp" alt="Piac" title="Piac">
-        <img src="kocsogok_kep.jpg" alt="Piac" title="Piac">
-        <img src="lanypiac_kep.jpg" alt="Piac" title="Piac">
-    </header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="http://127.0.0.1:5500/fooldal.html">Kezdőlap</a></li>
-            <li class="nav-item"><a class="nav-link" href="http://127.0.0.1:5500/helyfoglalas.html">Helyfoglalás</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Árusok listája</a></li>
-            <li class="nav-item"><a class="nav-link" href="http://127.0.0.1:5500/hazirend.html">Házirend</a></li>
-            <li class="nav-item"><a class="nav-link" href="http://127.0.0.1:5500/jarvanyugyisz.html">Járványügyi szabályzat</a></li>
-        </ul>
-    </div>
-</div>
-</nav>
 
-<h1>Járványügyi szabályzat</h1>
+    <?php require_once("header.php"); ?>
+
+    <div class="container-fluid">
+        <div class="row">
+            <?php require_once("oldalso_menu.php"); ?>
+
+
+            <!-- Main Content -->
+            <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
+                <!--itt kell tartalommal feltölteni az oldalt -->
+                <h1>Járványügyi szabályzat</h1>
 <div id="kezdes">
     <h3>Madárinfluenza kereskedelmi információk</h3>
 
@@ -55,8 +59,24 @@ javasoljuk, hogy közvetlenül tájékozódjanak az aktuális helyzetről!</b></
 <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
 
-</body>
-</html>
+
+
+                    <div class="container mt-3">
+         
+                    </div>
+                </main>
+        </div>
+    </div>
+
+    <?php require_once("footer.html"); ?>
+
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
 
     
 </body>

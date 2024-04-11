@@ -1,6 +1,13 @@
 <?php
 require_once("dbconnect.php");
-session_start(); 
+//session_start(); 
+// Ellenőrizd, hogy van-e felhasználói adat a session-ban
+/*if (!isset($_SESSION['user'])) {
+    // Ha nincs, akkor irányítsd át a felhasználót az index oldalra
+    header("Location: index.php");
+    exit; // Biztosítsd, hogy a szkript leálljon az átirányítás után
+}*/
+require_once("ures_keret.php");
 ?>
 <!DOCTYPE html>
 <html lang="hu">
@@ -27,8 +34,8 @@ session_start();
         }
     </style>
 </head>
-<body>
-    <header class="text-center">
+
+  <!--  <header class="text-center">
         <img src="nenipiac_kep.webp" alt="Piac" title="Piac">
         <img src="kocsogok_kep.jpg" alt="Piac" title="Piac">
         <img src="lanypiac_kep.jpg" alt="Piac" title="Piac">
@@ -45,7 +52,7 @@ session_start();
         </ul>
     </div>
 </div>
-</nav>
+</nav>-->
    
 <body>
 
@@ -84,27 +91,28 @@ echo "<p><strong>Online elérhetőség:</strong> $online</p>";
     if ($conn->connect_error) {
         die("Hiba az adatbázishoz való kapcsolódás során: " . $conn->connect_error);
     }
-
+*/
     // SQL lekérdezés az összes felhasználói profil lekéréséhez
-    $sql = "SELECT felhnev, email, vallnev, kapcstarto, telefonszam, online FROM regisztraciok";
-    $result = $conn->query($sql);
+    $sql = "SELECT user_name, email, name_company, contact, telephone, online_availability FROM regisztraciok";
+    //$result = $conn->query($sql);
 
     // Adatok megjelenítése a táblázatban
-    if ($result->num_rows > 0) {
+   /* if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td>" . $row["felhnev"] . "</td>";
+            echo "<td>" . $row["user_name"] . "</td>";
             echo "<td>" . $row["email"] . "</td>";
-            echo "<td>" . $row["vallnev"] . "</td>";
-            echo "<td>" . $row["kapcstarto"] . "</td>";
-            echo "<td>" . $row["telefonszam"] . "</td>";
-            echo "<td>" . $row["online"] . "</td>";
+            echo "<td>" . $row["name_company"] . "</td>";
+            echo "<td>" . $row["contact"] . "</td>";
+            echo "<td>" . $row["telephone"] . "</td>";
+            echo "<td>" . $row["online_availability"] . "</td>";
             echo "</tr>";
         }
     } else {
         echo "Nincs elérhető felhasználói profil.";
     }
-    $conn->close();*/
+   // $conn->close();*/
+   
     ?>
 </table>
 

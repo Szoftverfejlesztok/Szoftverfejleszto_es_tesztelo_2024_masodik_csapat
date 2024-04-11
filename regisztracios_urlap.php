@@ -2,35 +2,6 @@
 require_once("dbconnect.php");
 session_start(); 
 ?>
-<!DOCTYPE html>
-<html lang="hu">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vásár</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
-
-</head>
-<body>
-    <header class="text-center">
-        <img src="nenipiac_kep.webp" alt="Piac" title="Piac">
-        <img src="kocsogok_kep.jpg" alt="Piac" title="Piac">
-        <img src="lanypiac_kep.jpg" alt="Piac" title="Piac">
-    </header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="http://127.0.0.1:5500/fooldal.html">Kezdőlap</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Helyfoglalás</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Árusok listája</a></li>
-            <li class="nav-item"><a class="nav-link" href="http://127.0.0.1:5500/hazirend.html">Házirend</a></li>
-            <li class="nav-item"><a class="nav-link" href="http://127.0.0.1:5500/jarvanyugyisz.html">Járványügyi szabályzat</a></li>
-        </ul>
-    </div>
-</div>
-</nav>
 <!--<style>
     input:not([type=checkbox]){ /*mindenre ugyanaz kivéve a type checkboxra */ 
         display: block;
@@ -38,10 +9,10 @@ session_start();
     }
 </style>-->
 
-<?php
+<?php/*
 // Adatbázis kapcsolat beállítása
-$servername = "localhost";
-$username = "felhasznalonev";
+$servername = "PHP_SELF";
+$username = "root";
 $password = "jelszo";
 $database = "adatbazis_nev";
 
@@ -50,19 +21,21 @@ $conn = new mysqli($servername, $username, $password, $database);
 // Kapcsolat ellenőrzése
 if ($conn->connect_error) {
     die("Hiba az adatbázishoz való kapcsolódás során: " . $conn->connect_error);
-}
+}*/
+
+
 
 // Űrlapról érkező adatok beolvasása
-$felhnev = $_POST['felhnev'];
+$felhnev = $_POST['user_name'];
 $email = $_POST['email'];
-$jelszo = $_POST['jelszo'];
-$vallnev = $_POST['vallnev'];
-$kapcstarto = $_POST['kapcstarto'];
-$telefonszam = $_POST['telefonszam'];
-$online = $_POST['online'];
+$jelszo = $_POST['password'];
+$vallnev = $_POST['name_company'];
+$kapcstarto = $_POST['contact'];
+$telefonszam = $_POST['telephone'];
+$online = $_POST['online_availability'];
 
 // SQL lekérdezés előkészítése és végrehajtása az adatok mentésére
-$sql = "INSERT INTO regisztraciok (felhnev, email, jelszo, vallnev, kapcstarto, telefonszam, online)
+$sql = "INSERT INTO regisztraciok ('user_name', 'email', 'password', 'name_company', 'contact', 'telephone', online_availability')
 VALUES ('$felhnev', '$email', '$jelszo', '$vallnev', '$kapcstarto', '$telefonszam', '$online')";
 
 if ($conn->query($sql) === TRUE) {
