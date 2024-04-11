@@ -4,8 +4,6 @@ $msg = "";
 
 require_once("dbconnect.php");
 session_start(); 
-   
-
 ?>
 <!DOCTYPE html>
 <html lang="hu">
@@ -41,73 +39,43 @@ session_start();
 </style>-->
 
 <?php
-
-
 if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){    
     // Űrlapról érkező adatok beolvasása
-    $felhnev = $_POST['user_name'];
+    $user_name = $_POST['user_name'];
     $email = $_POST['email'];
-    $jelszo = $_POST['password'];
-    $vallnev = $_POST['name_company'];
-    $kapcstarto = $_POST['contact'];
-    $telefonszam = $_POST['telephone'];
-    $online = $_POST['online_availability'];
+    $password = $_POST['password'];
+    $name_company = $_POST['name_company'];
+    $contact = $_POST['contact'];
+    $telephone = $_POST['telephone'];
+    $online_availability = $_POST['online_availability'];
 
     // SQL lekérdezés előkészítése és végrehajtása az adatok mentésére
-    $sql = "INSERT INTO user_data (user_name, email, password, name_company, contact, telephone, online_availability) 
-    VALUES (:user_name, :email, :password, :name_company, :contact, :telephone, :online_availability)";
-
-console_log($sql);
-
-    $query= $dbconn->prepare($sql);
-    $query->bindValue("user_name", $felhnev, PDO::PARAM_STR);
-    $query->bindValue("email", $email, PDO::PARAM_STR);
-    $query->bindValue("password", $jelszo, PDO::PARAM_STR);
-    $query->bindValue("name_company", $vallnev, PDO::PARAM_STR);
-    $query->bindValue("contact", $kapcstarto, PDO::PARAM_STR);
-    $query->bindValue("telephone", $telefonszam, PDO::PARAM_STR);
-    $query->bindValue("online_availability", $online, PDO::PARAM_STR);
-
-    ?>
-    <script>
-    console.log(1);
-    </script>
-    <?php
-    $eredmeny = $query->execute();
-
-    if ($eredmeny === TRUE) {
-        $msg = "Sikeresen regisztráltál!";
-    } else {
-        $error =  "Hiba az adatok mentése közben: " . $conn->error;
-    }
+    $sqlRegistration = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, photo, online_availability, product_description, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $queryRegistration = $dbconn->prepare($sqlRegistration);
+    $queryRegistration->execute([$user_name, $password, $name_company, $contact, $telephone, $email, "TBD", $online_availability, "TBD", "0", "1"]);
 }
-
-// Adatbázis kapcsolat lezárása
-
 ?>
 
 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
-
     <fieldset>
     <h3>Regisztráció</h3>
-        <label for="felhnev">Felhasználónév</label> <!--űrlap elem ID-ja-->
-        <input type="text" name="felhnev" id="felhnev" placeholder="Felhasználónév"><br> <!--name lehet azonos, az id nem  szerver oldalon a neve alapján kapjuk meg, id csak egyedi, a fornak meg kell egyezni az input id-jával-->
-        <label for="email">E-mail cím</label>
+        <label>Felhasználónév</label> <!--űrlap elem ID-ja-->
+        <input type="text" name="user_name" id="user_name" placeholder="Felhasználónév"><br> <!--name lehet azonos, az id nem  szerver oldalon a neve alapján kapjuk meg, id csak egyedi, a fornak meg kell egyezni az input id-jával-->
+        <label>E-mail cím</label>
         <input type="email" name="email" id="email"placeholder="E-mail"><br>
-        <label for="jelszo">Jelszó</label>
-        <input type="password" name="jelszo" id="jelszo"><br>
-        <label for="jelszomeg">Jelszó megerősítés</label>
-        <input type="password" name="jelszomeg" id="jelszomeg"><br>
-        <label for="cegnev">Cég név</label> 
-        <input type="text" name="cegnev" id="cegnev" placeholder="Cég neve"><br>
-        <label for="kapcstarto">Kapcsolattartó</label> 
-        <input type="text" name="kapcstarto" id="kapcstarto" placeholder="Kapcsolattartó"><br>
-        <label for="telefonszam">Telefonszám</label> 
-        <input type="tel" name="telefonszam" id="telefonszam" placeholder="pl.: 06701111333"><br>
-        <label for="online">Online elérhetőség</label> 
-        <input type="text" name="online" id="online" placeholder=""><br>    
+        <label>Jelszó</label>
+        <input type="password" name="password"  id="password"><br>
+        <label>Jelszó megerősítés</label>
+        <input type="password" id="password_conf"><br>
+        <label>Cég név</label> 
+        <input type="text" name="name_company"  id="name_company" placeholder="Cég neve"><br>
+        <label>Kapcsolattartó</label> 
+        <input type="text" name="contact"  id="contact" placeholder="Kapcsolattartó"><br>
+        <label>Telefonszám</label> 
+        <input type="tel" name="telephone"  id="telephone" placeholder="pl.: 06701111333"><br>
+        <label>Online elérhetőség</label> 
+        <input type="text" name="online_availability"  id="online_availability" placeholder=""><br>    
         <input type="submit" value="Küldés" name="submitRegisztral">
-
     </fieldset>
 </form>
 
