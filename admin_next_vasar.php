@@ -52,7 +52,7 @@ function generateSelect($dbconn){
             if ($query->rowCount()>0){  // a visszaadott sorok száma
                 $select .= '<select name="date_id">\n';
                 while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
-                $select .= '<option value= ';
+                $select .= '<option required value= ';
                 $select .=$row["date_id"];
                 $select .='>';
                 $select .=$row["date"];
@@ -131,7 +131,7 @@ if (isset($_POST["submitKivalaszt"]) && !empty($dbconn)){
     <h2>A következő vásár időpontja legyen:</h2>
     <form  action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
         <label for="newVasarDate">Új vásár dátum hozzáadása:</label>
-        <input type="date" id="newVasarDate" name="newVasarDate">
+        <input type="date" id="newVasarDate" name="newVasarDate" required>
         <button type="submit" name="submitHozzaad">Hozzáad</button><br><br>
     </form>
     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">

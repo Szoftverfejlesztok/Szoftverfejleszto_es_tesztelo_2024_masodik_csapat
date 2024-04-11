@@ -4,6 +4,11 @@ $msg = "";
 
 require_once("dbconnect.php");
 session_start(); 
+
+if (!(isset($_SESSION["user"]) && ($_SESSION["user"]["moderator"] == 1))){
+    header("location:index.php"); //  átírányítás 
+}
+
 function setReservationStatus($reservation_id, $status, $dbconn){
     try{
         
@@ -42,7 +47,7 @@ function generateTable($statusNow, $dbconn){
                 $table .= "<table>\n";
                 $table .= "<tr><th>Felhasználó név: </th><th>A vásár dátuma: </th><th>Az elárusító hely száma: </th></tr>\n";
                 while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
-                $table .= '<tr><td><input type="radio" name="reservation_id" value= "';
+                $table .= '<tr><td><input type="radio" name="reservation_id" required value= "';
                 $table .=$row["reservation_id"];
                 $table .='">';
                 $table .=$row["user_name"];
@@ -91,6 +96,11 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
     <script src="bootstrap.min.js"></script>
     <script src="main.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 </head>
 <body>
 
@@ -106,24 +116,22 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="container mt-3">
                     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-                    <h2>Új helyfoglalási kérelmek</h2>
+                    <h2>Helyfoglalási kérelmek kezelése</h2><br><br>
+                    <h3>Új helyfoglalási kérelmek</h3>
                     <!--reservation táblában a status: 0 -> az elbirálás alatt álló helyfoglalások -->
                     
                     <button type="submit" name="submitJovahagy">Jóváhagyás</button>
                     <button type="submit" name="submitFelfuggeszt">Felfüggeszt</button>
-                    <button type="submit" name="submitElutasit">Elutasít</button><br>
+                    <button type="submit" name="submitElutasit">Elutasít</button><br><br>
                     <?php
                     $tableNew = generateTable(0, $dbconn);
                     if (!empty($tableNew)){
                         echo $tableNew;
                     } else echo "Nincs elbírálásra váró helyfoglalási kérelem!";
-
                     ?>
-
-                </form>
-
+                </form><br><br>
                 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-                    <h2>Jóváhagyott helyfoglalási kérelmek</h2>
+                    <h3>Jóváhagyott helyfoglalási kérelmek</h3>
                     <!--reservation táblában a status: 1 -> a jóváhagyott helyfoglalások -->
                     <?php
                     $tableAktiv = generateTable(1, $dbconn);
@@ -132,47 +140,37 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
                     } else echo "Nincs jóváhagyott helyfoglalási kérelem!";
                     ?>
                     
-                </form>
+                </form><br><br>
                 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-                    <h2>Felfüggesztett helyfoglalási kérelmek</h2>
+                    <h3>Felfüggesztett helyfoglalási kérelmek</h3>
                     <!--MEgjegyzés, hogy miért-->
                     <!-- Kérelmek, amik valami apró hibát tartalmaznak -->
                     <!--reservation táblában a status: 2 -> a felfüggesztett helyfoglalások -->
                     <button type="submit" name="submitJovahagy">Jóváhagyás</button>
-                    <button type="submit" name="submitElutasit">Elutasít</button><br>
+                    <button type="submit" name="submitElutasit">Elutasít</button><br><br>
                     <?php
                     $tableDeaktiv = generateTable(2, $dbconn);
                     if (!empty($tableDeaktiv)){
                         echo $tableDeaktiv;
                     } else echo "Nincs felfüggesztett helyfoglalási kérelem!";
                     ?>
- 
-                </form>
+                </form><br><br>
                 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-                    <h2>Elutasított helyfoglalási kérelmek</h2>
+                    <h3>Elutasított helyfoglalási kérelmek</h3>
                     <!--reservation táblában a status: 3 -> a törölt helyfoglalások -->
                     <?php
                     $tableTorolt = generateTable(3, $dbconn);
                     if (!empty($tableTorolt)){
                         echo $tableTorolt;
                     } else echo "Nincs törölt helyfoglalási kérelem!";
-                    ?>
-                    
+                    ?>    
                 </form>
-         
                     </div>
                 </main>
         </div>
     </div>
 
     <?php require_once("footer.html"); ?>
-
-
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
 </body>
 </html>

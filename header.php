@@ -8,10 +8,17 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="index.php">Kezdőlap</a></li>
-            <li class="nav-item"><a class="nav-link" href="helyek.php">Helyfoglalás</a></li>
-            <li class="nav-item"><a class="nav-link" href="kiallitok.php">Árusok listája</a></li>
+            <li class="nav-item"><a class="nav-link" href="place_reservation.php">Helyfoglalás</a></li>
+            <li class="nav-item"><a class="nav-link" href="exhibitors.php">Árusok listája</a></li>
             <li class="nav-item"><a class="nav-link" href="hazirend.php">Házirend</a></li>
             <li class="nav-item"><a class="nav-link" href="jarvanyugyisz.php">Járványügyi szabályzat</a></li>
+            <li class="nav-item">
+            <form method="GET" action="search.php">
+                <label for="keres"></label>
+                <input type="text" name="keres" id="keres" placeholder="Termékkategória">
+                <button type="submit">Keresés</button>
+            </form>
+            </li>
         </ul>
     </div>
 </div>

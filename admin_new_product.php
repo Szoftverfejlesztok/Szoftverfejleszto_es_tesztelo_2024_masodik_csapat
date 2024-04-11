@@ -4,6 +4,11 @@ $msg = "";
 
 require_once("dbconnect.php");
 session_start(); 
+
+if (!(isset($_SESSION["user"]) && ($_SESSION["user"]["moderator"] == 1))){
+    header("location:index.php"); //  átírányítás 
+}
+
 function addNewProduct($termek_kategoria, $dbconn){
 
     try{
@@ -43,7 +48,7 @@ function generateTable($dbconn){
                     else {
                         $table .= "<tr class=csikoz2><td>";
                     }
-                $table .= $row["termek_kategoria"];
+                $table .= $row["product_category"];
                 $table .= "</td></tr>\n";
                 }
                 $table .= "</table>\n";
@@ -75,6 +80,8 @@ if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){
     <script src="bootstrap.min.js"></script>
     <script src="main.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 </head>
 <body>
 
@@ -92,7 +99,7 @@ if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){
                     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
                     <h2>Új termékkategóriák felvétele</h2><br><br>
 
-                    <input type="text" id="termek_kategoria" name="termek_kategoria" placeholder="Új termékkategória"><br><br>
+                    <input type="text" id="termek_kategoria" name="termek_kategoria" placeholder="Új termékkategória" required><br><br>
                     
                     <button type="submit" name="submitHozzaad">Hozzáadás</button><br><br>
                     <?php
@@ -111,11 +118,7 @@ if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){
     <?php require_once("footer.html"); ?>
 
 
-  
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
 
 </body>
 </html>
