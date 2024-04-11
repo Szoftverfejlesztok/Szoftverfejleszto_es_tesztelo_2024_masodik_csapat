@@ -42,7 +42,7 @@ function generateTable($statusNow, $dbconn){
                 $table .= "<table>\n";
                 $table .= "<tr><th>Felhasználó név: </th><th>Eladó/Cég név: </th></tr>\n";
                 while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
-                $table .= '<tr><td><input type="radio" required name="user_id" value= "';
+                $table .= '<tr><td><input type="radio" required name="user_id" required value= "';
                 $table .=$row["user_Id"];
                 $table .='">';
                 $table .=$row["user_name"];
@@ -110,6 +110,7 @@ if (isset($_POST["submitTorol"]) && !empty($dbconn)){
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="container mt-3">
                     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
+                    <h2>Felhasználói státuszok kezelése</h2><br><br>
                     <h3>Új felhasználói jelentkezések</h3>
                     <!--userdata táblában a status: 0 -> a még elbirálás alatt álló felhasználók -->
                     

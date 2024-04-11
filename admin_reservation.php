@@ -47,7 +47,7 @@ function generateTable($statusNow, $dbconn){
                 $table .= "<table>\n";
                 $table .= "<tr><th>Felhasználó név: </th><th>A vásár dátuma: </th><th>Az elárusító hely száma: </th></tr>\n";
                 while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
-                $table .= '<tr><td><input type="radio" name="reservation_id" value= "';
+                $table .= '<tr><td><input type="radio" name="reservation_id" required value= "';
                 $table .=$row["reservation_id"];
                 $table .='">';
                 $table .=$row["user_name"];
@@ -116,6 +116,7 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="container mt-3">
                     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
+                    <h2>Helyfoglalási kérelmek kezelése</h2><br><br>
                     <h3>Új helyfoglalási kérelmek</h3>
                     <!--reservation táblában a status: 0 -> az elbirálás alatt álló helyfoglalások -->
                     

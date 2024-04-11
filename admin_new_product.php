@@ -99,7 +99,7 @@ if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){
                     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
                     <h2>Új termékkategóriák felvétele</h2><br><br>
 
-                    <input type="text" id="termek_kategoria" name="termek_kategoria" placeholder="Új termékkategória"><br><br>
+                    <input type="text" id="termek_kategoria" name="termek_kategoria" placeholder="Új termékkategória" required><br><br>
                     
                     <button type="submit" name="submitHozzaad">Hozzáadás</button><br><br>
                     <?php
