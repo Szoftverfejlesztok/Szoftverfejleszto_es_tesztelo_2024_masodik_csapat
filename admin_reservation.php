@@ -90,7 +90,6 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adminisztrátor - Helyfoglalás kezeléser</title>
     <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="style2.css">
     <link rel="stylesheet" href="style.css">
     <script src="jquery.min.js"></script>
     <script src="bootstrap.min.js"></script>
