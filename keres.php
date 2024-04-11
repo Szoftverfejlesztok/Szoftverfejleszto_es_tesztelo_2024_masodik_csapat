@@ -7,7 +7,6 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style_tablazat.css"></head>
 <body> 
 <h2>Termékkategória kereső</h2>
     <form method="GET" action="keres.php">

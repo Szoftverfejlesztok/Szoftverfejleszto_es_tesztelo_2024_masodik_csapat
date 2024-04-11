@@ -13,7 +13,6 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vásár</title>
     <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="style2.css">
     <link rel="stylesheet" href="style.css">
     <script src="jquery.min.js"></script>
     <script src="bootstrap.min.js"></script>
@@ -26,7 +25,7 @@ session_start();
 
     <div class="container-fluid">
         <div class="row">
-            <?php require_once("oldalso_menu.php"); ?>
+            <?php require_once("sidebar_menu.php"); ?>
 
 
             <!-- Main Content -->
