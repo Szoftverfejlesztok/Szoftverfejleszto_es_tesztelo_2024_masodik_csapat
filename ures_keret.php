@@ -38,7 +38,7 @@ session_start();
         </div>
     </div>
 
-    <?php require_once("footer.php"); ?>
+    <?php require_once("footer.html"); ?>
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>

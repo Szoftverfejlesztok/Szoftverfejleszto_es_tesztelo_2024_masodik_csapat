@@ -14,7 +14,6 @@
  echo $js_code;
  }
 
- console_log($_SESSION);
 
  ?>
     
