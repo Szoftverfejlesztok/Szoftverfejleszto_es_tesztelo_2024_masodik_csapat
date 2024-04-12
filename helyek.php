@@ -6,10 +6,10 @@ if(isset($_GET['dateId'])){
     $dateId = $_GET['dateId'];
 
     // Lekérdezés a szabad helyeket tartalmazó legördülő lista feltöltéséhez
-    $sqlHelyek = "SELECT p.place_number 
-            FROM place p 
-            LEFT JOIN reservation r ON p.place_id = r.place_id 
-            WHERE r.date_id = $dateId";
+    $sqlHelyek = "SELECT p.place_number
+            FROM place p
+            LEFT JOIN reservation r ON p.place_id = r.place_id AND r.date_id = $dateId
+            WHERE r.place_id IS NULL;";
     $queryHelyek = $dbconn->prepare($sqlHelyek);
     $queryHelyek->execute();
 
