@@ -14,25 +14,7 @@ if (isset($_GET["logout"])){//14. ha be van állítva a getben a logout akkor ő
     $msg = "Sikeres kijelentkezés!";
 }
 
-if(!empty($_COOKIE["id"]) && isset($dbconn)){     // 18. lépés, ha van cookie és van adatbázis kapcsolat akkor
-        try{
-            $sqlCookie = "SELECT id, felhasznalonev, jelszo, teljesnev FROM usere where id=:id";
-            $queryCookie = $dbconn->prepare($sqlCookie); //lekérdezés előkészítése (üres)
-            $queryCookie->bindValue("id", $_COOKIE["id"], PDO::PARAM_INT); //kitöltöm adattal a lekérdezést
-            $queryCookie->execute(); //lefuttatás
-            if ($queryCookie->rowCount() != 1){ //hogyha rowcount nem egyelő 1 el akkor azaz nem egy felhasználót kaptunk vissza jó esetben 0-át
-                throw new userException("Hibás mentett felhasználói azonosító");
-            }
-            $user = $queryCookie->fetch(PDO::FETCH_ASSOC); //kiolvassuk az adatokat
-            $_SESSION["user"] = array("felhasznalonev"=>$user["felhasznalonev"], "teljesnev"=>$user["teljesnev"], "id"=>$user["id"]);//(Itt csak frissítjük lentről a kövi sorral együtt írjuk be a session tömbbe a felhasználói adatainkat
-            setcookie("id",$user["id"],time()+60*3);
-        }   catch (PDOException $e){
-            $error= "Adatbázis lekérdezési hiba: ". $e->getMessage();
-        }   catch (userException $e){
-            $error = "Mentett felhasználó hiba: ".$e->getMessage();
-        }
 
-}
 ?>
 <!DOCTYPE html>
 <html lang="hu">
