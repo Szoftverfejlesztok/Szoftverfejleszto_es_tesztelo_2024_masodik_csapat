@@ -52,7 +52,7 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
     // SQL lekérdezés előkészítése és végrehajtása az adatok mentésére
     $sqlRegistration = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, photo, online_availability, product_description, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $queryRegistration = $dbconn->prepare($sqlRegistration);
-    $queryRegistration->execute([$user_name, $password, $name_company, $contact, $telephone, $email, "TBD", $online_availability, "TBD", "0", "1"]);
+    $queryRegistration->execute([$user_name, $password, $name_company, $contact, $telephone, $email, "TBD", $online_availability, "TBD", "0", "0"]);
 }
 ?>
 
