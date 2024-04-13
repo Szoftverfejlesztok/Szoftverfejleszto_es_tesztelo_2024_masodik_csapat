@@ -10,7 +10,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vásár</title>
+    <title>Regisztráció</title>
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="jquery.min.js"></script>
@@ -43,16 +43,16 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
     // Űrlapról érkező adatok beolvasása
     $user_name = $_POST['user_name'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
+    $password = password_hash($_POST['password'], null);
     $name_company = $_POST['name_company'];
     $contact = $_POST['contact'];
     $telephone = $_POST['telephone'];
     $online_availability = $_POST['online_availability'];
 
     // SQL lekérdezés előkészítése és végrehajtása az adatok mentésére
-    $sqlRegistration = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, photo, online_availability, product_description, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sqlRegistration = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, product_description, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $queryRegistration = $dbconn->prepare($sqlRegistration);
-    $queryRegistration->execute([$user_name, $password, $name_company, $contact, $telephone, $email, "TBD", $online_availability, "TBD", "0", "0"]);
+    $queryRegistration->execute([$user_name, $password, $name_company, $contact, $telephone, $email, $online_availability, "TBD", "0", "0"]);
 }
 ?>
 

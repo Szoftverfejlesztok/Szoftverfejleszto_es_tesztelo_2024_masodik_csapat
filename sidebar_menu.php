@@ -35,7 +35,15 @@
             <li class="nav-item active">
                 <!--Profil-->
                 <a class="nav-link text-white" href="profil.php">Profil</a>
-            </li>';
+            </li>
+            <li class="nav-item">
+                <!--Helyfoglalási kérelem-->
+                <a class="nav-link text-white" href="place_reservation.php">Helyfoglalási kérelem</a>
+            </li>
+            <li class="nav-item">
+                <!--Korábbi helyfoglalásaim-->
+                <a class="nav-link text-white" href="">Helyfoglalásaim</a>
+             </li>';
             if ($_SESSION["user"]["moderator"] == 1) {
                 echo'
                     <li class="nav-item active">

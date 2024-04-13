@@ -37,7 +37,7 @@ function generateTable($statusNow, $dbconn){
             . "ON reservation.user_id = userdata.user_Id "
             . "INNER JOIN date_vasar ON reservation.date_id = date_vasar.date_id "
             . "INNER JOIN place ON reservation.place_id = place.place_id "
-            . "where reservation_status = :statusNow";
+            . "where reservation.status = :statusNow";
             // a futtatandó sql utasítás
             $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
             $query->bindValue("statusNow", $statusNow, PDO::PARAM_STR);

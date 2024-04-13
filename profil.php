@@ -80,7 +80,7 @@ function generateTable($dbconn){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Felhasználói profilok</title>
+    <title>Felhasználói profil</title>
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="jquery.min.js"></script>
@@ -119,16 +119,6 @@ function generateTable($dbconn){
                     <h2>Profil adatok</h2>
 
 <?php
-// Felhasználó adatainak beolvasása
-$felhnev = "example_user"; 
-$jelszo = "*******"; 
-$email = "example@example.com"; 
-$cegnev = "Bolt Kft.";
-$kapcstarto = "Tanács Kata";
-$telefonszam = "+36707777777";
-$online = "Mézes bödön";
-
-
 $form = generateTable($dbconn);
 if ($form != null){
     echo $form;
