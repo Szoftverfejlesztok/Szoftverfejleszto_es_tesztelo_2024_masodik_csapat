@@ -47,15 +47,15 @@ session_start();
                           //A kiállítók kilistázása
                           try{
                             if(!empty($dbconn)){
-                                $table = "";
-                                if ($queryKiallitok->rowCount()>0){
-                                    $table .= "<div class='exhibitors'><table>\n";
-                                    $table .="<tr><th></th><th>Kiállító neve</th><th>Tevékenységi kör</th><th>Elérhetőség</th></tr><br>\n";
-                                while ($row = $queryKiallitok->fetch(PDO::FETCH_ASSOC)){
-                                     $table .= "<tr><td>{$row["photo"]}</td><td>{$row["name_company"]}</td><td>{$row["product_description"]}</td><td>{$row["online_availability"]}</td></tr>\n";
-                                }
-                                $table .= "</table></div>\n";
-                                }
+                              $table = "";
+                              if ($queryKiallitok->rowCount()>0){
+                                  $table .= "<div class='exhibitors'><table>\n";
+                                  $table .="<tr><th>Kiállító neve</th><th>Tevékenységi kör</th><th>Elérhetőség</th></tr><br>\n";
+                              while ($row = $queryKiallitok->fetch(PDO::FETCH_ASSOC)){
+                                   $table .= "<tr><td>{$row["name_company"]}</td><td>{$row["product_description"]}</td><td>{$row["online_availability"]}</td></tr>\n";
+                              }
+                              $table .= "</table></div>\n";
+                              }
                             }
                           }catch(PDOException $e){
                             $error = "Lekérdezési hiba: ".$e->getMessage();

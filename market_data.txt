@@ -13,9 +13,9 @@ INSERT INTO `place` (`place_number`, `place_price`) VALUES
 (5, 1500),
 (6, 1500);
 
-INSERT INTO `userdata` (`user_name`, `password`, `name_company`, `contact`, `telephone`, `email`, `photo`, `online_availability`, `product_description`, `moderator`, `status`) VALUES
-('brumm1', '$2y$10$fcvyE16wTEMOZ6CtBVN7Yuv48sF0NQl1Bvxno6x25LooypieR8r6y', 'Brumm Kft', 'Jónás Patrícia', '+36705536254', 'brumm@gmail.com', NULL, 'www.brummkft.hu', 'Termékkínálatunkban többféle méz megtalálható, többek között akác, repce, vegyes virágméz.', 0, 1),
-('kovacsistvan', '$2y$10$z7siSByomNrOAb9MMYPKnukoZCAyuKxHp.Ftad8Bh2bs1QALcRy4u', 'Kovács István egyéni vállalkozó', 'Kovács István', '+36705486325', 'istvankovacs@gmail.com', NULL, 'facebook.com/kovacs.istvan/', 'Kerti szerszámok készítésével foglalkozok. ', 0, 1);
+INSERT INTO `userdata` (`user_name`, `password`, `name_company`, `contact`, `telephone`, `email`, `online_availability`, `product_description`, `moderator`, `status`) VALUES
+('brumm1', '$2y$10$fcvyE16wTEMOZ6CtBVN7Yuv48sF0NQl1Bvxno6x25LooypieR8r6y', 'Brumm Kft', 'Jónás Patrícia', '+36705536254', 'brumm@gmail.com', 'www.brummkft.hu', 'Termékkínálatunkban többféle méz megtalálható, többek között akác, repce, vegyes virágméz.', 0, 1),
+('kovacsistvan', '$2y$10$z7siSByomNrOAb9MMYPKnukoZCAyuKxHp.Ftad8Bh2bs1QALcRy4u', 'Kovács István egyéni vállalkozó', 'Kovács István', '+36705486325', 'istvankovacs@gmail.com', 'facebook.com/kovacs.istvan/', 'Kerti szerszámok készítésével foglalkozok. ', 0, 1);
 
 
 2.kör

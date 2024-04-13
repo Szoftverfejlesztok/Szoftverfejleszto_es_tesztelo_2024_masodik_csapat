@@ -99,7 +99,6 @@ CREATE TABLE `userdata` (
   `contact` varchar(50) DEFAULT NULL,
   `telephone` varchar(20) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `photo` varchar(150) DEFAULT NULL,
   `online_availability` varchar(500) DEFAULT NULL,
   `product_description` varchar(300) NOT NULL,
   `moderator` tinyint(1) DEFAULT 0 NOT NULL,
