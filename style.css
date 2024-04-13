@@ -264,22 +264,38 @@ nav {
   background-color: #76b852;
   
 }
-/* a képek plusz a nav bar*/
+
+
 header {
   display: flex;
-  /*justify-content: space-around;*/
+  justify-content: center; /* Képek középre igazítása */
+  align-items: center;
+  flex-wrap: nowrap; /* Gyerekelemek nem törnek sort */
+}
+
+/* Header képek */
+header img {
+  max-width: 33%; /* A header 33%-át használja ki minden kép */
+  height: auto; /* Az arányok megőrzése */
+  margin: 10px; /* Képek közötti térköz */
+}
+
+/* a képek plusz a nav bar
+header {
+  display: flex;
+  /*justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
 }
 
-/*header képek*/
+header képek
 header img {
  
   max-width: 506px;
   max-height: 300px;
   
   
-}
+}*/
 /* nav-bar */
 ul {
   list-style-type: none;
