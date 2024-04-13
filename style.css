@@ -211,6 +211,8 @@ background: rgba(211, 211, 211, 0.2);
   border: 1px solid #ddd;
   padding: 10px; /* A sorok közötti nagyobb hely */
   text-align: left;
+ 
+  
 }
   /* Sötétebb sorok */
 tr:nth-child(even) {
@@ -273,8 +275,9 @@ header {
 /*header képek*/
 header img {
  
-  max-width: 500px;
+  max-width: 506px;
   max-height: 300px;
+  
   
 }
 /* nav-bar */
@@ -303,11 +306,10 @@ li a:hover {
 /*a a bodykban megjelenő h1 es szövegek*/
 h1 {
   text-align: center;
-  padding-left: 30%;
-  
+  /*padding-left: 30%;*/
   padding-top: 3%;
   padding-bottom: 1%;
-  padding-right: 5%;
+  /*padding-right: 100%;*/
   color: black;
 
 }
@@ -315,7 +317,8 @@ h1 {
 h2 {
   
   text-align: center;
-  padding-left: 27%;
+ /* padding-left: 20%;
+  padding-right: 100%;*/
   font-size: 300%;
   padding-bottom: 1%;
   color: black;
@@ -325,17 +328,17 @@ h2 {
 /*jarvanyügyi h1 alatti szöveg*/
 #kezdes {
   text-align: center;
-  padding-left: 30%;
+  /*padding-left: 20%;*/
  padding-bottom: 3%;
- padding-right: 5%;
+ /*padding-right: 100%;*/
 
 }
 /*minden oldal p-s szövege*/
 p {
-  padding-left: 30%;
+  /*padding-left: 30%;*/
   text-align: justify;
   font-size: larger;
-  padding-right: 5%;
+  /*padding-right: 5%;*/
 }
 /*a főoldal térkép feletti cím szövege*/
 #cim{
