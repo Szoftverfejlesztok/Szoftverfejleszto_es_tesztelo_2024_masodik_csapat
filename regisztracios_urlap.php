@@ -124,6 +124,7 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
         var contactPerson = document.getElementById("contact").value;
         var telephone = document.getElementById("telephone").value;
         var onlineAvailability = document.getElementById("online_availability").value;
+        var productDescription = document.getElementById("product_description").value;
 
         if (username === "") {
             alert("Kérlek add meg a felhasználónevet!");
@@ -148,6 +149,11 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
             return false;
         }
 
+        if (productDescription === "") {
+            alert("Kérlek válassz termék kategóriát!");
+            return false;
+        }
+
         // További validációk a cég név, kapcsolattartó, telefonszám és online elérhetőség esetén...
 
         return true;
@@ -159,34 +165,138 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
         return emailRegex.test(email);
     }
 </script>
+ <!--szerver oldali validáció-->
+ <?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") { 
+    // Felhasználónév ellenőrzése
+    $username = $_POST["user_name"];
+    if (strlen($username) < 4 || strlen($username) > 20) {
+        $errors[] = "<span style='color: red;'>A felhasználónévnek 4 és 20 karakter között kell lennie!</span>";
+    }
+    if (empty($username)) {
+        $errors[] = "<span style='color: red;'>A felhasználónév mező nem lehet üres!</span>";
+    }
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $username)) {
+        $errors[] = "<span style='color: red;'>A felhasználónévben csak betűk, számok és szóközök engedélyezettek!</span>";
+    }
+
+    // Email cím ellenőrzése
+    $email = $_POST["email"];
+    if (empty($email)) {
+        $errors[] = "<span style='color: red;'>Az email cím mező nem lehet üres!</span>";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "<span style='color: red;'>Érvénytelen email cím formátum!</span>";
+    }
+
+    // Jelszó ellenőrzése
+    $password = $_POST["password"];
+    if (empty($password)) {
+        $errors[] = "<span style='color: red;'>A jelszó mező nem lehet üres!</span>";
+    }
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $password)) {
+        $errors[] = "<span style='color: red;'>A jelszóban csak betűk, számok és szóközök engedélyezettek!</span>";
+    }
+
+    // Jelszó megerősítés ellenőrzése
+    $confirmPassword = $_POST["password_conf"];
+    if (strlen($password) < 6 || strlen($password) > 50) {
+        $errors[] = "<span style='color: red;'>A jelszónak 6 és 50 karakter között kell lennie!</span>";
+    }
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $password)) {
+        $errors[] = "<span style='color: red;'>A jelszóban csak betűk, számok és szóközök engedélyezettek!</span>";
+    }
+    if (empty($confirmPassword)) {
+        $errors[] = "<span style='color: red;'>A jelszó megerősítés mező nem lehet üres!</span>";
+    } elseif ($password !== $confirmPassword) {
+        $errors[] = "<span style='color: red;'>A jelszó és a jelszó megerősítés nem egyezik meg!</span>";
+    }
+
+    // Cég név ellenőrzése
+    $companyName = $_POST["name_company"];
+    if (strlen($companyName) < 5 || strlen($companyName) > 50) {
+        $errors[] = "<span style='color: red;'>A cég névének 5 és 50 karakter között kell lennie!</span>";
+    }
+    
+
+    // Kapcsolattartó ellenőrzése
+    $contactPerson = $_POST["contact"];
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $contactPerson)) {
+        $errors[] = "<span style='color: red;'>A kapcsolattartó személy nevében csak betűk, számok és szóközök engedélyezettek!</span>";
+    }
+    
+
+    // Telefonszám ellenőrzése
+    $telephone = $_POST["telephone"];
+    if (!preg_match("/^06[0-9]{9}$/", $telephone)) {
+        $errors[] = "<span style='color: red;'>Érvénytelen telefonszám formátum. Kérlek, használj 11 számjegyet, és az első két számjegy legyen 06!</span>";;
+    }
+    
+
+    // Online elérhetőség ellenőrzése
+    $onlineAvailability = $_POST["online_availability"];
+    if (!filter_var($onlineAvailability, FILTER_VALIDATE_URL)) {
+        $errors[] = "<span style='color: red;'>Az online elérhetőség mező érvénytelen URL formátumot tartalmaz!</span>";
+    }
+    
+
+    //Termék kategória választás ellenőrzése
+    $productDescription = $_POST["product_description"];
+    if (empty($productDescription)) {
+        $errors[] = "<span style='color: red;'>Kérlek, válassz egy termék leírást az opciók közül!</span>";
+    }
+
+    // Ha van hiba, kiírjuk azokat
+    if (!empty($errors)) {
+        foreach ($errors as $error) {
+            echo "<p>$error</p>";
+        }
+    } else {
+        // Ha nincs hiba, folytathatjuk a regisztráció feldolgozását vagy adatbázisba mentését.
+        // Például: adatbázisba mentés, bejelentkeztetés stb.
+        echo "<script>window.onload = function() { alert('Sikeres regisztráció!'); }</script>";
+    
+    }
+}
+
+?>
+
 </head>
 <body>
     <fieldset>
         <h3>Regisztráció</h3>
         <form onsubmit="return validateForm()">
-            <label for="user_name">Felhasználónév:</label>
+            <label for="user_name">Felhasználónév: *</label>
             <input type="text" id="user_name" name="user_name" placeholder="Felhasználónév"><br>
 
-            <label for="email">E-mail cím:</label>
+            <label for="email">E-mail cím: *</label>
             <input type="email" id="email" name="email" placeholder="E-mail"><br>
 
-            <label for="password">Jelszó:</label>
+            <label for="password">Jelszó: *</label>
             <input type="password" id="password" name="password"><br>
 
-            <label for="password_conf">Jelszó megerősítés:</label>
+            <label for="password_conf">Jelszó megerősítés: *</label>
             <input type="password" id="password_conf" name ="password_conf"><br>
 
-            <label for="name_company">Cég név:</label>
+            <label for="name_company">Cég név: *</label>
             <input type="text" id="name_company" name="name_company" placeholder="Cég neve"><br>
 
             <label for="contact">Kapcsolattartó:</label>
             <input type="text" id="contact" name="contact" placeholder="Kapcsolattartó"><br>
 
-            <label for="telephone">Telefonszám:</label>
+            <label for="telephone">Telefonszám: *</label>
             <input type="tel" id="telephone" name="telephone" placeholder="pl.: 06701111333"><br>
 
             <label for="online_availability">Online elérhetőség:</label>
             <input type="text" id="online_availability" name="online_availability" placeholder=""><br>
+
+            <label>Termék kategória *</label> 
+            <select name="product_description" id="product_description">
+                <option value="">Válasszon termék kategóriát</option>
+                <option value="ruha">Méz</option>
+                <option value="szerszám">Kerti szerszám</option>
+                <option value="méz">Vetőmag</option>
+            </select><br>   
+            <br>
 
             <input type="submit" value="Küldés" name="submitRegisztral">
         </form>
@@ -213,66 +323,7 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
     </fieldset> -->
 
 
-    <!--szerver oldali validáció-->
-    <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Felhasználónév ellenőrzése
-    $username = $_POST["user_name"];
-    if (empty($username)) {
-        $errors[] = "A felhasználónév mező nem lehet üres.";
-    }
-
-    // Email cím ellenőrzése
-    $email = $_POST["email"];
-    if (empty($email)) {
-        $errors[] = "Az email cím mező nem lehet üres.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Érvénytelen email cím formátum.";
-    }
-
-    // Jelszó ellenőrzése
-    $password = $_POST["password"];
-    if (empty($password)) {
-        $errors[] = "A jelszó mező nem lehet üres.";
-    }
-
-    // Jelszó megerősítés ellenőrzése
-    $confirmPassword = $_POST["password_conf"];
-    if (empty($confirmPassword)) {
-        $errors[] = "A jelszó megerősítés mező nem lehet üres.";
-    } elseif ($password !== $confirmPassword) {
-        $errors[] = "A jelszó és a jelszó megerősítés nem egyezik meg.";
-    }
-
-    // Cég név ellenőrzése
-    $companyName = $_POST["name_company"];
-    // Itt lehetne további validációk hozzáadása, például minimális vagy maximális hossz ellenőrzése.
-
-    // Kapcsolattartó ellenőrzése
-    $contactPerson = $_POST["contact"];
-    // Itt lehetne további validációk hozzáadása, például speciális karakterek engedélyezése vagy tiltása.
-
-    // Telefonszám ellenőrzése
-    $telephone = $_POST["telephone"];
-    // Itt lehetne további validációk hozzáadása, például a telefonszám formátumának ellenőrzése.
-
-    // Online elérhetőség ellenőrzése
-    $onlineAvailability = $_POST["online_availability"];
-    // Itt lehetne további validációk hozzáadása, például URL formátum ellenőrzése.
-
-    // Ha van hiba, kiírjuk azokat
-    if (!empty($errors)) {
-        foreach ($errors as $error) {
-            echo "<p>$error</p>";
-        }
-    } else {
-        // Ha nincs hiba, folytathatjuk a regisztráció feldolgozását vagy adatbázisba mentését.
-        // Például: adatbázisba mentés, bejelentkeztetés stb.
-        echo "<p>Sikeres regisztráció!</p>";
-    }
-}
-?>
-
+   
 
 <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
