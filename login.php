@@ -24,8 +24,16 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
         $user = $queryLogin->fetch(PDO::FETCH_ASSOC); //kiolvassuk az adatokat
         if (!password_verify($jelszo,$user["password"])){
             throw new userException("Hibás jelszó");
-        }    
-
+        } 
+        if ($user["status"]==0){
+            throw new userException("Az Ön regisztrációja adminisztrátori jóváhagyásra vár. Kérjük próbáljon meg egy késöbbi időpontban belépni!");
+        }
+        if ($user["status"]==2){
+            throw new userException("Ez a felhasználói fiók jelenleg fel van függesztve. Kérjük vegye fel a kapcsolatot velünk!");
+        }
+        if ($user["status"]==3){
+            throw new userException("Ez a felhasználói fiók törlésre került!");
+        }
         $msg = "Sikeres bejelentkezés: ".$user["user_name"];  //ez már nem kell írányítsuk át a bejelentkezett profilra
         $_SESSION["user"] = array(
             "user_id"=>$user["user_id"], 

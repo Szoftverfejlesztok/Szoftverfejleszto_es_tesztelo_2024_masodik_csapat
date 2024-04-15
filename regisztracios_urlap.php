@@ -174,7 +174,7 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
             <input type="password" id="password" name="password"><br>
 
             <label for="password_conf">Jelszó megerősítés:</label>
-            <input type="password" id="password_conf"><br>
+            <input type="password" id="password_conf" name ="password_conf"><br>
 
             <label for="name_company">Cég név:</label>
             <input type="text" id="name_company" name="name_company" placeholder="Cég neve"><br>
