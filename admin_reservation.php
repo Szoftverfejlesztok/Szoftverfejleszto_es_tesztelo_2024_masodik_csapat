@@ -4,6 +4,7 @@ $msg = "";
 
 require_once("dbconnect.php");
 session_start(); 
+class ReservationAdminException extends Exception{}
 
 if (!(isset($_SESSION["user"]) && ($_SESSION["user"]["moderator"] == 1))){
     header("location:index.php"); //  átírányítás 
@@ -13,7 +14,7 @@ function setReservationStatus($reservation_id, $status, $dbconn){
     try{
         
         if (empty($reservation_id)){
-            throw new ReservationException("Jelölje ki a módosítani kivánt helyfoglalási kérelmet!");
+            throw new ReservationAdminException("Jelölje ki a módosítani kivánt helyfoglalási kérelmet!");
         }
 
         $sql = "UPDATE reservation SET status = $status WHERE reservation_id=:reservation_id";
@@ -23,7 +24,7 @@ function setReservationStatus($reservation_id, $status, $dbconn){
 
         $msg = "A kérelem sikeres státusz módosítása megtörtént.";  
 
-    }catch(ReservationException $e){
+    }catch(ReservationAdminException $e){
         $error = "Hiba lépett fel a státusz módosítás közben: ".$e->getMessage();
     }catch (PDOException $e){
         $error = "Adatbázis hiba: ".$e->getMessage(); 
@@ -44,12 +45,15 @@ function generateTable($statusNow, $dbconn){
             $query->execute();  // lekérdezés futtatása
             $table = "";
             if ($query->rowCount()>0){  // a visszaadott sorok száma
-                $table .= "<table>\n";
-                $table .= "<tr><th>Felhasználó név: </th><th>A vásár dátuma: </th><th>Az elárusító hely száma: </th></tr>\n";
+                $table .= '<table class="admin-table">';
+                $table .= "<tr><th>Felhasználó név </th><th>A vásár dátuma </th><th>Az elárusító hely száma </th></tr>\n";
                 while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
-                $table .= '<tr><td><input type="radio" name="reservation_id" required value= "';
-                $table .=$row["reservation_id"];
-                $table .='">';
+                $table .= '<tr><td>';
+                if ($statusNow == 0){
+                    $table .= '<input type="radio" name="reservation_id" required value= "';
+                    $table .=$row["reservation_id"];
+                    $table .='">';
+                }
                 $table .=$row["user_name"];
                 $table .="</td><td>";
                 $table .=$row["date"];
@@ -65,16 +69,30 @@ function generateTable($statusNow, $dbconn){
         $error = "Lekérdezési hiba: ".$e->getMessage();
     }
 }
+function getReservationCountForStatus($status, $dbconn){
+    try{
+
+        if (!empty($dbconn)){
+            $sql = "SELECT COUNT(status) AS db FROM reservation WHERE status =:status";
+            $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
+            $query->bindValue("status", $status, PDO::PARAM_STR);
+            $query->execute();  // lekérdezés futtatása
+            $row = $query->fetch(PDO::FETCH_ASSOC);
+            return $row ["db"];
+        } else {
+            throw new ReservationAdminException("Nincs adatbázis kapcsolat!"); 
+        }
+    } catch (PDOException $e){
+        $error = "Lekérdezési hiba: ".$e->getMessage();
+    } catch(ReservationAdminException $e){
+        $error = "Hiba lépett fel a helyfoglalás státuszának megváltoztatása közben: ".$e->getMessage();
+    }
+}
 
 
 if (isset($_POST["submitJovahagy"]) && !empty($dbconn)){    
     $reservation_id= trim($_POST["reservation_id"]);
     setReservationStatus($reservation_id, 1, $dbconn);
-}
-
-if (isset($_POST["submitFelfuggeszt"]) && !empty($dbconn)){    
-    $reservation_id= trim($_POST["reservation_id"]);
-    setReservationStatus($reservation_id, 2, $dbconn);
 }
 
 if (isset($_POST["submitElutasit"]) && !empty($dbconn)){    
@@ -119,9 +137,12 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
                     <h3>Új helyfoglalási kérelmek</h3>
                     <!--reservation táblában a status: 0 -> az elbirálás alatt álló helyfoglalások -->
                     
-                    <button type="submit" name="submitJovahagy">Jóváhagyás</button>
-                    <button type="submit" name="submitFelfuggeszt">Felfüggeszt</button>
-                    <button type="submit" name="submitElutasit">Elutasít</button><br><br>
+                    <button type="submit" name="submitJovahagy" <?php echo getReservationCountForStatus (0,$dbconn) == 0 ? "disabled" : "";?>>
+                        Jóváhagyás
+                    </button>
+                    <button type="submit" name="submitElutasit" <?php echo getReservationCountForStatus (0,$dbconn) == 0 ? "disabled" : "";?>>
+                        Elutasít
+                    </button><br><br>
                     <?php
                     $tableNew = generateTable(0, $dbconn);
                     if (!empty($tableNew)){
@@ -129,6 +150,7 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
                     } else echo "Nincs elbírálásra váró helyfoglalási kérelem!";
                     ?>
                 </form><br><br>
+
                 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
                     <h3>Jóváhagyott helyfoglalási kérelmek</h3>
                     <!--reservation táblában a status: 1 -> a jóváhagyott helyfoglalások -->
@@ -138,27 +160,13 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
                         echo $tableAktiv;
                     } else echo "Nincs jóváhagyott helyfoglalási kérelem!";
                     ?>
-                    
                 </form><br><br>
-                <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-                    <h3>Felfüggesztett helyfoglalási kérelmek</h3>
-                    <!--MEgjegyzés, hogy miért-->
-                    <!-- Kérelmek, amik valami apró hibát tartalmaznak -->
-                    <!--reservation táblában a status: 2 -> a felfüggesztett helyfoglalások -->
-                    <button type="submit" name="submitJovahagy">Jóváhagyás</button>
-                    <button type="submit" name="submitElutasit">Elutasít</button><br><br>
-                    <?php
-                    $tableDeaktiv = generateTable(2, $dbconn);
-                    if (!empty($tableDeaktiv)){
-                        echo $tableDeaktiv;
-                    } else echo "Nincs felfüggesztett helyfoglalási kérelem!";
-                    ?>
-                </form><br><br>
+
                 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
                     <h3>Elutasított helyfoglalási kérelmek</h3>
-                    <!--reservation táblában a status: 3 -> a törölt helyfoglalások -->
+                    <!--reservation táblában a status: 2 -> a törölt helyfoglalások -->
                     <?php
-                    $tableTorolt = generateTable(3, $dbconn);
+                    $tableTorolt = generateTable(2, $dbconn);
                     if (!empty($tableTorolt)){
                         echo $tableTorolt;
                     } else echo "Nincs törölt helyfoglalási kérelem!";

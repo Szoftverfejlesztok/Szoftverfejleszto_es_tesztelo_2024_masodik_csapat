@@ -4,6 +4,7 @@ $msg = "";
 
 require_once("dbconnect.php");
 session_start(); 
+class ProductException extends Exception{}
 
 if (!(isset($_SESSION["user"]) && ($_SESSION["user"]["moderator"] == 1))){
     header("location:index.php"); //  átírányítás 
@@ -37,17 +38,10 @@ function generateTable($dbconn){
             $query->execute();  // lekérdezés futtatása
             $table = "";
             if ($query->rowCount()>0){  // a visszaadott sorok száma
-                $table .= "<table>\n";
+                $table .= "<table class='admin-table-short'>";
                 $table .= "<tr><th>Termék kategória: </th></tr>";
-                $rowNumber = 0;
                 while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
-                    $rowNumber++; 
-                    if ($rowNumber%2==0){
-                        $table .= "<tr class=csikoz1><td>";
-                    }
-                    else {
-                        $table .= "<tr class=csikoz2><td>";
-                    }
+                $table .= "<tr><td>";
                 $table .= $row["product_category"];
                 $table .= "</td></tr>\n";
                 }

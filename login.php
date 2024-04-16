@@ -4,14 +4,14 @@ $msg = "";
 
 require_once("dbconnect.php");
 session_start(); 
-class UserException extends Exception{}
+class UserLoginException extends Exception{}
 
 if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
     try{
         $login= trim($_POST["felhnev"]);
         $jelszo = trim($_POST["jelszo"]);
         if (empty($login) || empty($jelszo)){
-            throw new userException("Adja meg a felhasználónevét és jelszavát");
+            throw new UserLoginException("Adja meg a felhasználónevét és jelszavát");
         }
 
         $sqlLogin = "SELECT * FROM  userdata WHERE user_name=:felhasznalonev";
@@ -19,20 +19,20 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
         $queryLogin->bindValue("felhasznalonev", $login, PDO::PARAM_STR);
         $queryLogin->execute();
         if ($queryLogin->rowCount() != 1){ //hogyha rowcount nem egyelő 1 el akkor azaz nem egy felhasználót kaptunk vissza jó esetben 0-át
-            throw new userException("Hibás felhasználói azonosító");
+            throw new UserLoginException("Hibás felhasználói azonosító");
         }
         $user = $queryLogin->fetch(PDO::FETCH_ASSOC); //kiolvassuk az adatokat
         if (!password_verify($jelszo,$user["password"])){
-            throw new userException("Hibás jelszó");
+            throw new UserLoginException("Hibás jelszó");
         } 
         if ($user["status"]==0){
-            throw new userException("Az Ön regisztrációja adminisztrátori jóváhagyásra vár. Kérjük próbáljon meg egy késöbbi időpontban belépni!");
+            throw new UserLoginException("Az Ön regisztrációja adminisztrátori jóváhagyásra vár. Kérjük próbáljon meg egy késöbbi időpontban belépni!");
         }
         if ($user["status"]==2){
-            throw new userException("Ez a felhasználói fiók jelenleg fel van függesztve. Kérjük vegye fel a kapcsolatot velünk!");
+            throw new UserLoginException("Ez a felhasználói fiók jelenleg fel van függesztve. Kérjük vegye fel a kapcsolatot velünk!");
         }
         if ($user["status"]==3){
-            throw new userException("Ez a felhasználói fiók törlésre került!");
+            throw new UserLoginException("Ez a felhasználói fiók törlésre került!");
         }
         $msg = "Sikeres bejelentkezés: ".$user["user_name"];  //ez már nem kell írányítsuk át a bejelentkezett profilra
         $_SESSION["user"] = array(
@@ -52,7 +52,7 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
 
         header("location:index.php"); //átírányítás 
 
-    }catch(userException $e){
+    }catch(UserLoginException $e){
         $error = "Bejelentkezési hiba: ".$e->getMessage();
     }catch (PDOException $e){
         $error = "Adatbázis hiba: ".$e->getMessage(); 

@@ -8,12 +8,31 @@ a:hover {
     font-weight: bold;
 }
 
+/* Profil */
+
+.profile-page {
+  width: 100%;
+  padding: 8% 0 0;
+  margin: auto;
+}
+
+/*Adminisztrációs felületek */
+.admin-table {
+  width: 50%;
+  border-collapse: collapse;
+}
+.admin-table-short {
+  width: 25%;
+  border-collapse: collapse;
+}
+
 /* Bejelentkezés */
 .login-page {
   width: 360px;
   padding: 8% 0 0;
   margin: auto;
 }
+
 .form {
   position: relative;
   z-index: 1;
@@ -97,7 +116,7 @@ a:hover {
   color: #EF3B3A;
 }
 body {
-  background: #76b852; /* fallback for old browsers */
+  background: #76b852; /* tartalék régi böngészők esetén */
   
   background: linear-gradient(90deg, rgb(238, 238, 236) 0%, rgba(118,184,82,1) 50%);
   font-family: "Roboto", sans-serif;
@@ -114,14 +133,6 @@ body {
 }
 .error, .msg{
     padding: 15px;
-}
-
-/* admin_new_product */
-.csikoz1 {
-  background-color: lightgray;
-}
-.csikoz2 {
-  background-color: white;
 }
 
 /* admin_next_vasar */

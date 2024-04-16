@@ -35,9 +35,7 @@ function generateTable($dbconn){
                         $form .= '"><br>';
 
                         $form .= '<label>Jelszó: </label>';
-                        $form .= '<input type="password" name="password" id="password" value="';
-                        $form .= $row["email"]; 
-                        $form .= '"><br>';
+                        $form .= '<input type="password" name="password" id="password"><br>';
 
                         $form .= '<label>Jelszó újra: </label>';
                         $form .= '<input type="password" name="password_new" id="password_new"><br>';
@@ -118,20 +116,6 @@ if (isset($_POST["submitModosit"]) && !empty($dbconn)){
     <script src="main.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
-    <!-- <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style> -->
 </head>
 <body>
 
@@ -144,25 +128,23 @@ if (isset($_POST["submitModosit"]) && !empty($dbconn)){
             <!-- Main Content -->
             <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
                 <!--itt kell tartalommal feltölteni az oldalt -->
-                    <div class="container mt-3">
-
+                <div class="container mt-3">
                     <h2>Profil adatok</h2>
-
-<?php
-$form = generateTable($dbconn);
-if ($form != null){
-    echo $form;
-} else {
-    echo "Nincs elérhető felhasználói profil.";
-}
-
-
-   
-    ?>
-</table>
-         
-                    </div>
-                </main>
+                    <div class="profile-page">
+                        <div class="form">
+                            <?php
+                            $form = generateTable($dbconn);
+                            if ($form != null){
+                                echo $form;
+                            } else {
+                                echo "Nincs elérhető felhasználói profil.";
+                            }
+                            ?>
+                            </table>
+                        </div>
+                    </div> 
+                </div>
+            </main>
         </div>
     </div>
 

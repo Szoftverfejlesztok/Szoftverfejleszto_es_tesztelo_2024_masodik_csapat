@@ -34,7 +34,7 @@
             echo '
             <li class="nav-item active">
                 <!--Profil-->
-                <a class="nav-link text-white" href="profil.php">Profil</a>
+                <a class="nav-link text-white" href="profile.php">Profil</a>
             </li>
             <li class="nav-item">
                 <!--Helyfoglalási kérelem-->

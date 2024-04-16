@@ -36,8 +36,13 @@ function addNextTime($newVasarDate, $dbconn){
     }catch(FairException $e){
         $error = "Hiba lépett fel az új vásári dátum létrehozása közben.".$e->getMessage();
     }catch (PDOException $e){
-        $error = "Adatbázis hiba: ".$e->getMessage(); 
-        echo $e->getMessage();
+        if( $e->getCode() == 23000) {
+            echo "Ilyen dátum már szerepel az adatbázisban!";
+            $error = "Ilyen dátum már szerepel az adatbázisban!";
+        } else {
+            $error = "Adatbázis hiba: ".$e->getMessage(); 
+            echo $e->getMessage();
+        }
     } 
 
 }
