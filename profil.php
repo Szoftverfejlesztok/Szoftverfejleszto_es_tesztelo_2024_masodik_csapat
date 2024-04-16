@@ -21,7 +21,7 @@ function generateTable($dbconn){
                     if ($query->rowCount()>0){  // a visszaadott sorok száma
                         $row = $query->fetch(PDO::FETCH_ASSOC); 
 
-                        $form .= '<form>';
+                        $form .= '<form action="' . $_SERVER["PHP_SELF"] . '" method="POST">';
                         $form .= '<fieldset>';
 
                         $form .= '<label>Felhasználónév: </label>';
@@ -72,7 +72,37 @@ function generateTable($dbconn){
             $error = "Lekérdezési hiba: ".$e->getMessage();
         }
 }
-
+function updateUserProfile ($email, $name_company, $contact, $telephone, $online_availability, $dbconn){
+    try {
+        if (!empty($dbconn))
+        {
+            $sql = "UPDATE userdata SET email =:email, name_company =:name_company, contact =:contact, telephone =:telephone, online_availability =:online_availability WHERE user_id=:user_id";
+            $query = $dbconn->prepare($sql);
+            $query->bindValue("email", $email, PDO::PARAM_STR);
+            $query->bindValue("name_company", $name_company, PDO::PARAM_STR);
+            $query->bindValue("contact", $contact, PDO::PARAM_STR);
+            $query->bindValue("telephone", $telephone, PDO::PARAM_STR);
+            $query->bindValue("online_availability", $online_availability, PDO::PARAM_STR);
+            $query->bindValue("user_id", $_SESSION["user"]["user_id"], PDO::PARAM_STR);
+            $query->execute();
+            $msg = "Sikeres profil módosítás."; 
+            echo '<script type ="text/JavaScript">';  
+            echo 'alert("Sikeres profil módosítás")';  
+            echo '</script>'; 
+        } else {$error = "Nincs adatbázis kapcsolat";}
+    } catch (PDOException $e){
+        echo "Lekérdezési hiba: ".$e->getMessage();
+        $error = "Lekérdezési hiba: ".$e->getMessage();
+    }
+}
+if (isset($_POST["submitModosit"]) && !empty($dbconn)){   
+    $email= trim($_POST["email"]); 
+    $name_company= trim($_POST["name_company"]);
+    $contact= trim($_POST["contact"]);
+    $telephone= trim($_POST["telephone"]);   
+    $online_availability= trim($_POST["online_availability"]);
+    updateUserProfile($email, $name_company, $contact, $telephone, $online_availability, $dbconn);
+}
 
 ?>
 <!DOCTYPE html>
@@ -125,6 +155,7 @@ if ($form != null){
 } else {
     echo "Nincs elérhető felhasználói profil.";
 }
+
 
    
     ?>
