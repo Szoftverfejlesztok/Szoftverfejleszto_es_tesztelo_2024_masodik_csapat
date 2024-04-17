@@ -46,7 +46,7 @@ session_start();
 
                                 // sql lekérdezés
                                 $sqlKeres1 = ("SELECT t.product_category, u.name_company, p.place_number, d.date 
-                                FROM userdata u, product_range k, product t, place p, date_vasar d, reservation r 
+                                FROM userdata u, product_range k, product t, place p, date_market d, reservation r 
                                 WHERE u.user_id = k.user_id 
                                 AND t.product_id = k.product_id 
                                 AND u.user_id = r.user_id 

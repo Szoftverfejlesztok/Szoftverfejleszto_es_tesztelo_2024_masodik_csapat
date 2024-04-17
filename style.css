@@ -198,22 +198,22 @@ body {
     padding: 15px;
 }
 
-/* Váltakozó színű táblázat, exhibitors.php-ban */
-.exhibitors table {  
+/* Váltakozó színű táblázat, seller.php-ban */
+.sellers table {  
   border-collapse: collapse;
   width: 100%;
   margin-left: 0; 
   background-color: inherit;
   
 }
-.exhibitors th, .exhibitors td, .exhibitors tr {
+.sellers th, .sellers td, .sellers tr {
   border: 1px solid #ddd;
   padding: 20px; /* A sorok közötti nagyobb hely */
   text-align: left;
 }
 
 /* Sötétebb sorok */
-tr:nth-child(even) {
+.sellers tr:nth-child(even) {
 background: rgba(211, 211, 211, 0.2);
 }
 
@@ -221,7 +221,7 @@ background: rgba(211, 211, 211, 0.2);
 .search table {
   border-collapse: collapse;
   width: 100%;
-  margin-left: 0; /*balra helyezés - nem műkszik*/
+  margin-left: 0; 
   background-color: inherit;
   
 }
@@ -233,7 +233,7 @@ background: rgba(211, 211, 211, 0.2);
   
 }
   /* Sötétebb sorok */
-tr:nth-child(even) {
+.search tr:nth-child(even) {
   background: rgba(211, 211, 211, 0.2);
   }
 
@@ -342,7 +342,7 @@ h1 {
   text-align: center;
   /*padding-left: 30%;*/
   padding-top: 3%;
-  padding-bottom: 1%;
+  padding-bottom: 2%;
   /*padding-right: 100%;*/
   color: black;
 
@@ -398,3 +398,30 @@ label {
   border-radius: 30%;
 
 }
+/* footer */
+.footer {
+    background-color: #9ad768; 
+    padding-left: 50px;
+    text-align: center; /* Balra igazítás */
+    flex-basis: 100%; /* Teljes szélesség a kisebb képernyőkre */
+    font-size: 14px;
+    /* border-top: solid 1px; */
+    padding-top: 8px;
+    padding-bottom: 1px;
+    
+}
+.footer .larger-space {
+  margin-right: 10px; /* Nagyobb távolság a következő szöveghez */
+}
+
+
+  /* piac-kép formázása */
+#market_picture img {
+  border-style: solid;
+  border-width: 2px;
+  float: left;
+  margin: 20px 20px 20px 0;
+  max-width: 100%;
+  height: auto;
+    }
+                  

@@ -38,7 +38,7 @@ session_start();
                         <option value=''>--Válasszon egy dátumot--</option>
                         <?php
                             // Lekérdezés a vásárok időpontjait tartalamzó legördülő lista feltöltéséhez
-                            $sqlVasarok = "SELECT date_id, date FROM date_vasar";
+                            $sqlVasarok = "SELECT date_id, date FROM date_market";
                             $queryVasarok = $dbconn->prepare($sqlVasarok);
                             $queryVasarok->execute();
 
@@ -98,12 +98,16 @@ session_start();
                             const selectedDateId = vasarDatumLista.value;
                             const selectedHelyId = szabadHelyekLista.value;
                             // Átnavigálunk a megerosites.php és átadjuk a selectedDateId és a selectedHelyId értékét
-                            window.location.href = `validation.php?selectedDateId=${selectedDateId}&selectedHelyId=${selectedHelyId}`;
+                            window.location.href = `confirmation.php?selectedDateId=${selectedDateId}&selectedHelyId=${selectedHelyId}`;
                         });
 
-                    </script>
 
-         
+
+
+                    </script>
+                    <div id="market_picture">
+                        <img src="market_picture.png" alt="piac kép">
+                    </div>
                 </div>
             </main>
         </div>

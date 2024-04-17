@@ -44,7 +44,7 @@ session_start();
                         $queryUserData = $dbconn->prepare($sqlUserData);
                         $queryUserData->execute();
 
-                        $sqlVasarData = "SELECT date FROM date_vasar WHERE date_id = $selectedDateId";
+                        $sqlVasarData = "SELECT date FROM date_market WHERE date_id = $selectedDateId";
                         $queryVasarData = $dbconn->prepare($sqlVasarData);
                         $queryVasarData->execute();
 
