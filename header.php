@@ -36,9 +36,33 @@
     </div>
 </div>
 </nav>
+<!-- Esetleges hibát megjelenítő paragraph -->
+<p class="text-white bg-danger p-3 d-none text-center" id="errorMessage" style="font-size: 1.5rem;"></p>
+<!-- Esetleges üzenetet megjelenítő paragraph -->
+<p class="text-white bg-success p-3 d-none text-center" id="confirmMessage" style="font-size: 1.5rem;"></p>
 
 
+<?php
+// Kirja a $error változó tartalmát, ha nem üres
+function displayMessages($error, $msg) {
+    if (!empty($error)) {
+        echo '<script>';
+        echo 'document.addEventListener("DOMContentLoaded", function() {';
+        echo '    var errorMessage = document.getElementById("errorMessage");';
+        echo '    errorMessage.textContent = "'.htmlspecialchars($error).'";';
+        echo '    errorMessage.classList.remove("d-none");';
+        echo '});';
+        echo '</script>';
+    }
+    if (!empty($msg)) {
+        echo '<script>';
+        echo 'document.addEventListener("DOMContentLoaded", function() {';
+        echo '    var confirmMessage = document.getElementById("confirmMessage");';
+        echo '    confirmMessage.textContent = "'.htmlspecialchars($msg).'";';
+        echo '    confirmMessage.classList.remove("d-none");';
+        echo '});';
+        echo '</script>';
+    }
+}
+?>
 
-<!--<script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
--->

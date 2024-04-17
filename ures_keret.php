@@ -38,8 +38,10 @@ session_start();
         </div>
     </div>
 
-    <?php require_once("footer.html"); ?>
-
+    <?php 
+        displayMessages($error, $msg);
+        require_once("footer.html"); 
+    ?>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

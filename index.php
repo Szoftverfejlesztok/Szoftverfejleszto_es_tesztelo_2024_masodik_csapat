@@ -57,7 +57,9 @@ if (isset($_GET["logout"])){//14. ha be van állítva a getben a logout akkor ő
         </div>
     </div>
 
-    <?php require_once("footer.html"); ?>
-
+    <?php 
+        displayMessages($error, $msg);
+        require_once("footer.html"); 
+    ?>
 </body>
 </html>

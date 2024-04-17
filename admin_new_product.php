@@ -11,26 +11,17 @@ if (!(isset($_SESSION["user"]) && ($_SESSION["user"]["moderator"] == 1))){
 }
 
 function addNewProduct($termek_kategoria, $dbconn){
+    if (empty($termek_kategoria)){
+        throw new ProductException("Kérem, írja be az új termékkategóriát!");
+    }
 
-    try{
-        if (empty($termek_kategoria)){
-            throw new ProductException("Kérem, írja be az új termékkategóriát!");
-        }
-        $sql = "INSERT INTO product (product_category) VALUES (:termek_kategoria)";
-        $query = $dbconn->prepare($sql);
-        $query->bindValue("termek_kategoria", $termek_kategoria, PDO::PARAM_STR);
-        $query->execute();
-        $msg = "Az új termékkategória bekerült az adatbázisba.";  
-    }catch(ProductException $e){
-        $error = "Hiba lépett fel az új kategória létrehozása közben.".$e->getMessage();
-    }catch (PDOException $e){
-        $error = "Adatbázis hiba: ".$e->getMessage(); 
-        echo $e->getMessage();
-    } 
+    $sql = "INSERT INTO product (product_category) VALUES (:termek_kategoria)";
+    $query = $dbconn->prepare($sql);
+    $query->bindValue("termek_kategoria", $termek_kategoria, PDO::PARAM_STR);
+    $query->execute();
 }
 
 function generateTable($dbconn){
-    try {
         if (!empty($dbconn)){
             $sql = "SELECT product_category FROM product";
             // a futtatandó sql utasítás
@@ -41,23 +32,32 @@ function generateTable($dbconn){
                 $table .= "<table class='admin-table-short'>";
                 $table .= "<tr><th>Termék kategória: </th></tr>";
                 while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
-                $table .= "<tr><td>";
-                $table .= $row["product_category"];
-                $table .= "</td></tr>\n";
+                    $table .= "<tr><td>";
+                    $table .= $row["product_category"];
+                    $table .= "</td></tr>\n";
                 }
                 $table .= "</table>\n";
                 return $table;
             }
         }
-    } catch (PDOException $e){
-        $error = "Lekérdezési hiba: ".$e->getMessage();
-    }
 }
 
 if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){    
     $termek_kategoria= trim($_POST["termek_kategoria"]);
-    addNewProduct($termek_kategoria, $dbconn);
-
+    try {
+        addNewProduct($termek_kategoria, $dbconn);
+        $msg = "Az új termékkategória bekerült az adatbázisba.";  
+    } catch(ProductException $e){
+        $error = "Hiba lépett fel az új kategória létrehozása közben.".$e->getMessage();
+    } catch (PDOException $e){
+        if( $e->getCode() == 23000) {
+            $error = "Ilyen kategória már szerepel az adatbázisban!";
+        } else {
+            $error = "Adatbázis hiba: ".$e->getMessage(); 
+        }
+    }  catch (Exception $e) {
+        $error = "Hiba lépett fel:".$e->getMessage();
+    }
 }
 
 ?>
@@ -89,6 +89,8 @@ if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){
             <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="container mt-3">
+
+
                     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
                     <h2>Új termékkategóriák felvétele</h2><br><br>
 
@@ -96,10 +98,19 @@ if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){
                     
                     <button type="submit" name="submitHozzaad">Hozzáadás</button><br><br>
                     <?php
-                    $tableNew = generateTable($dbconn);
-                    if (!empty($tableNew)){
-                        echo $tableNew;
-                    } else echo "Nincs megjeleníthető termékkategória felvéve!";
+                    try {
+                        $tableNew = generateTable($dbconn);
+                        if (!empty($tableNew)){
+                            echo $tableNew;
+                            echo "<br>";
+                        } else {
+                            echo "Nincs megjeleníthető termékkategória felvéve!";
+                        } 
+                    } catch (PDOException $e){
+                        $error = "Lekérdezési hiba: ".$e->getMessage();
+                    } catch (Exception $e) {
+                        $error = "Hiba történt a kategóriák legyüjtése közben: ".$e->getMessage();
+                    }
                     ?>
                 </form>
          
@@ -108,7 +119,10 @@ if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){
         </div>
     </div>
 
-    <?php require_once("footer.html"); ?>
+    <?php 
+        displayMessages($error, $msg);
+        require_once("footer.html"); 
+    ?>
 
 
 

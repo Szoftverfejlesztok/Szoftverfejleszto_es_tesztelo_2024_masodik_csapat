@@ -177,7 +177,9 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
         </div>
     </div>
 
-    <?php require_once("footer.html"); ?>
-
+    <?php 
+        displayMessages($error, $msg);
+        require_once("footer.html"); 
+    ?>
 </body>
 </html>

@@ -33,15 +33,13 @@ function addNextTime($newVasarDate, $dbconn){
         $query->bindValue("newVasarDate", $newVasarDate, PDO::PARAM_STR);
         $query->execute();
         $msg = "Az új vásári dátum bekerült az adatbázisba.";  
-    }catch(FairException $e){
+    } catch(FairException $e){
         $error = "Hiba lépett fel az új vásári dátum létrehozása közben.".$e->getMessage();
-    }catch (PDOException $e){
+    } catch (PDOException $e){
         if( $e->getCode() == 23000) {
-            echo "Ilyen dátum már szerepel az adatbázisban!";
             $error = "Ilyen dátum már szerepel az adatbázisban!";
         } else {
             $error = "Adatbázis hiba: ".$e->getMessage(); 
-            echo $e->getMessage();
         }
     } 
 

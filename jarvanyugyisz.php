@@ -67,8 +67,10 @@ javasoljuk, hogy közvetlenül tájékozódjanak az aktuális helyzetről!</b></
         </div>
     </div>
 
-    <?php require_once("footer.html"); ?>
-
+    <?php 
+        displayMessages($error, $msg);
+        require_once("footer.html"); 
+    ?>
 
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
