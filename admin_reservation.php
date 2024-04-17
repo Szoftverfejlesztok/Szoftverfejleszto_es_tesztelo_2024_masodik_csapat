@@ -36,7 +36,7 @@ function generateTable($statusNow, $dbconn){
         if (!empty($dbconn)){
             $sql = "SELECT user_name, date, place_number, reservation_id FROM reservation INNER JOIN userdata "
             . "ON reservation.user_id = userdata.user_Id "
-            . "INNER JOIN date_vasar ON reservation.date_id = date_vasar.date_id "
+            . "INNER JOIN date_market ON reservation.date_id = date_market.date_id "
             . "INNER JOIN place ON reservation.place_id = place.place_id "
             . "where reservation.status = :statusNow";
             // a futtatandó sql utasítás

@@ -5,7 +5,7 @@ class FairException extends Exception{}
 function getNextDate($dbconn){
     try {
         if (!empty($dbconn)){
-            $sql = "SELECT date FROM date_vasar WHERE is_next=1";
+            $sql = "SELECT date FROM date_market WHERE is_next=1";
             // a futtatandó sql utasítás
             $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
             $query->execute();  // lekérdezés futtatása
@@ -28,7 +28,7 @@ function addNextTime($newVasarDate, $dbconn){
         if (empty($newVasarDate)){
             throw new FairException("Kérem, adjon meg egy vásári időpontot!");
         }
-        $sql = "INSERT INTO date_vasar (date) VALUES (:newVasarDate)";
+        $sql = "INSERT INTO date_market (date) VALUES (:newVasarDate)";
         $query = $dbconn->prepare($sql);
         $query->bindValue("newVasarDate", $newVasarDate, PDO::PARAM_STR);
         $query->execute();
@@ -50,7 +50,7 @@ function addNextTime($newVasarDate, $dbconn){
 function generateSelect($dbconn){
     try {
         if (!empty($dbconn)){
-            $sql = "SELECT date, date_id from date_vasar where date >= now() ORDER BY date";  // a futtatandó sql utasítás
+            $sql = "SELECT date, date_id from date_market where date >= now() ORDER BY date";  // a futtatandó sql utasítás
             $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
             $query->execute();  // lekérdezés futtatása
             $select = "";
@@ -79,11 +79,11 @@ function setNextDate($dateId, $dbconn){
             throw new FairException("Jelölje ki a beállítani kívánt vásári dátumot!");
         }
 
-        $sqlInaktiv = "UPDATE date_vasar SET is_next = 0"; //a tábla összes elemének nullára állítja az is_next mezőjét
+        $sqlInaktiv = "UPDATE date_market SET is_next = 0"; //a tábla összes elemének nullára állítja az is_next mezőjét
         $queryInaktiv = $dbconn->prepare($sqlInaktiv);
         $queryInaktiv->execute();
 
-        $sqlAktiv = "UPDATE date_vasar SET is_next = 1 WHERE date_id=:date_id"; //a kiválasztottnál 1-re állítja
+        $sqlAktiv = "UPDATE date_market SET is_next = 1 WHERE date_id=:date_id"; //a kiválasztottnál 1-re állítja
         $queryAktiv = $dbconn->prepare($sqlAktiv);
         $queryAktiv->bindValue("date_id", $dateId, PDO::PARAM_STR);
         $queryAktiv->execute();
