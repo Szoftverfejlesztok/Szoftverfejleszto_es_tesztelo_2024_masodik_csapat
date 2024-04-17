@@ -48,7 +48,7 @@ a:hover {
   margin:3%
 }
 
-.profile-form {
+div.form.profile-form {
   max-width: 500px;
 }
 
