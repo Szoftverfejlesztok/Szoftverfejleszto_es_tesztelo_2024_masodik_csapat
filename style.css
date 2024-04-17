@@ -8,13 +8,50 @@ a:hover {
     font-weight: bold;
 }
 
+/* sidebar_menu mobil nézetben */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row; 
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100%;
+  overflow-y: auto; 
+}
+
 /* Profil */
 
 .profile-page {
   width: 100%;
   padding: 8% 0 0;
-  margin: auto;
+  margin:3%
 }
+
+.profile-form {
+  max-width: 500px;
+}
+
 
 /*Adminisztrációs felületek */
 .admin-table {
@@ -24,6 +61,31 @@ a:hover {
 .admin-table-short {
   width: 25%;
   border-collapse: collapse;
+}
+
+/* admin_next_vasar */
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 999;
+}
+
+.popup-content {
+  text-align: center;
+}
+
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
 }
 
 /* Bejelentkezés */
@@ -43,6 +105,7 @@ a:hover {
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
+
 .form input {
   font-family: "Roboto", sans-serif;
   outline: 0;
@@ -133,62 +196,6 @@ body {
 }
 .error, .msg{
     padding: 15px;
-}
-
-/* admin_next_vasar */
-.popup {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  z-index: 999;
-}
-
-.popup-content {
-  text-align: center;
-}
-
-.close-btn {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  cursor: pointer;
-}
-/* sidebar_menu mobil nézetben */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  padding: 12px 16px;
-  z-index: 1;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.content-container {
-  display: flex;
-  flex-direction: row; 
-}
-
-.sidebar {
-  position: sticky;
-  top: 0;
-  height: 100%;
-  overflow-y: auto; 
 }
 
 /* Váltakozó színű táblázat, exhibitors.php-ban */

@@ -131,7 +131,7 @@ if (isset($_POST["submitModosit"]) && !empty($dbconn)){
                 <div class="container mt-3">
                     <h2>Profil adatok</h2>
                     <div class="profile-page">
-                        <div class="form">
+                        <div class="form profile-form">
                             <?php
                             $form = generateTable($dbconn);
                             if ($form != null){
