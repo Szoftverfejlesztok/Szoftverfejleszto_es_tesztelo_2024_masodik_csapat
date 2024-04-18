@@ -49,8 +49,8 @@
                     <li class="nav-item"><a class="nav-link" href="index.php">Kezdőlap</a></li>
             
             <li class="nav-item"><a class="nav-link" href="sellers.php">Árusok listája</a></li>
-            <li class="nav-item"><a class="nav-link" href="hazirend.php">Házirend</a></li>
-            <li class="nav-item"><a class="nav-link" href="jarvanyugyisz.php">Járványügyi szabályzat</a></li>
+            <li class="nav-item"><a class="nav-link" href="houserule.php">Házirend</a></li>
+            <li class="nav-item"><a class="nav-link" href="epidemiological_regulation.php">Járványügyi szabályzat</a></li>
             <li class="nav-item">
             <form method="GET" action="search.php">
                 <label for="keres"></label>

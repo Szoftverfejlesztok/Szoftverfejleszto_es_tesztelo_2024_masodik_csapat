@@ -27,7 +27,7 @@
             </li>
             <li class="nav-item active">
                 <!--Regisztráció-->
-                <a class="nav-link text-white" href="regisztracios_urlap.php" >Regisztráció</a>
+                <a class="nav-link text-white" href="registration_form.php" >Regisztráció</a>
             </li>';
         } else {   //Ha be vagyok lépve, akkor legyen látható a Profil, a Kijelentkezés. Az Adminisztrátor - Felhasználó kezelés és a Adminisztrátor - Helyfoglalás kezelés csak bizonyos feltételekkel.
             
