@@ -4,18 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title></title>
+   
+    <style>
+        /* A header elem beállítása */
+        header {
+            position: relative;
+            width: 100%; /* Teljes szélesség beállítása */
+            overflow: hidden; /* Átfolyás elrejtése, ha a kép túl nagy */
+        }
+
+        /* A kép beállítása */
+        header img {
+            width: 100%; /* Teljes szélesség beállítása */
+            height: auto; /* Arányos magasság beállítása */
+            display: block; /* Blokk elemként való megjelenítés */
+        }
+    </style>
+    
    </head>
    <body>
-    
-   </body>
-   </html>
-   
+
    <header class="text-center">
-        <img src="nenipiac_kep.webp" alt="Piac" title="Piac">
-        <img src="kocsogok_kep.jpg" alt="Piac" title="Piac">
-        <img src="lanypiac_kep.jpg" alt="Piac" title="Piac">
+        <img src="header_picture.jpg" alt="Piac" title="Piac">
     </header>
+    <style>
+        /* A header elem beállítása */
+        header {
+            position: relative;
+            width: 100%; /* Teljes szélesség beállítása */
+            overflow: hidden; /* Átfolyás elrejtése, ha a kép túl nagy */
+        }
+
+        /* A kép beállítása */
+        header img {
+            width: 100%; /* Teljes szélesség beállítása */
+            height: auto; /* Arányos magasság beállítása */
+            display: block; /* Blokk elemként való megjelenítés */
+        }
+    </style>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -66,3 +92,5 @@ function displayMessages($error, $msg) {
 }
 ?>
 
+</body>
+</html>

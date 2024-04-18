@@ -283,20 +283,33 @@ nav {
   
 }
 
+ /* A header elem beállítása */
+ header {
+  position: relative;
+  width: 100%; /* Teljes szélesség beállítása */
+  overflow: hidden; /* Átfolyás elrejtése, ha a kép túl nagy */
+}
 
+/* A kép beállítása */
+header img {
+  width: 100%; /* Teljes szélesség beállítása */
+  height: auto; /* Arányos magasság beállítása */
+  display: block; /* Blokk elemként való megjelenítés */
+}
+/*
 header {
   display: flex;
   justify-content: center; /* Képek középre igazítása */
-  align-items: center;
-  flex-wrap: nowrap; /* Gyerekelemek nem törnek sort */
+  /*align-items: center;
+  flex-wrap: nowrap; /* Gyerekelemek nem törnek sort 
 }
 
 /* Header képek */
-header img {
+/*header img {
   max-width: 33%; /* A header 33%-át használja ki minden kép */
-  height: auto; /* Az arányok megőrzése */
-  margin: 10px; /* Képek közötti térköz */
-}
+  /*height: auto; /* Az arányok megőrzése */
+  /*margin: 10px; /* Képek közötti térköz 
+}*/
 
 /* a képek plusz a nav bar
 header {
