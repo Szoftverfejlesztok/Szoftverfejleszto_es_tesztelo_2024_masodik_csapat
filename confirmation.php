@@ -37,8 +37,7 @@ session_start();
                     if(isset($_GET['selectedDateId']) && isset($_GET['selectedHelyId'])) {
                         $selectedDateId = $_GET['selectedDateId'];
                         $selectedHelyId = $_GET['selectedHelyId'];
-                        //$userId = $_GET['userId'];
-                        $userId = 1;
+                        $userId = $_SESSION["user"]["user_id"];
 
                         $sqlUserData = "SELECT name_company, contact, telephone, email FROM userdata WHERE user_id = $userId";
                         $queryUserData = $dbconn->prepare($sqlUserData);
@@ -57,10 +56,9 @@ session_start();
                             $vasarData = $queryVasarData->fetch(PDO::FETCH_ASSOC);
                             $placeData = $queryPlaceData->fetch(PDO::FETCH_ASSOC);
                             ?>
-                            <form action="saveReservation.php" method="GET">
+                            <form action="save_reservation.php" method="GET">
                                 <input type="hidden" name="selectedDateId" value=<?php echo $selectedDateId; ?>>
                                 <input type="hidden" name="selectedHelyId" value=<?php echo $selectedHelyId; ?>>
-                                <input type="hidden" name="userId" value=<?php echo $userId; ?>>
                                 <br><h4>Foglaló adatai:</h4><br>
                                 <label>Cégnév: <?php echo $userData['name_company']; ?></label><br/>
                                 <label>Kapcsolattartó: <?php echo $userData['contact']; ?></label><br/>

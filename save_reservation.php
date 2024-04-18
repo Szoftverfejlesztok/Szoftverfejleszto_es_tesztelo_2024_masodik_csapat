@@ -1,7 +1,8 @@
 <?php
+session_start();
 require_once("dbconnect.php");
-if(isset($_GET['userId']) && isset($_GET['selectedDateId']) && isset($_GET['selectedHelyId'])) {
-    $userId = $_GET['userId'];
+if(isset($_GET['selectedDateId']) && isset($_GET['selectedHelyId'])) {
+    $userId = $_SESSION["user"]["user_id"];
     $selectedHelyId = $_GET['selectedHelyId'];
     $selectedDateId = $_GET['selectedDateId'];
 
