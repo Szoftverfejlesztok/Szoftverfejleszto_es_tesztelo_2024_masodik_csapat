@@ -50,6 +50,7 @@ a:hover {
 
 div.form.profile-form {
   max-width: 500px;
+  text-align: center;
 }
 
 
@@ -96,7 +97,7 @@ div.form.profile-form {
 }
 
 .form {
-  position: relative;
+  position:relative;
   z-index: 1;
   background: #FFFFFF;
   max-width: 360px;
