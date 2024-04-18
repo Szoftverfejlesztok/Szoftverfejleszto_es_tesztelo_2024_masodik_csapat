@@ -40,6 +40,7 @@ session_start();
 
         <b >FIGYELEM! </b>
 </div>
+<div id="container">
 <p>
 Az alábbi táblázatban szereplő, hazánkkal szemben korlátozást bevezető harmadik országok esetében továbbra is érvényben vannak a korlátozások
  mindaddig, amíg az adott harmadik ország nem jelzi ennek ellenkezőjét. <br><br>
@@ -54,6 +55,7 @@ teljesülniük kell, így a tervezett szállítmány indítása előtt javasolju
   lehetővé teszik azt. <br> <br>
 Az alábbi információ csak tájékoztató jellegű, a járványügyi helyzet függvényében a korlátozások változhatnak, ezért a szállítások előtt
 javasoljuk, hogy közvetlenül tájékozódjanak az aktuális helyzetről!</b></p>
+</div>
 
 <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>

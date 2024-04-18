@@ -17,7 +17,6 @@ session_start();
     <script src="bootstrap.min.js"></script>
     <script src="main.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-</head>
 <body>
 
     <?php require_once("header.php"); ?>
@@ -93,6 +92,8 @@ session_start();
     }
 </style>
 </head>
+<body>
+    
 <?php
 if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){    
     // Űrlapról érkező adatok beolvasása
@@ -233,8 +234,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 
     // Online elérhetőség ellenőrzése
-    $onlineAvailability = $_POST["online_availability"];
-    if (!filter_var($onlineAvailability, FILTER_VALIDATE_URL)) {
+    $onlineAvailability = isset($_POST["online_availability"]) ? $_POST["online_availability"] : "";
+    if (!empty($onlineAvailability) && !filter_var($onlineAvailability, FILTER_VALIDATE_URL)) {
         $errors[] = "<span style='color: red;'>Az online elérhetőség mező érvénytelen URL formátumot tartalmaz!</span>";
     }
     
@@ -260,8 +261,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-</head>
-<body>
     <fieldset>
         <h3>Regisztráció</h3>
         <form onsubmit="return validateForm()">
@@ -287,7 +286,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="tel" id="telephone" name="telephone" placeholder="pl.: 06701111333"><br>
 
             <label for="online_availability">Online elérhetőség:</label>
-            <input type="text" id="online_availability" name="online_availability" placeholder=""><br>
+            <input type="text" id="online_availability" name="online_availability" placeholder="pl.: https://www.facebook.com/"><br>
 
             <label>Termék kategória *</label> 
             <select name="product_description" id="product_description">
@@ -301,26 +300,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="submit" value="Küldés" name="submitRegisztral">
         </form>
     </fieldset>
-   <!-- <fieldset>
-    <h3>Regisztráció</h3>
-        <label>Felhasználónév</label> űrlap elem ID-ja-->
-       <!-- <input type="text" name="user_name" id="user_name" placeholder="Felhasználónév"><br> --><!--name lehet azonos, az id nem  szerver oldalon a neve alapján kapjuk meg, id csak egyedi, a fornak meg kell egyezni az input id-jával-->
-        <!--<label>E-mail cím</label>
-        <input type="email" name="email" id="email"placeholder="E-mail"><br>
-        <label>Jelszó</label>
-        <input type="password" name="password"  id="password"><br>
-        <label>Jelszó megerősítés</label>
-        <input type="password" id="password_conf"><br>
-        <label>Cég név</label> 
-        <input type="text" name="name_company"  id="name_company" placeholder="Cég neve"><br>
-        <label>Kapcsolattartó</label> 
-        <input type="text" name="contact"  id="contact" placeholder="Kapcsolattartó"><br>
-        <label>Telefonszám</label> 
-        <input type="tel" name="telephone"  id="telephone" placeholder="pl.: 06701111333"><br>
-        <label>Online elérhetőség</label> 
-        <input type="text" name="online_availability"  id="online_availability" placeholder=""><br>    
-        <input type="submit" value="Küldés" name="submitRegisztral">
-    </fieldset> -->
 
 
    
