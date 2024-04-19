@@ -67,8 +67,8 @@ session_start();
     input[type="password"],
     input[type="tel"],
     input[type="submit"] {
-        width: 100%;
-        padding: 10px;
+        /*width: 100%;*/
+        /*padding: 10px;*/
         margin-bottom: 10px;
         border: 1px solid #ccc;
         border-radius: 3px;
