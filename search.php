@@ -32,96 +32,98 @@ session_start();
             <!-- Main Content -->
             <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
                 <!--itt kell tartalommal feltölteni az oldalt -->
-                    <div class="container mt-3">
+                <div class="container mt-3">
                     <?php
- 
-                        if(isset($_GET['keres'])){
-                        # az isset függvény segítségével megvizsgáljuk,hogy létezik-e a GET tömbben lévő 'keres' kulcs
-                            $keres = $_GET['keres']; 
+                    if(isset($_GET['keres'])){
+                    # az isset függvény segítségével megvizsgáljuk,hogy létezik-e a GET tömbben lévő 'keres' kulcs
+                        $keres = $_GET['keres']; 
                         
-                            if(!empty($keres)){
-                                # ellenőrizzük nem-e üres a kapott változó
-                                $keres = trim($keres); # eltávolítjuk a szóközt az elejéről és végéről
+                        if(!empty($keres)){
+                            # ellenőrizzük nem-e üres a kapott változó
+                            $keres = trim($keres); # eltávolítjuk a szóközt az elejéről és végéről
                                 
-                                // sql lekérdezés - jövőbeli vásárok
-                                $sqlKeres1 = ("SELECT t.product_category, u.name_company, p.place_number, d.date 
-                                FROM userdata u, product_range k, product t, place p, date_market d, reservation r 
-                                WHERE u.user_id = k.user_id 
-                                AND t.product_id = k.product_id 
-                                AND u.user_id = r.user_id 
-                                AND p.place_id = r.place_id 
-                                AND d.date_id = r.date_id 
-                                AND t.product_category LIKE '%$keres%'
-                                AND DATE(d.date) >= CURRENT_DATE
-                                AND r.status = 1 
-                                ORDER by d.date;;");
-                                $queryKeres1 = $dbconn->prepare($sqlKeres1);
-                                $queryKeres1->execute();
+                            // sql lekérdezés - jövőbeli vásárok
+                            $sqlKeres1 = ("SELECT t.product_category, u.name_company, p.place_number, d.date 
+                            FROM userdata u, product_range k, product t, place p, date_market d, reservation r 
+                            WHERE u.user_id = k.user_id 
+                            AND t.product_id = k.product_id 
+                            AND u.user_id = r.user_id 
+                            AND p.place_id = r.place_id 
+                            AND d.date_id = r.date_id 
+                            AND t.product_category LIKE '%$keres%'
+                            AND DATE(d.date) >= CURRENT_DATE
+                            AND r.status = 1 
+                            ORDER by d.date;;");
+                            $queryKeres1 = $dbconn->prepare($sqlKeres1);
+                            $queryKeres1->execute();
 
-                                //sql lekérdezés - múltbeli vásárok
-                                $sqlKeres2 = ("SELECT t.product_category, u.name_company, p.place_number, d.date 
-                                FROM userdata u, product_range k, product t, place p, date_market d, reservation r 
-                                WHERE u.user_id = k.user_id 
-                                AND t.product_id = k.product_id 
-                                AND u.user_id = r.user_id 
-                                AND p.place_id = r.place_id 
-                                AND d.date_id = r.date_id 
-                                AND t.product_category LIKE '%$keres%'
-                                AND DATE(d.date) <= CURRENT_DATE 
-                                AND r.status = 1
-                                ORDER by d.date;");
-                                $queryKeres2 = $dbconn->prepare($sqlKeres2);
-                                $queryKeres2->execute();
+                            //sql lekérdezés - múltbeli vásárok
+                            $sqlKeres2 = ("SELECT t.product_category, u.name_company, p.place_number, d.date 
+                            FROM userdata u, product_range k, product t, place p, date_market d, reservation r 
+                            WHERE u.user_id = k.user_id 
+                            AND t.product_id = k.product_id 
+                            AND u.user_id = r.user_id 
+                            AND p.place_id = r.place_id 
+                            AND d.date_id = r.date_id 
+                            AND t.product_category LIKE '%$keres%'
+                            AND DATE(d.date) <= CURRENT_DATE 
+                            AND r.status = 1
+                            ORDER by d.date;");
+                            $queryKeres2 = $dbconn->prepare($sqlKeres2);
+                            $queryKeres2->execute();
 
-                                
-                                if($queryKeres1->rowCount() > 0){
-                                    #amennyiben van találat kiírjuk
-                                        echo '<h4>Találatok "'.$keres.'" termékkategóriára a következő vásárokban:</h4>';
-                                        echo "<div class='search'><table>";
-                                        echo "<br><tr><th>Termék kategória</th><th>Árus</th><th>Vásár időpontja</th><th>Foglalt hely száma</th></tr>";
-                                        while($row = $queryKeres1->fetch(PDO::FETCH_ASSOC)){
-                                            echo "<tr><td>".$row["product_category"]."</td><td>".$row["name_company"]."</td><td>".$row["date"]."</td><td>".$row["place_number"]."</td></tr>";
-                                        }
-                                        echo "</table><br><br></div>";
+                            $talalat = false;
+                            if($queryKeres1->rowCount() > 0){
+                            #amennyiben van találat kiírjuk
+                                echo '<h4>Találatok "'.$keres.'" termékkategóriára a következő vásárokban:</h4>';
+                                echo "<div class='search'><table>";
+                                echo "<br><tr><th>Termék kategória</th><th>Árus</th><th>Vásár időpontja</th><th>Foglalt hely száma</th></tr>";
+                                while($row = $queryKeres1->fetch(PDO::FETCH_ASSOC)){
+                                    echo "<tr><td>".$row["product_category"]."</td><td>".$row["name_company"]."</td><td>".$row["date"]."</td><td>".$row["place_number"]."</td></tr>";
+                                    }
+                                 echo "</table><br><br></div>";
+                                $talalat = true;    
+                            }
+                            if($queryKeres2->rowCount() > 0){
+                                #amennyiben van találat kiírjuk
+                                echo '<h4>Találatok "'.$keres.'" termékkategóriára az elmúlt vásárokban:</h4>';
+                                echo "<div class='search'><table>";
+                                echo "<br><tr><th>Termék kategória</th><th>Árus</th><th>Vásár időpontja</th><th>Foglalt hely száma</th></tr>";
+                                while($row = $queryKeres2->fetch(PDO::FETCH_ASSOC)){
+                                    echo "<tr><td>".$row["product_category"]."</td><td>".$row["name_company"]."</td><td>".$row["date"]."</td><td>".$row["place_number"]."</td></tr>";
                                 }
-                                if($queryKeres2->rowCount() > 0){
-                                    #amennyiben van találat kiírjuk
-                                        echo '<h4>Találatok "'.$keres.'" termékkategóriára az elmúlt vásárokban:</h4>';
-                                        echo "<div class='search'><table>";
-                                        echo "<br><tr><th>Termék kategória</th><th>Árus</th><th>Vásár időpontja</th><th>Foglalt hely száma</th></tr>";
-                                        while($row = $queryKeres2->fetch(PDO::FETCH_ASSOC)){
-                                            echo "<tr><td>".$row["product_category"]."</td><td>".$row["name_company"]."</td><td>".$row["date"]."</td><td>".$row["place_number"]."</td></tr>";
-                                        }
-                                        echo "</table></div>";
-                                }else{
-                                        echo '<h4>Nincs találat!</h4><br>';
-                                }
+                                echo "</table></div>";
+                                $talalat = true;
+                            }
+                            if(!$talalat){
+                                echo '<h4>Nincs találat "'.$keres.'" termékkategóriára!</h4><br>';
+                            }
+                        }
                                 
-                            }else{
-                            echo 'Üres keresőmező';
+                        else{
+                            echo '<h4>Üres keresőmező</h4>';
                             # esetleg visszairányítás: 
                             //header('Location: kereso.html');
-                            }
-                            
-                        }else{
-                            echo 'Kérem írja be a keresett terméket!';
                         }
+                            
+                    }else{
+                        echo 'Kérem írja be a keresett terméket!';
+                    }
 
 
-                        ?>
-                        <script>
-                        document.addEventListener("DOMContentLoaded", function() {
-                        const keres = document.getElementById('keres');
-                        const keresEredmeny =document.getElementById('keresEredmeny');
+                    ?>
+                    <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                    const keres = document.getElementById('keres');
+                    const keresEredmeny =document.getElementById('keresEredmeny');
 
-                            keres.addEventListener('click', function() {
-                                keresEredmeny.classList.add("hidden");
-                            });
+                        keres.addEventListener('click', function() {
+                            keresEredmeny.classList.add("hidden");
                         });
+                    });
+                    </script>
 
-                        </script>
-
-                    </div>
+                </div>
             </main>
         </div>
     </div>

@@ -40,7 +40,7 @@ session_start();
                         
                         
                           // Kiállítók lekérdezése
-                          $sqlKiallitok = "SELECT name_company, product_description, online_availability FROM userdata;";
+                          $sqlKiallitok = "SELECT name_company, product_description, online_availability, telephone, email FROM userdata;";
                           $queryKiallitok = $dbconn->prepare($sqlKiallitok);
                           $queryKiallitok->execute();
                         
@@ -50,9 +50,9 @@ session_start();
                               $table = "";
                               if ($queryKiallitok->rowCount()>0){
                                   $table .= "<div class='sellers'><table>\n";
-                                  $table .="<tr><th>Kiállító neve</th><th>Tevékenységi kör</th><th>Elérhetőség</th></tr><br>\n";
+                                  $table .="<tr><th>Árus neve</th><th>Tevékenységi kör</th><th>Telefonszám</th><th>Online elérhetőség</th></tr><br>\n";
                               while ($row = $queryKiallitok->fetch(PDO::FETCH_ASSOC)){
-                                   $table .= "<tr><td>{$row["name_company"]}</td><td>{$row["product_description"]}</td><td>{$row["online_availability"]}</td></tr>\n";
+                                   $table .= "<tr><td>{$row["name_company"]}</td><td>{$row["product_description"]}</td><td>{$row["telephone"]}</td><td>{$row["online_availability"]}<br>{$row["email"]}</td></tr>\n";
                               }
                               $table .= "</table></div>\n";
                               }
