@@ -36,6 +36,7 @@ session_start();
                     <select id="vasarDatumLista">
                         <option value=''>--Válasszon egy dátumot--</option>
                         <?php
+                        try {
                             // Lekérdezés a vásárok időpontjait tartalamzó legördülő lista feltöltéséhez
                             $sqlVasarok = "SELECT date_id, date FROM date_market WHERE DATE(date) >= CURRENT_DATE;";
                             $queryVasarok = $dbconn->prepare($sqlVasarok);
@@ -45,6 +46,12 @@ session_start();
                             while($row = $queryVasarok->fetch(PDO::FETCH_ASSOC)) {
                                 echo "<option value='" . $row["date_id"] . "'>" . $row["date"] . "</option>";
                             }
+                        } catch (PDOException $e){
+                            $error = "Adatbázis hiba: ".$e->getMessage(); 
+                        } catch (Exception $e) {
+                            $error = "Hiba történt a vásár időpontok lekérése közben: ".$e->getMessage(); 
+                        }
+   
                         ?>
                         
                     </select>

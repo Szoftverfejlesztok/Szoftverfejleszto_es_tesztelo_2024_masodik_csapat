@@ -11,8 +11,6 @@ if (!(isset($_SESSION["user"]) && ($_SESSION["user"]["moderator"] == 1))){
 }
 
 function setUserStatus($userId, $status, $dbconn){
-    try{
-        
         if (empty($userId)){
             throw new UserAdminException("Jelölje ki a módosítani kívánt felhasználói profilt!");
         }
@@ -21,18 +19,9 @@ function setUserStatus($userId, $status, $dbconn){
         $queryAktiv = $dbconn->prepare($sqlAktiv);
         $queryAktiv->bindValue("user_id", $userId, PDO::PARAM_STR);
         $queryAktiv->execute();
-
-        $msg = "Sikeres státusz módosítás.";  
-
-    }catch(UserAdminException $e){
-        $error = "Hiba lépett fel a profil státuszának megváltoztatása közben: ".$e->getMessage();
-    }catch (PDOException $e){
-        $error = "Adatbázis hiba: ".$e->getMessage(); 
-    }
 }
 
 function generateTable($statusNow, $dbconn){
-    try {
         if (!empty($dbconn)){
             $sql = "SELECT user_Id, user_name, name_company from userdata where status = :statusNow ";  // a futtatandó sql utasítás
             $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
@@ -57,12 +46,7 @@ function generateTable($statusNow, $dbconn){
                 $table .= "</table>\n";
                 return $table;
             }
-            }
-    } catch (PDOException $e){
-        $error = "Lekérdezési hiba: ".$e->getMessage();
-    } catch(UserAdminException $e){
-        $error = "Hiba lépett fel a profil státuszának megváltoztatása közben: ".$e->getMessage();
-    }
+          }
 }
 
 function getUserCountForStatus($status, $dbconn){
@@ -76,35 +60,51 @@ function getUserCountForStatus($status, $dbconn){
             $row = $query->fetch(PDO::FETCH_ASSOC);
             return $row ["db"];
         } else {
-            throw new UserAdminException("Nincs adatbázis kapcsolat!"); 
+            return 0;
         }
-    } catch (PDOException $e){
-        $error = "Lekérdezési hiba: ".$e->getMessage();
-    } catch(UserAdminException $e){
-        $error = "Hiba lépett fel a profil státuszának megváltoztatása közben: ".$e->getMessage();
-    }
+    } catch (Exception $e){
+        return 0;
+    } 
 }
 
 
 if (isset($_POST["submitAktival"]) && !empty($dbconn)){    
-     //if (isset($_POST["user_id"])){ 
-    $user_id= trim($_POST["user_id"]);
-    setUserStatus($user_id, 1, $dbconn);
-    //} else echo '<script>alert("Nincs kijelölt sor!")</script>';
+    try {
+        $user_id= trim($_POST["user_id"]);
+        setUserStatus($user_id, 1, $dbconn);
+        $msg = "Sikeres státusz módosítás.";  
+    }catch(UserAdminException $e){
+        $error = "Hiba lépett fel a profil státuszának megváltoztatása közben: ".$e->getMessage();
+    }catch (PDOException $e){
+        $error = "Adatbázis hiba: ".$e->getMessage(); 
+    }
+
 }
 
 if (isset($_POST["submitDeaktival"]) && !empty($dbconn)){   
-    //if (isset($_POST["user_id"])){ 
-    $user_id= trim($_POST["user_id"]);
-    setUserStatus($user_id, 2, $dbconn);
-    //} else echo '<script>alert("Nincs kijelölt sor!")</script>';
+    try {
+        $user_id= trim($_POST["user_id"]);
+        setUserStatus($user_id, 2, $dbconn);
+        $msg = "Sikeres státusz módosítás.";  
+    }catch(UserAdminException $e){
+        $error = "Hiba lépett fel a profil státuszának megváltoztatása közben: ".$e->getMessage();
+    }catch (PDOException $e){
+        $error = "Adatbázis hiba: ".$e->getMessage(); 
+    }
+
 }
 
 if (isset($_POST["submitTorol"]) && !empty($dbconn)){    
-     //if (isset($_POST["user_id"])){ 
-    $user_id= trim($_POST["user_id"]);
-    setUserStatus($user_id, 3, $dbconn);
-    //} else echo '<script>alert("Nincs kijelölt sor!")</script>'; - berakni a gombokat disable-re, ha nincs megnyomható gomb, sql lekérdezést irni hozzá
+    try {
+        $user_id= trim($_POST["user_id"]);
+        setUserStatus($user_id, 3, $dbconn);
+        $msg = "Sikeres státusz módosítás.";  
+    } catch(UserAdminException $e){
+        $error = "Hiba lépett fel a profil státuszának megváltoztatása közben: ".$e->getMessage();
+    } catch (PDOException $e){
+        $error = "Adatbázis hiba: ".$e->getMessage(); 
+    }
+
 }
 
 ?>
@@ -143,10 +143,16 @@ if (isset($_POST["submitTorol"]) && !empty($dbconn)){
                         Aktiválás
                     </button><br><br>
                     <?php
-                    $tableNew = generateTable(0, $dbconn);
-                    if (!empty($tableNew)){
-                        echo $tableNew;
-                    } else echo "Nincs aktiválásra váró felhasználó!";
+                    try {                    
+                        $tableNew = generateTable(0, $dbconn);
+                        if (!empty($tableNew)){
+                            echo $tableNew;
+                        } else echo "Nincs aktiválásra váró felhasználó!";
+                    } catch (PDOException $e){
+                        $error = "Lekérdezési hiba: ".$e->getMessage();
+                    } catch(UserAdminException $e){
+                        $error = "Hiba lépett fel a felhasználók lekérése közben: ".$e->getMessage();
+                    }
                     ?>
                 </form><br><br>
 
@@ -161,10 +167,16 @@ if (isset($_POST["submitTorol"]) && !empty($dbconn)){
                         Töröl
                     </button><br><br>
                     <?php
-                    $tableAktiv = generateTable(1, $dbconn);
-                    if (!empty($tableAktiv)){
-                        echo $tableAktiv;
-                    } else echo "Nincs aktív felhasználó!";
+                    try {
+                        $tableAktiv = generateTable(1, $dbconn);
+                        if (!empty($tableAktiv)){
+                            echo $tableAktiv;
+                        } else echo "Nincs aktív felhasználó!";
+                    } catch (PDOException $e){
+                        $error = "Lekérdezési hiba: ".$e->getMessage();
+                    } catch(UserAdminException $e){
+                        $error = "Hiba lépett fel a felhasználók lekérése közben: ".$e->getMessage();
+                    }
                     ?>     
                 </form><br><br>
 
@@ -178,10 +190,16 @@ if (isset($_POST["submitTorol"]) && !empty($dbconn)){
                         Töröl
                     </button><br><br>
                     <?php
-                    $tableDeaktiv = generateTable(2, $dbconn);
-                    if (!empty($tableDeaktiv)){
-                        echo $tableDeaktiv;
-                    } else echo "Nincs felfüggesztett felhasználó!";
+                        try {
+                            $tableDeaktiv = generateTable(2, $dbconn);
+                            if (!empty($tableDeaktiv)){
+                                echo $tableDeaktiv;
+                            } else echo "Nincs felfüggesztett felhasználó!";
+                        } catch (PDOException $e){
+                            $error = "Lekérdezési hiba: ".$e->getMessage();
+                        } catch(UserAdminException $e){
+                            $error = "Hiba lépett fel a felhasználók lekérése közben: ".$e->getMessage();
+                        }
                     ?>
                 </form><br><br>
 
@@ -189,10 +207,16 @@ if (isset($_POST["submitTorol"]) && !empty($dbconn)){
                     <h3>Törölt felhasználók</h3>
                     <!--userdata táblában a status: 3 -> a törölt felhasználók -->
                     <?php
-                    $tableTorolt = generateTable(3, $dbconn);
-                    if (!empty($tableTorolt)){
-                        echo $tableTorolt;
-                    } else echo "Nincs törölt felhasználó!";
+                        try {
+                            $tableTorolt = generateTable(3, $dbconn);
+                            if (!empty($tableTorolt)){
+                                echo $tableTorolt;
+                            } else echo "Nincs törölt felhasználó!";
+                        } catch (PDOException $e){
+                            $error = "Lekérdezési hiba: ".$e->getMessage();
+                        } catch(UserAdminException $e){
+                            $error = "Hiba lépett fel a felhasználók lekérése közben: ".$e->getMessage();
+                        }
                     ?>
                 </form>
                     </div>

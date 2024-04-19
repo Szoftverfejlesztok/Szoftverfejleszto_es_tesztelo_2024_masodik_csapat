@@ -12,7 +12,6 @@ if (!isset($_SESSION["user"])){
 
 
 function generateTable($dbconn){
-        try {
             if (!empty($dbconn)){
                 $sql = "SELECT user_name, email, name_company, contact, telephone, online_availability FROM userdata WHERE user_id=:user_id";  // a futtatandó sql utasítás
                 $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
@@ -26,12 +25,12 @@ function generateTable($dbconn){
                         $form .= '<fieldset>';
 
                         $form .= '<label>Árus/Cég neve: *</label>';
-                        $form .= '<input type="text" name="name_company" id="name_company" value="';
+                        $form .= '<input type="text" name="name_company" id="name_company" required value="';
                         $form .= $row["name_company"]; 
                         $form .= '"><br>';
 
                         $form .= '<label>E-mail cím: *</label>';
-                        $form .= '<input type="email" name="email" id="email" value="';
+                        $form .= '<input type="email" name="email" required id="email" value="';
                         $form .= $row["email"]; 
                         $form .= '"><br>';
                         
@@ -41,7 +40,7 @@ function generateTable($dbconn){
                         $form .= '"><br>';
                         
                         $form .= '<label>Telefonszám: * <br>(pl.: 06301234567)</label>';
-                        $form .= '<input type="tel" name="telephone" id="contact"  pattern="^06[0-9]{9}$" value="';
+                        $form .= '<input type="tel" name="telephone" id="contact" required pattern="^06[0-9]{9}$" value="';
                         $form .= $row["telephone"]; 
                         $form .= '"><br>';
 
@@ -55,13 +54,9 @@ function generateTable($dbconn){
                         return $form;
                     }
                 }
-        } catch (PDOException $e){
-            echo "Lekérdezési hiba: ".$e->getMessage();
-            $error = "Lekérdezési hiba: ".$e->getMessage();
-        }
+
 }
 function generateTable2($dbconn){
-    try {
         if (!empty($dbconn)){
             $sql = "SELECT user_name, email, name_company, contact, telephone, online_availability FROM userdata WHERE user_id=:user_id";  // a futtatandó sql utasítás
             $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
@@ -80,26 +75,21 @@ function generateTable2($dbconn){
                     $form .= '"><br>';
 
                     $form .= '<label>Jelenlegi jelszó: *</label>';
-                    $form .= '<input type="password" name="password" id="password"><br>';
+                    $form .= '<input type="password" name="password" required id="password"><br>';
 
                     $form .= '<label>Új jelszó: *</label>';
-                    $form .= '<input type="password" name="password_new1" id="password_new1"><br>';
+                    $form .= '<input type="password" name="password_new1" required id="password_new1"><br>';
 
                     $form .= '<label>Jelszó megerősítése: *</label>';
-                    $form .= '<input type="password" name="password_new2" id="password_new2"><br>';
+                    $form .= '<input type="password" name="password_new2" required id="password_new2"><br>';
 
                     $form .= '<input type="submit" value="Módosít" name="submitModosit2">';
                     $form .= '</form>';
                     return $form;
                 }
             }
-    } catch (PDOException $e){
-        echo "Lekérdezési hiba: ".$e->getMessage();
-        $error = "Lekérdezési hiba: ".$e->getMessage();
-    }
 }
 function updateUserProfile ($email, $name_company, $contact, $telephone, $online_availability, $dbconn){
-    try {
         if (!empty($dbconn))
         {
             $sql = "UPDATE userdata SET email =:email, name_company =:name_company, contact =:contact, telephone =:telephone, online_availability =:online_availability WHERE user_id=:user_id";
@@ -110,16 +100,8 @@ function updateUserProfile ($email, $name_company, $contact, $telephone, $online
             $query->bindValue("telephone", $telephone, PDO::PARAM_STR);
             $query->bindValue("online_availability", $online_availability, PDO::PARAM_STR);
             $query->bindValue("user_id", $_SESSION["user"]["user_id"], PDO::PARAM_STR);
-            $query->execute();
-            $msg = "Sikeres profil módosítás."; 
-            echo '<script type ="text/JavaScript">';  
-            echo 'alert("Sikeres profil módosítás")';  
-            echo '</script>'; 
-        } else {$error = "Nincs adatbázis kapcsolat";}
-    } catch (PDOException $e){
-        echo "Lekérdezési hiba: ".$e->getMessage();
-        $error = "Lekérdezési hiba: ".$e->getMessage();
-    }
+            $query->execute(); 
+        }
 }
 
 function updatePassword ($password, $password_new1, $password_new2, $dbconn){
@@ -146,18 +128,29 @@ function updatePassword ($password, $password_new1, $password_new2, $dbconn){
 }
 
 if (isset($_POST["submitModosit"]) && !empty($dbconn)){   
-    $email= trim($_POST["email"]); 
-    $name_company= trim($_POST["name_company"]);
-    $contact= trim($_POST["contact"]);
-    $telephone= trim($_POST["telephone"]);   
-    $online_availability= trim($_POST["online_availability"]);
-    updateUserProfile($email, $name_company, $contact, $telephone, $online_availability, $dbconn);
+    try {
+        $email= trim($_POST["email"]); 
+        $name_company= trim($_POST["name_company"]);
+        $contact= trim($_POST["contact"]);
+        $telephone= trim($_POST["telephone"]);   
+        $online_availability= trim($_POST["online_availability"]);
+        updateUserProfile($email, $name_company, $contact, $telephone, $online_availability, $dbconn);
+        $msg = "Sikeres profil módosítás";
+    } catch(ProfileException $e){
+        $error = "Hiba lépett fel a profilmódostás közben.".  $e->getMessage();
+    } catch (PDOException $e){
+        $error = "Adatbázis hiba: " . $e->getMessage(); 
+    }  catch (Exception $e) {
+        $error = "Hiba lépett fel:" . $e->getMessage();
+    }
+ 
 }
 if (isset($_POST["submitModosit2"]) && !empty($dbconn)){   
-    $password= trim($_POST["password"]); 
-    $password_new1= trim($_POST["password_new1"]); 
-    $password_new2= trim($_POST["password_new2"]); 
+    
     try {
+        $password= trim($_POST["password"]); 
+        $password_new1= trim($_POST["password_new1"]); 
+        $password_new2= trim($_POST["password_new2"]); 
         updatePassword($password, $password_new1, $password_new2, $dbconn);  
         $msg = "Sikeres jelszó módosítás";  
     } catch(ProfileException $e){
@@ -201,20 +194,33 @@ if (isset($_POST["submitModosit2"]) && !empty($dbconn)){
                         <div class="form profile-form">
                             <h3>Személyes adatok</h3>
                             <?php
-                            $form = generateTable($dbconn);
-                            if ($form != null){
-                                echo $form;
-                            } else {
-                                echo "Nincs elérhető felhasználói profil.";
+                            try {
+                                $form = generateTable($dbconn);
+                                if ($form != null){
+                                    echo $form;
+                                } else {
+                                    echo "Nincs elérhető felhasználói profil.";
+                                }
+                            } catch (PDOException $e){
+                                $error = "Lekérdezési hiba: ".$e->getMessage();
+                            } catch (Exception $e){
+                                $error = "Hiba lépett fel a profil adatok lekérése közben: ".$e->getMessage();
                             }
+       
                             ?>
                              <h3>Felhasználói adatok</h3>
                             <?php
-                            $form = generateTable2($dbconn);
-                            if ($form != null){
-                                echo $form;
-                            } else {
-                                echo "Nincs elérhető felhasználói profil.";
+                             try {
+                                $form = generateTable2($dbconn);
+                                if ($form != null){
+                                    echo $form;
+                                } else {
+                                    echo "Nincs elérhető felhasználói profil.";
+                                }
+                            } catch (PDOException $e){
+                                $error = "Lekérdezési hiba: ".$e->getMessage();
+                            } catch (Exception $e){
+                                $error = "Hiba lépett fel a belépési adatok lekérése közben: ".$e->getMessage();
                             }
                             ?>
                             </table>

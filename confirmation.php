@@ -35,47 +35,54 @@ session_start();
                 <h3>A kiválasztott hely foglalásának véglegesítése</h3><br>
                     <?php
                     if(isset($_GET['selectedDateId']) && isset($_GET['selectedHelyId'])) {
-                        $selectedDateId = $_GET['selectedDateId'];
-                        $selectedHelyId = $_GET['selectedHelyId'];
-                        $userId = $_SESSION["user"]["user_id"];
-
-                        $sqlUserData = "SELECT name_company, contact, telephone, email FROM userdata WHERE user_id = $userId";
-                        $queryUserData = $dbconn->prepare($sqlUserData);
-                        $queryUserData->execute();
-
-                        $sqlVasarData = "SELECT date FROM date_market WHERE date_id = $selectedDateId";
-                        $queryVasarData = $dbconn->prepare($sqlVasarData);
-                        $queryVasarData->execute();
-
-                        $sqlPlaceData = "SELECT place_number, place_price FROM place WHERE place_id = $selectedHelyId";
-                        $queryPlaceData = $dbconn->prepare($sqlPlaceData);
-                        $queryPlaceData->execute();
+                        try {
+                            $selectedDateId = $_GET['selectedDateId'];
+                            $selectedHelyId = $_GET['selectedHelyId'];
+                            $userId = $_SESSION["user"]["user_id"];
+    
+                            $sqlUserData = "SELECT name_company, contact, telephone, email FROM userdata WHERE user_id = $userId";
+                            $queryUserData = $dbconn->prepare($sqlUserData);
+                            $queryUserData->execute();
+    
+                            $sqlVasarData = "SELECT date FROM date_market WHERE date_id = $selectedDateId";
+                            $queryVasarData = $dbconn->prepare($sqlVasarData);
+                            $queryVasarData->execute();
+    
+                            $sqlPlaceData = "SELECT place_number, place_price FROM place WHERE place_id = $selectedHelyId";
+                            $queryPlaceData = $dbconn->prepare($sqlPlaceData);
+                            $queryPlaceData->execute();
+                      
                         
-                        if($queryUserData->rowCount() == 1 && $queryVasarData->rowCount() == 1 && $queryPlaceData->rowCount() == 1) {
-                            $userData = $queryUserData->fetch(PDO::FETCH_ASSOC);
-                            $vasarData = $queryVasarData->fetch(PDO::FETCH_ASSOC);
-                            $placeData = $queryPlaceData->fetch(PDO::FETCH_ASSOC);
-                            ?>
-                            <form action="save_reservation.php" method="GET">
-                                <input type="hidden" name="selectedDateId" value=<?php echo $selectedDateId; ?>>
-                                <input type="hidden" name="selectedHelyId" value=<?php echo $selectedHelyId; ?>>
-                                <br><h4>Foglaló adatai:</h4><br>
-                                <label>Cégnév: <?php echo $userData['name_company']; ?></label><br/>
-                                <label>Kapcsolattartó: <?php echo $userData['contact']; ?></label><br/>
-                                <label>Telefonszám: <?php echo $userData['telephone']; ?></label><br/>
-                                <label>E-mail cím: <?php echo $userData['email']; ?></label><br/>
-                                <br><h4>Foglalás adatai:</h4><br>
-                                <label>Vásár dátuma: <?php echo $vasarData['date']; ?></label><br/>
-                                <label>Hely száma: <?php echo $placeData['place_number']; ?></label><br/>
-                                <label>Hely ára: <?php echo $placeData['place_price']; ?> Ft</label><br/><br>
-                                <input type="submit" value="Foglalás véglegesítése">
-                            </form>
-                            <?php
-                        } else {
-                            echo "Nincs megjeleníthető adat.";
+                            if($queryUserData->rowCount() == 1 && $queryVasarData->rowCount() == 1 && $queryPlaceData->rowCount() == 1) {
+                                $userData = $queryUserData->fetch(PDO::FETCH_ASSOC);
+                                $vasarData = $queryVasarData->fetch(PDO::FETCH_ASSOC);
+                                $placeData = $queryPlaceData->fetch(PDO::FETCH_ASSOC);
+                                ?>
+                                <form action="save_reservation.php" method="GET">
+                                    <input type="hidden" name="selectedDateId" value=<?php echo $selectedDateId; ?>>
+                                    <input type="hidden" name="selectedHelyId" value=<?php echo $selectedHelyId; ?>>
+                                    <br><h4>Foglaló adatai:</h4><br>
+                                    <label>Cégnév: <?php echo $userData['name_company']; ?></label><br/>
+                                    <label>Kapcsolattartó: <?php echo $userData['contact']; ?></label><br/>
+                                    <label>Telefonszám: <?php echo $userData['telephone']; ?></label><br/>
+                                    <label>E-mail cím: <?php echo $userData['email']; ?></label><br/>
+                                    <br><h4>Foglalás adatai:</h4><br>
+                                    <label>Vásár dátuma: <?php echo $vasarData['date']; ?></label><br/>
+                                    <label>Hely száma: <?php echo $placeData['place_number']; ?></label><br/>
+                                    <label>Hely ára: <?php echo $placeData['place_price']; ?> Ft</label><br/><br>
+                                    <input type="submit" value="Foglalás véglegesítése">
+                                </form>
+                                <?php
+                            } else {
+                                echo "Nincs megjeleníthető adat.";
+                            }
+                        } catch (PDOException $e){
+                            $error = "Lekérdezési hiba: ".$e->getMessage();
+                        } catch(UserAdminException $e){
+                            $error = "Hiba lépett fel a foglalási adatok előkésztése során: ".$e->getMessage();
                         }
                     } else {
-                        echo "Hibás adatátadás!";
+                        $error = "Hibás adatátadás!";
                     }
                     ?>
                     

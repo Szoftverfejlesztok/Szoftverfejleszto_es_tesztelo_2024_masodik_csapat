@@ -96,20 +96,26 @@ session_start();
     
 <?php
 if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){    
-    // Űrlapról érkező adatok beolvasása
-    $user_name = $_POST['user_name'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], null);
-    $name_company = $_POST['name_company'];
-    $contact = $_POST['contact'];
-    $telephone = $_POST['telephone'];
-    $online_availability = $_POST['online_availability'];
+    try {
+        // Űrlapról érkező adatok beolvasása
+        $user_name = $_POST['user_name'];
+        $email = $_POST['email'];
+        $password = password_hash($_POST['password'], null);
+        $name_company = $_POST['name_company'];
+        $contact = $_POST['contact'];
+        $telephone = $_POST['telephone'];
+        $online_availability = $_POST['online_availability'];
 
-    // SQL lekérdezés előkészítése és végrehajtása az adatok mentésére
-    $sqlRegistration = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, product_description, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $queryRegistration = $dbconn->prepare($sqlRegistration);
-    $queryRegistration->execute([$user_name, $password, $name_company, $contact, $telephone, strtolower($email), $online_availability, "TBD", "0", "0"]);
-}
+        // SQL lekérdezés előkészítése és végrehajtása az adatok mentésére
+        $sqlRegistration = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, product_description, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $queryRegistration = $dbconn->prepare($sqlRegistration);
+        $queryRegistration->execute([$user_name, $password, $name_company, $contact, $telephone, strtolower($email), $online_availability, "TBD", "0", "0"]);
+    } catch (PDOException $e) {
+        $error = "Adatbázis hiba: ".$e->getMessage(); 
+    } catch (Exception $e) {
+        $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
+    }
+   }
 ?>
 
 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
@@ -307,5 +313,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
 
+<?php 
+        displayMessages($error, $msg);
+?>
 </body>
+
+
 </html>

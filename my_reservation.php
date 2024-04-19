@@ -34,78 +34,84 @@ session_start();
                     <div class="container mt-3">
                     
                     <?php
-                    $user_id = $_SESSION["user"]["user_id"];
+                    try {
+                        $user_id = $_SESSION["user"]["user_id"];
 
-                    $sqlJovahagy = "SELECT p.place_number, d.date FROM place p, date_market d, userdata u, reservation r 
-                    WHERE '$user_id' = u.user_id 
-                    AND u.user_id = r.user_id
-                    and p.place_id = r.place_id 
-                    and d.date_id = r.date_id 
-                    and r.status = 0 
-                    ORDER by d.date DESC;";
+                        $sqlJovahagy = "SELECT p.place_number, d.date FROM place p, date_market d, userdata u, reservation r 
+                        WHERE '$user_id' = u.user_id 
+                        AND u.user_id = r.user_id
+                        and p.place_id = r.place_id 
+                        and d.date_id = r.date_id 
+                        and r.status = 0 
+                        ORDER by d.date DESC;";
 
-                    $sqlElfogad = "SELECT p.place_number, d.date FROM place p, date_market d, userdata u, reservation r 
-                    WHERE '$user_id' = u.user_id 
-                    AND u.user_id = r.user_id
-                    and p.place_id = r.place_id 
-                    and d.date_id = r.date_id 
-                    and r.status = 1 
-                    ORDER by d.date DESC;";
+                        $sqlElfogad = "SELECT p.place_number, d.date FROM place p, date_market d, userdata u, reservation r 
+                        WHERE '$user_id' = u.user_id 
+                        AND u.user_id = r.user_id
+                        and p.place_id = r.place_id 
+                        and d.date_id = r.date_id 
+                        and r.status = 1 
+                        ORDER by d.date DESC;";
 
-                    $sqlTorol = "SELECT p.place_number, d.date FROM place p, date_market d, userdata u, reservation r 
-                    WHERE '$user_id' = u.user_id 
-                    AND u.user_id = r.user_id
-                    and p.place_id = r.place_id 
-                    and d.date_id = r.date_id 
-                    and r.status = 2
-                    ORDER by d.date DESC;";
+                        $sqlTorol = "SELECT p.place_number, d.date FROM place p, date_market d, userdata u, reservation r 
+                        WHERE '$user_id' = u.user_id 
+                        AND u.user_id = r.user_id
+                        and p.place_id = r.place_id 
+                        and d.date_id = r.date_id 
+                        and r.status = 2
+                        ORDER by d.date DESC;";
 
-                    $queryJovahagy = $dbconn->prepare($sqlJovahagy);
-                    $queryJovahagy->execute();
+                        $queryJovahagy = $dbconn->prepare($sqlJovahagy);
+                        $queryJovahagy->execute();
 
-                    $queryElfogad = $dbconn->prepare($sqlElfogad);
-                    $queryElfogad->execute();
+                        $queryElfogad = $dbconn->prepare($sqlElfogad);
+                        $queryElfogad->execute();
 
-                    $queryTorol = $dbconn->prepare($sqlTorol);
-                    $queryTorol->execute();
+                        $queryTorol = $dbconn->prepare($sqlTorol);
+                        $queryTorol->execute();
 
-                    if($queryJovahagy->rowCount() > 0){
-                        #amennyiben van találat kiírjuk - jóváhagyásra vár
-                            echo '<h4>Jóváhagyásra váró helyfoglalási kérelmek:</h4>';
-                            echo "<div class='search'><table>";
-                            echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
-                            while($row = $queryJovahagy->fetch(PDO::FETCH_ASSOC)){
-                                echo "<tr><td>".$row["date"]."</td><td>".$row["place_number"]."</td></tr>";
-                            }
-                            echo "</table><br><br></div>";}
-                    else{
-                        echo "<h4>Nincs jóváhagyásra váró helyfoglalási kérelem!</h4>";
-                    }
-                    if($queryElfogad->rowCount() > 0){
-                        #amennyiben van találat kiírjuk - jóváhagyott
-                            echo '<h4>Jóváhagyott helyfoglalási kérelmek:</h4>';
-                            echo "<div class='search'><table>";
-                            echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
-                            while($row = $queryElfogad->fetch(PDO::FETCH_ASSOC)){
-                                echo "<tr><td>".$row["date"]."</td><td>".$row["place_number"]."</td></tr>";
-                            }
-                            echo "</table><br><br></div>";}
-                    else{
-                        echo "<h4>Nincs jóváhagyott helyfoglalási kérelem!</h4>";
-                    }               
-                    if($queryTorol->rowCount() > 0){
-                        #amennyiben van találat kiírjuk - törölt
-                            echo '<h4>Törölt helyfoglalási kérelmek:</h4>';
-                            echo "<div class='search'><table>";
-                            echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
-                            while($row = $queryTorol->fetch(PDO::FETCH_ASSOC)){
-                                    echo "<tr><td>".$row["date"]."</td><td>".$row["place_number"]."</td></tr>"; }
-                            echo "</table><br><br></div>";}
+                        if($queryJovahagy->rowCount() > 0){
+                            #amennyiben van találat kiírjuk - jóváhagyásra vár
+                                echo '<h4>Jóváhagyásra váró helyfoglalási kérelmek:</h4>';
+                                echo "<div class='search'><table>";
+                                echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
+                                while($row = $queryJovahagy->fetch(PDO::FETCH_ASSOC)){
+                                    echo "<tr><td>".$row["date"]."</td><td>".$row["place_number"]."</td></tr>";
+                                }
+                                echo "</table><br><br></div>";}
+                        else{
+                            echo "<h4>Nincs jóváhagyásra váró helyfoglalási kérelem!</h4>";
+                        }
+                        if($queryElfogad->rowCount() > 0){
+                            #amennyiben van találat kiírjuk - jóváhagyott
+                                echo '<h4>Jóváhagyott helyfoglalási kérelmek:</h4>';
+                                echo "<div class='search'><table>";
+                                echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
+                                while($row = $queryElfogad->fetch(PDO::FETCH_ASSOC)){
+                                    echo "<tr><td>".$row["date"]."</td><td>".$row["place_number"]."</td></tr>";
+                                }
+                                echo "</table><br><br></div>";}
+                        else{
+                            echo "<h4>Nincs jóváhagyott helyfoglalási kérelem!</h4>";
+                        }               
+                        if($queryTorol->rowCount() > 0){
+                            #amennyiben van találat kiírjuk - törölt
+                                echo '<h4>Törölt helyfoglalási kérelmek:</h4>';
+                                echo "<div class='search'><table>";
+                                echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
+                                while($row = $queryTorol->fetch(PDO::FETCH_ASSOC)){
+                                        echo "<tr><td>".$row["date"]."</td><td>".$row["place_number"]."</td></tr>"; }
+                                echo "</table><br><br></div>";}
 
-                    else {
-                        echo '<h4>Nincs törölt helyfoglalási kérelem!</h4>';
-                    }
+                        else {
+                            echo '<h4>Nincs törölt helyfoglalási kérelem!</h4>';
+                        }
                     
+                    } catch (PDOException $e){
+                        $error = "Adatbázis hiba: ".$e->getMessage(); 
+                    } catch (Exception $e) {
+                        $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
+                    }
                     ?>
 
 

@@ -42,6 +42,9 @@ session_start();
                             # ellenőrizzük nem-e üres a kapott változó
                             $keres = trim($keres); # eltávolítjuk a szóközt az elejéről és végéről
                                 
+                            try {
+
+                           
                             // sql lekérdezés - jövőbeli vásárok
                             $sqlKeres1 = ("SELECT t.product_category, u.name_company, p.place_number, d.date 
                             FROM userdata u, product_range k, product t, place p, date_market d, reservation r 
@@ -95,9 +98,15 @@ session_start();
                                 echo "</table></div>";
                                 $talalat = true;
                             }
+
                             if(!$talalat){
                                 echo '<h4>Nincs találat "'.$keres.'" termékkategóriára!</h4><br>';
                             }
+                        } catch (PDOException $e){
+                            $error = "Adatbázis hiba: ".$e->getMessage(); 
+                        } catch (Exception $e) {
+                            $error = "Hiba történt a keresés közben: ".$e->getMessage(); 
+                        }
                         }
                                 
                         else{

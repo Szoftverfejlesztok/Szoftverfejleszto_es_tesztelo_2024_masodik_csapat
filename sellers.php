@@ -38,14 +38,14 @@ session_start();
                         $msg = "";
                         
                         
-                        
+                        try{
                           // Kiállítók lekérdezése
                           $sqlKiallitok = "SELECT name_company, product_description, online_availability, telephone, email FROM userdata;";
                           $queryKiallitok = $dbconn->prepare($sqlKiallitok);
                           $queryKiallitok->execute();
                         
                           //A kiállítók kilistázása
-                          try{
+                          
                             if(!empty($dbconn)){
                               $table = "";
                               if ($queryKiallitok->rowCount()>0){
@@ -59,7 +59,10 @@ session_start();
                             }
                           }catch(PDOException $e){
                             $error = "Lekérdezési hiba: ".$e->getMessage();
+                          } catch (Exception $e) {
+                            $error = "Hiba történt az árusok lekérése közben: ".$e->getMessage(); 
                           }
+                          
                           if (!empty ($table)){
                             echo $table;
                           }

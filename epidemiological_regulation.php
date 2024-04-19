@@ -56,12 +56,6 @@ teljesülniük kell, így a tervezett szállítmány indítása előtt javasolju
 Az alábbi információ csak tájékoztató jellegű, a járványügyi helyzet függvényében a korlátozások változhatnak, ezért a szállítások előtt
 javasoljuk, hogy közvetlenül tájékozódjanak az aktuális helyzetről!</b></p>
 </div>
-
-<script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
-
-
-
                     <div class="container mt-3">
          
                     </div>

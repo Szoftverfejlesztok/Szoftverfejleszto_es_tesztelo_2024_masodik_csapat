@@ -3,28 +3,23 @@
 class FairException extends Exception{}
 
 function getNextDate($dbconn){
-    try {
-        if (!empty($dbconn)){
-            $sql = "SELECT date FROM date_market WHERE is_next=1";
-            // a futtatandó sql utasítás
-            $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
-            $query->execute();  // lekérdezés futtatása
-            if ($query->rowCount()>0){  // a visszaadott sorok száma
-                while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
-                    return $row["date"];
-                }
-            }
-            else {
-                return null;
+    if (!empty($dbconn)){
+        $sql = "SELECT date FROM date_market WHERE is_next=1";
+        // a futtatandó sql utasítás
+        $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
+        $query->execute();  // lekérdezés futtatása
+        if ($query->rowCount()>0){  // a visszaadott sorok száma
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
+                return $row["date"];
             }
         }
-    } catch (PDOException $e){
-        $error = "Lekérdezési hiba: ".$e->getMessage();
+        else {
+            return null;
+        }
     }
 }
 
 function addNextTime($newVasarDate, $dbconn){
-    try{
         if (empty($newVasarDate)){
             throw new FairException("Kérem, adjon meg egy vásári időpontot!");
         }
@@ -32,6 +27,47 @@ function addNextTime($newVasarDate, $dbconn){
         $query = $dbconn->prepare($sql);
         $query->bindValue("newVasarDate", $newVasarDate, PDO::PARAM_STR);
         $query->execute();
+}
+
+function generateSelect($dbconn){
+    if (!empty($dbconn)){
+        $sql = "SELECT date, date_id from date_market where date >= now() ORDER BY date";  // a futtatandó sql utasítás
+        $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
+        $query->execute();  // lekérdezés futtatása
+        $select = "";
+        if ($query->rowCount()>0){  // a visszaadott sorok száma
+            $select .= '<select name="date_id">\n';
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
+                $select .= '<option required value= ';
+                $select .=$row["date_id"];
+                $select .='>';
+                $select .=$row["date"];
+                $select .="</option>";
+            }
+            $select .= "</select>\n";
+            return $select;
+        }
+    }
+}
+
+function setNextDate($dateId, $dbconn){
+    if (empty($dateId)){
+        throw new FairException("Jelölje ki a beállítani kívánt vásári dátumot!");
+    }
+
+    $sqlInaktiv = "UPDATE date_market SET is_next = 0"; //a tábla összes elemének nullára állítja az is_next mezőjét
+    $queryInaktiv = $dbconn->prepare($sqlInaktiv);
+    $queryInaktiv->execute();
+    $sqlAktiv = "UPDATE date_market SET is_next = 1 WHERE date_id=:date_id"; //a kiválasztottnál 1-re állítja
+    $queryAktiv = $dbconn->prepare($sqlAktiv);
+    $queryAktiv->bindValue("date_id", $dateId, PDO::PARAM_STR);
+    $queryAktiv->execute();   
+}
+
+if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){    
+    try {
+        $newVasarDate= trim($_POST["newVasarDate"]);
+        addNextTime($newVasarDate, $dbconn);
         $msg = "Az új vásári dátum bekerült az adatbázisba.";  
     } catch(FairException $e){
         $error = "Hiba lépett fel az új vásári dátum létrehozása közben.".$e->getMessage();
@@ -42,69 +78,19 @@ function addNextTime($newVasarDate, $dbconn){
             $error = "Adatbázis hiba: ".$e->getMessage(); 
         }
     } 
-
 }
-
-function generateSelect($dbconn){
+if (isset($_POST["submitKivalaszt"]) && !empty($dbconn)){    
     try {
-        if (!empty($dbconn)){
-            $sql = "SELECT date, date_id from date_market where date >= now() ORDER BY date";  // a futtatandó sql utasítás
-            $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
-            $query->execute();  // lekérdezés futtatása
-            $select = "";
-            if ($query->rowCount()>0){  // a visszaadott sorok száma
-                $select .= '<select name="date_id">\n';
-                while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
-                $select .= '<option required value= ';
-                $select .=$row["date_id"];
-                $select .='>';
-                $select .=$row["date"];
-                $select .="</option>";
-                }
-                $select .= "</select>\n";
-                return $select;
-            }
-            }
-    } catch (PDOException $e){
-        $error = "Lekérdezési hiba: ".$e->getMessage();
-    }
-}
-
-function setNextDate($dateId, $dbconn){
-    try{
-        
-        if (empty($dateId)){
-            throw new FairException("Jelölje ki a beállítani kívánt vásári dátumot!");
-        }
-
-        $sqlInaktiv = "UPDATE date_market SET is_next = 0"; //a tábla összes elemének nullára állítja az is_next mezőjét
-        $queryInaktiv = $dbconn->prepare($sqlInaktiv);
-        $queryInaktiv->execute();
-
-        $sqlAktiv = "UPDATE date_market SET is_next = 1 WHERE date_id=:date_id"; //a kiválasztottnál 1-re állítja
-        $queryAktiv = $dbconn->prepare($sqlAktiv);
-        $queryAktiv->bindValue("date_id", $dateId, PDO::PARAM_STR);
-        $queryAktiv->execute();
-
+        $dateId= trim($_POST["date_id"]);
+        setNextDate($dateId, $dbconn);
         $msg = "Sikeres módosítás.";  
-
-    }catch(FairException $e){
+    } catch(FairException $e){
         $error = "Hiba lépett fel a dátum beállítása közben: ".$e->getMessage();
     }catch (PDOException $e){
         $error = "Adatbázis hiba: ".$e->getMessage(); 
     }
 }
-
-if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){    
-    $newVasarDate= trim($_POST["newVasarDate"]);
-    addNextTime($newVasarDate, $dbconn);
-}
-if (isset($_POST["submitKivalaszt"]) && !empty($dbconn)){    
-    $dateId= trim($_POST["date_id"]);
-    setNextDate($dateId, $dbconn);
-}
 ?>
-
 
 
 <h2>A következő vásár időpontja:</h2>
@@ -120,10 +106,14 @@ if (isset($_POST["submitKivalaszt"]) && !empty($dbconn)){
 
         <h2>
             <?php
+            try {
                 $nextTime = getNextDate($dbconn);
-                    if (!empty($nextTime)){
-                        echo $nextTime;
-                    } else echo "Nincs dátum beállítva";
+                if (!empty($nextTime)){
+                    echo $nextTime;
+                } else echo "Nincs dátum beállítva";
+            } catch (PDOException $e){
+                $error = "Lekérdezési hiba: ".$e->getMessage();
+            }
             ?>
         </h2> 
     </div>
@@ -140,7 +130,11 @@ if (isset($_POST["submitKivalaszt"]) && !empty($dbconn)){
     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
         <label for="date">Jelölje ki a következő vásárt!</label>
         <?php
-        echo generateSelect($dbconn);
+        try {
+            echo generateSelect($dbconn);
+        } catch (PDOException $e){
+            $error = "Lekérdezési hiba: ".$e->getMessage();
+        }
         ?>
         <br><br>
         <button type="submit" name="submitKivalaszt">Kiválaszt</button><br>

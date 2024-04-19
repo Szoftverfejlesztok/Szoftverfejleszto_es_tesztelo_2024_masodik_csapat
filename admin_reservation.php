@@ -11,28 +11,17 @@ if (!(isset($_SESSION["user"]) && ($_SESSION["user"]["moderator"] == 1))){
 }
 
 function setReservationStatus($reservation_id, $status, $dbconn){
-    try{
-        
-        if (empty($reservation_id)){
-            throw new ReservationAdminException("Jelölje ki a módosítani kivánt helyfoglalási kérelmet!");
-        }
-
-        $sql = "UPDATE reservation SET status = $status WHERE reservation_id=:reservation_id";
-        $query = $dbconn->prepare($sql);
-        $query->bindValue("reservation_id", $reservation_id, PDO::PARAM_STR);
-        $query->execute();
-
-        $msg = "A kérelem sikeres státusz módosítása megtörtént.";  
-
-    }catch(ReservationAdminException $e){
-        $error = "Hiba lépett fel a státusz módosítás közben: ".$e->getMessage();
-    }catch (PDOException $e){
-        $error = "Adatbázis hiba: ".$e->getMessage(); 
+    if (empty($reservation_id)){
+        throw new ReservationAdminException("Jelölje ki a módosítani kivánt helyfoglalási kérelmet!");
     }
+
+    $sql = "UPDATE reservation SET status = $status WHERE reservation_id=:reservation_id";
+    $query = $dbconn->prepare($sql);
+    $query->bindValue("reservation_id", $reservation_id, PDO::PARAM_STR);
+    $query->execute();
 }
 
 function generateTable($statusNow, $dbconn){
-    try {
         if (!empty($dbconn)){
             $sql = "SELECT user_name, date, place_number, reservation_id FROM reservation INNER JOIN userdata "
             . "ON reservation.user_id = userdata.user_Id "
@@ -64,14 +53,11 @@ function generateTable($statusNow, $dbconn){
                 $table .= "</table>\n";
                 return $table;
             }
-            }
-    } catch (PDOException $e){
-        $error = "Lekérdezési hiba: ".$e->getMessage();
-    }
+        }
 }
-function getReservationCountForStatus($status, $dbconn){
-    try{
 
+function getReservationCountForStatus($status, $dbconn) {
+    try {
         if (!empty($dbconn)){
             $sql = "SELECT COUNT(status) AS db FROM reservation WHERE status =:status";
             $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
@@ -80,24 +66,38 @@ function getReservationCountForStatus($status, $dbconn){
             $row = $query->fetch(PDO::FETCH_ASSOC);
             return $row ["db"];
         } else {
-            throw new ReservationAdminException("Nincs adatbázis kapcsolat!"); 
+            return 0;
         }
-    } catch (PDOException $e){
-        $error = "Lekérdezési hiba: ".$e->getMessage();
-    } catch(ReservationAdminException $e){
-        $error = "Hiba lépett fel a helyfoglalás státuszának megváltoztatása közben: ".$e->getMessage();
+    } catch (Exception $e) {
+        return 0;
     }
 }
 
 
 if (isset($_POST["submitJovahagy"]) && !empty($dbconn)){    
-    $reservation_id= trim($_POST["reservation_id"]);
-    setReservationStatus($reservation_id, 1, $dbconn);
+    try {
+        $reservation_id= trim($_POST["reservation_id"]);
+        setReservationStatus($reservation_id, 1, $dbconn);
+        $msg = "A kérelem sikeres státusz módosítása megtörtént.";  
+    } catch(ReservationAdminException $e){
+        $error = "Hiba lépett fel a státusz módosítás közben: ".$e->getMessage();
+    } catch (PDOException $e){
+        $error = "Adatbázis hiba: ".$e->getMessage(); 
+    }
+  
 }
 
 if (isset($_POST["submitElutasit"]) && !empty($dbconn)){    
-    $reservation_id= trim($_POST["reservation_id"]);
-    setReservationStatus($reservation_id, 3, $dbconn);
+    try {
+        $reservation_id= trim($_POST["reservation_id"]);
+        setReservationStatus($reservation_id, 2, $dbconn);
+        $msg = "A kérelem sikeres státusz módosítása megtörtént.";  
+    } catch(ReservationAdminException $e){
+        $error = "Hiba lépett fel a státusz módosítás közben: ".$e->getMessage();
+    } catch (PDOException $e){
+        $error = "Adatbázis hiba: ".$e->getMessage(); 
+    }
+
 }
 
 ?>
@@ -144,10 +144,15 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
                         Elutasít
                     </button><br><br>
                     <?php
-                    $tableNew = generateTable(0, $dbconn);
-                    if (!empty($tableNew)){
-                        echo $tableNew;
-                    } else echo "Nincs elbírálásra váró helyfoglalási kérelem!";
+                        try {
+                            $tableNew = generateTable(0, $dbconn);
+                        } catch (PDOException $e){
+                            $error = "Lekérdezési hiba: ".$e->getMessage();
+                        }
+
+                        if (!empty($tableNew)){
+                            echo $tableNew;
+                        } else echo "Nincs elbírálásra váró helyfoglalási kérelem!";
                     ?>
                 </form><br><br>
 
@@ -155,10 +160,15 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
                     <h3>Jóváhagyott helyfoglalási kérelmek</h3>
                     <!--reservation táblában a status: 1 -> a jóváhagyott helyfoglalások -->
                     <?php
-                    $tableAktiv = generateTable(1, $dbconn);
-                    if (!empty($tableAktiv)){
-                        echo $tableAktiv;
-                    } else echo "Nincs jóváhagyott helyfoglalási kérelem!";
+                        try {
+                            $tableAktiv = generateTable(1, $dbconn);
+                        } catch (PDOException $e){
+                            $error = "Lekérdezési hiba: ".$e->getMessage();
+                        }
+
+                        if (!empty($tableAktiv)){
+                            echo $tableAktiv;
+                        } else echo "Nincs jóváhagyott helyfoglalási kérelem!";
                     ?>
                 </form><br><br>
 
