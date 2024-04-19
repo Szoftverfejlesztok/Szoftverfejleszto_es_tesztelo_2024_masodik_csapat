@@ -31,17 +31,16 @@ if (isset($_GET["logout"])){//14. ha be van állítva a getben a logout akkor ő
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/fjs"></script>
     <script>
+        // helyfoglalás felugró ablak
         window.onload = function() {
             var params = new URLSearchParams(window.location.search);
             var foglalas = params.get('foglalas');
             var message = '';
-
             if (foglalas == 1) {
-                message = 'A foglalás sikeresen megtörtént!';
+                document.getElementById("popupOk").style.display = "block";
             } else if (foglalas == 0){
-                message = 'Hiba történt a foglalás során!';
+                document.getElementById("popupErr").style.display = "block";
             }
-
             if (message) {
                 alert(message);
             }
@@ -69,18 +68,39 @@ if (isset($_GET["logout"])){//14. ha be van állítva a getben a logout akkor ő
 
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2760.711539595866!2d19.867224776185033!3d46.2161930710962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47437d322b2fa027%3A0x15a3d790a61e4b55!2zTcOzcmFoYWxvbSB2w6Fzw6FydMSXcg!5e0!3m2!1shu!2shu!4v1708362443078!5m2!1shu!2shu" width="900" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </p>
-
-                        <!-- sikeres foglalás felugró ablak -->
-                        <div id="popup" class="popup">
-                            <div class="popup-content">
-                            <span class="close" onclick="closePopup()">&times;</span>
-                            <p id="popup-message">A foglalás sikeres volt!</p>
-                            </div>
+                        <!-- helyfoglalás felugró ablak -->
+                        <div id="popupOk" class="popup">
+                            <h2>Köszönjük kérelmét!</h2>
+                            <h5>A foglalása adminisztrátori jóváhagyásra vár.</h5>
+                            <h5>Állapotát a helyfoglalásaim menüpontban tekintheti meg.</h5>
                         </div>
+                        <div id="popupErr" class="popup">
+                            <h3>Hiba történt a foglalás során!</h3>
+                            <h5>Kérjük próbálja meg újra!</h5>
+                           
+                        </div>
+
                     </div>
                 </main>
         </div>
     </div>
+    <style>
+/* CSS a felugró ablakhoz */
+.popup {
+  display: none;
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: hsl(160, 4%, 85%);
+  /* background: linear-gradient(90deg, rgb(238, 238, 236) 0%, rgba(118,184,82,1) 50%); */
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  max-width: 80%;
+  text-align: center;
+}
+</style>
 
     <?php 
         displayMessages($error, $msg);

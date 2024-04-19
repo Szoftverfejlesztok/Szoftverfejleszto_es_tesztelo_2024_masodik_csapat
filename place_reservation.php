@@ -38,7 +38,7 @@ session_start();
                         <option value=''>--Válasszon egy dátumot--</option>
                         <?php
                             // Lekérdezés a vásárok időpontjait tartalamzó legördülő lista feltöltéséhez
-                            $sqlVasarok = "SELECT date_id, date FROM date_market";
+                            $sqlVasarok = "SELECT date_id, date FROM date_market WHERE DATE(date) >= CURRENT_DATE;";
                             $queryVasarok = $dbconn->prepare($sqlVasarok);
                             $queryVasarok->execute();
 
