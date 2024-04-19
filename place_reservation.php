@@ -32,9 +32,8 @@ session_start();
             <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
                 <!--itt kell tartalommal feltölteni az oldalt -->
                 <div class="container mt-3" id="place_reservation">
-                    <h3 >A következő vásárok időpontjai</h3><br>
-                    <h4>Kérem válassza ki, melyik időpontban szeretne helyet foglalni.</h4><br>
-                    <select id="vasarDatumLista"><br>
+                    <h3>Kérem válassza ki, melyik időpontban szeretne helyet foglalni!</h3>
+                    <select id="vasarDatumLista">
                         <option value=''>--Válasszon egy dátumot--</option>
                         <?php
                             // Lekérdezés a vásárok időpontjait tartalamzó legördülő lista feltöltéséhez
@@ -47,12 +46,13 @@ session_start();
                                 echo "<option value='" . $row["date_id"] . "'>" . $row["date"] . "</option>";
                             }
                         ?>
+                        
                     </select>
 
-                    <h4 id="szabadHelyekCimke" style="display: none;">Ebben az időpontban a következő helyek szabadok:</h4><br>
+                    <h4 id="szabadHelyekCimke" style="display: none;">Ebben az időpontban a következő helyek szabadok:</h4>
                     <select id="szabadHelyekLista" style="display: none;">
                         <!-- Placeholder a szabad helyek legördülő listához -->
-                    </select><br>
+                    </select>
 
                     <input type="submit" value="Kiválasztom" name="submitHely" id="submitHely" style="display: none;">
 

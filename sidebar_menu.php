@@ -42,7 +42,7 @@
             </li>
             <li class="nav-item">
                 <!--Korábbi helyfoglalásaim-->
-                <a class="nav-link text-white" href="">Helyfoglalásaim</a>
+                <a class="nav-link text-white" href="my_reservation.php">Helyfoglalásaim</a>
              </li>';
             if ($_SESSION["user"]["moderator"] == 1) {
                 echo'

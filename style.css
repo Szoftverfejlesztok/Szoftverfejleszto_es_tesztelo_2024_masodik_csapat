@@ -213,8 +213,8 @@ body {
   text-align: left;
 }
 
-/* Sötétebb sorok */
-.sellers tr:nth-child(even) {
+/* Sötétebb sorok - összes táblázat */
+tr:nth-child(even) {
 background: rgba(211, 211, 211, 0.2);
 }
 
@@ -233,10 +233,10 @@ background: rgba(211, 211, 211, 0.2);
  
   
 }
-  /* Sötétebb sorok */
+  /* Sötétebb sorok
 .search tr:nth-child(even) {
   background: rgba(211, 211, 211, 0.2);
-  }
+  }*/
 
 
   /*#keresEredmeny {
@@ -289,7 +289,8 @@ body {
 .container {
   width: 90%; /* Konténer szélessége */
   max-width: 1200px; /* Maximum szélesség */
-  margin: 0 auto; /* Középre igazítás */
+  margin: 0 auto;  /*Középre igazítás */
+  
   padding: 20px; /* Belső margó */
 }
 
@@ -459,4 +460,33 @@ label {
   max-width: 100%;
   height: auto;
     }
+
+/*helyfoglalás felugró ablak index.php-ben */
+.popup_index {
+  display: none;
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: hsl(150, 2%, 80%);
+  /* background: linear-gradient(90deg, rgb(238, 238, 236) 0%, rgba(118,184,82,1) 50%); */
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  max-width: 80%;
+  text-align: center;
+  }
+  
+/* helyfoglalás  */
+#vasarDatumLista{
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+#szabadHelyekCimke{
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+#submitHely{
+  margin-top: 20px;
+}
                   
