@@ -104,7 +104,7 @@ function updateUserProfile ($email, $name_company, $contact, $telephone, $online
         {
             $sql = "UPDATE userdata SET email =:email, name_company =:name_company, contact =:contact, telephone =:telephone, online_availability =:online_availability WHERE user_id=:user_id";
             $query = $dbconn->prepare($sql);
-            $query->bindValue("email", $email, PDO::PARAM_STR);
+            $query->bindValue("email", strtolower($email), PDO::PARAM_STR);
             $query->bindValue("name_company", $name_company, PDO::PARAM_STR);
             $query->bindValue("contact", $contact, PDO::PARAM_STR);
             $query->bindValue("telephone", $telephone, PDO::PARAM_STR);
@@ -139,7 +139,7 @@ function updatePassword ($password, $password_new1, $password_new2, $dbconn){
         } 
         $sql = "UPDATE userdata SET password=:password WHERE user_id=:user_id";
         $query = $dbconn->prepare($sql);
-        $query->bindValue("password", password_hash($password, null), PDO::PARAM_STR);
+        $query->bindValue("password", password_hash($password_new1, null), PDO::PARAM_STR);
         $query->bindValue("user_id", $_SESSION["user"]["user_id"], PDO::PARAM_STR);
         $query->execute();
     }
