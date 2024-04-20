@@ -69,18 +69,30 @@ if (isset($_GET["logout"])){//14. ha be van állítva a getben a logout akkor ő
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2760.711539595866!2d19.867224776185033!3d46.2161930710962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47437d322b2fa027%3A0x15a3d790a61e4b55!2zTcOzcmFoYWxvbSB2w6Fzw6FydMSXcg!5e0!3m2!1shu!2shu!4v1708362443078!5m2!1shu!2shu" width="900" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                             <figcaption>Helyszín: 6782 Mórahalom, Szegedi út 114.</figcaption>
                         </figure>
-                        
+                                                                    
+                        </div>
                         <!-- helyfoglalás felugró ablak -->
                         <div id="popupOk" class="popup_index">
                             <h2>Köszönjük kérelmét!</h2>
                             <h5>A foglalása adminisztrátori jóváhagyásra vár.</h5>
                             <h5>Állapotát a helyfoglalásaim menüpontban tekintheti meg.</h5>
+                            <span class="close_index" id="closeOk">&times;</span>
                         </div>
                         <div id="popupErr" class="popup_index">
                             <h3>Hiba történt a foglalás során!</h3>
                             <h5>Kérjük próbálja meg újra!</h5>
+                            <span class="close_index" id="closeErr">&times;</span>
                            
                         </div>
+                        <script>
+                        document.getElementById('closeOk').onclick = function() {
+                        document.getElementById('popupOk').style.display = 'none';
+                        }
+
+                        document.getElementById('closeErr').onclick = function() {
+                        document.getElementById('popupErr').style.display = 'none';
+                        };
+                        </script>
 
                     </div>
             </main>

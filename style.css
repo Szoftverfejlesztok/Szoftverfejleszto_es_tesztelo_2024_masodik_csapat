@@ -395,6 +395,14 @@ label {
   max-width: 80%;
   text-align: center;
   }
+  .close_index {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 30px;
+  }
+  
   
 /* helyfoglalás  */
 #vasarDatumLista{
