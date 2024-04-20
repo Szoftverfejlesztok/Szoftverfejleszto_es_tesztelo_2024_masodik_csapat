@@ -269,21 +269,6 @@ tr:nth-child(odd) {
 #keresEredmeny.hidden {
   display: none; }*/
 
-  /* minden oldal bodyja*/
-/*body {
-  font-family: 'Times New Roman', Times, serif;
-  margin: 0;
-  padding: 0;
-  display: block;
-  background-color: white;
-
-}*/
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-}
 
 /* A tartalom elrendezése */
 .container {
@@ -300,9 +285,9 @@ body {
       width: 90%; /* Konténer szélessége a kisebb képernyőkön */
   }
 }
-/* navigációs bar, de ezt vmi felülírja sötét szürkére*/
-nav {
-  background-color: #76b852;
+
+p {
+  text-align: justify;
   
 }
 
@@ -319,37 +304,7 @@ header img {
   height: auto; /* Arányos magasság beállítása */
   display: block; /* Blokk elemként való megjelenítés */
 }
-/*
-header {
-  display: flex;
-  justify-content: center; /* Képek középre igazítása */
-  /*align-items: center;
-  flex-wrap: nowrap; /* Gyerekelemek nem törnek sort 
-}
 
-/* Header képek */
-/*header img {
-  max-width: 33%; /* A header 33%-át használja ki minden kép */
-  /*height: auto; /* Az arányok megőrzése */
-  /*margin: 10px; /* Képek közötti térköz 
-}*/
-
-/* a képek plusz a nav bar
-header {
-  display: flex;
-  /*justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-header képek
-header img {
- 
-  max-width: 506px;
-  max-height: 300px;
-  
-  
-}*/
 /* nav-bar */
 ul {
   list-style-type: none;
@@ -373,56 +328,20 @@ li a {
 li a:hover {
   background-color: #b0dc8c;
 }
-/*a a bodykban megjelenő h1 es szövegek
-h1 {
-  text-align: center;
-  /*padding-left: 30%;
-  padding-top: 3%;
-  padding-bottom: 2%;
-  /*padding-right: 100%;
-  color: black;
+figure {
+  
+  padding: 4px;
+  margin: auto;
+}
 
-}*/
-/*a a bodykban megjelenő h2 es szövegek
-h2 {
-  
-  text-align: center;
- /* padding-left: 20%;
-  padding-right: 100%;
-  font-size: 300%;
-  padding-bottom: 1%;
+figcaption {
   color: black;
-  
-  
-}*/
-/*jarvanyügyi h1 alatti szöveg
-#kezdes {
+  font-style: italic;
+  padding: 4px;
   text-align: center;
-  /*padding-left: 20%;
- padding-bottom: 3%;
- /*padding-right: 100%;
+}
 
-}
-/*minden oldal p-s szövege
-p {
-  /*padding-left: 30%;
-  text-align: justify;
-  font-size: larger;
-  /*padding-right: 5%;
-}
-/*a főoldal térkép feletti cím szövege*/
-#cim{
-  text-align: center;
-  padding-left: 0%;
-  padding-bottom: 1%;
-  padding-right: 5%;
-}
-/*a főoldalon térkép*/
-iframe{
-  text-align: center;
- padding-bottom: 3%;
- padding-right: 30%;
-}
+
 /*helyfoglalós kép*/
 img {
   width: 50%;
@@ -489,4 +408,59 @@ label {
 #submitHely{
   margin-top: 20px;
 }
-                  
+
+/* regisztrációs űrlap*/
+body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+       /* margin: 0;
+        padding: 0;*/
+    }
+  
+
+    fieldset {
+        width: 50%;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    h3 {
+        margin-top: 0;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="submit"] {
+               margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    input[type="submit"] {
+        background-color: #4d4d4d;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    p.error {
+        color: #ff0000;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+   
+    

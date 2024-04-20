@@ -30,67 +30,8 @@ session_start();
             <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="container mt-3">
-         <!--<style>
-    input:not([type=checkbox]){ /*mindenre ugyanaz kivéve a type checkboxra */ 
-        display: block;
-        margin-bottom: 10px;
-    }
-</style>-->
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
+  
 
-    fieldset {
-        width: 50%;
-        margin: 50px auto;
-        background-color: #fff;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    h3 {
-        margin-top: 0;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="tel"],
-    input[type="submit"] {
-        /*width: 100%;*/
-        /*padding: 10px;*/
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-    }
-
-    input[type="submit"] {
-        background-color: #4d4d4d;
-        color: #fff;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    input[type="submit"]:hover {
-        background-color: #0056b3;
-    }
-
-    p.error {
-        color: #ff0000;
-        font-size: 14px;
-        margin-top: 5px;
-    }
-</style>
 </head>
 <body>
     
@@ -315,6 +256,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php 
         displayMessages($error, $msg);
+        require_once("footer.html"); 
 ?>
 </body>
 
