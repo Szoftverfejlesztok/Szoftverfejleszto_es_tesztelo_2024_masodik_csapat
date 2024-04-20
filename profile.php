@@ -186,7 +186,7 @@ if (isset($_POST["submitModosit2"]) && !empty($dbconn)){
             <?php require_once("sidebar_menu.php"); ?>
 
             <!-- Main Content -->
-            <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
+            <!--<main role="main" class="ml-sm-auto col-lg-8 px-md-4">-->
                 <!--itt kell tartalommal feltölteni az oldalt -->
                 <div class="container mt-3">
                     <h2>Profil adatok</h2>

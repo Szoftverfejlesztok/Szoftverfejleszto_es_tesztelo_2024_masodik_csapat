@@ -29,9 +29,10 @@ session_start();
             <?php require_once("sidebar_menu.php"); ?>
 
 
-            <!-- Main Content -->
-            <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
+            <!-- Main Content-->
+            <!--<main role="main" class="ml-sm-auto col-lg-8 px-md-4">-->
                 <!--itt kell tartalommal feltölteni az oldalt -->
+                <div class="container mt-3">
                 <h1>Járványügyi szabályzat</h1>
 <div id="kezdes">
     <h3>Madárinfluenza kereskedelmi információk</h3>
@@ -56,7 +57,7 @@ teljesülniük kell, így a tervezett szállítmány indítása előtt javasolju
 Az alábbi információ csak tájékoztató jellegű, a járványügyi helyzet függvényében a korlátozások változhatnak, ezért a szállítások előtt
 javasoljuk, hogy közvetlenül tájékozódjanak az aktuális helyzetről!</b></p>
 </div>
-                    <div class="container mt-3">
+                    
          
                     </div>
                 </main>

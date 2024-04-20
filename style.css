@@ -270,16 +270,16 @@ tr:nth-child(odd) {
   display: none; }*/
 
 
-/* A tartalom elrendezése */
+/*A tartalom elrendezése */
 .container {
-  width: 90%; /* Konténer szélessége */
+  width: 90%; /* Konténer szélessége*/ 
   max-width: 1200px; /* Maximum szélesség */
   margin: 0 auto;  /*Középre igazítás */
   
   padding: 20px; /* Belső margó */
 }
 
-/* Media query a reszponzivitashoz */
+/*Media query a reszponzivitashoz */
 @media only screen and (max-width: 768px) {
   .container {
       width: 90%; /* Konténer szélessége a kisebb képernyőkön */
@@ -295,8 +295,8 @@ p {
  header {
   position: relative;
   width: 100%; /* Teljes szélesség beállítása */
-  overflow: hidden; /* Átfolyás elrejtése, ha a kép túl nagy */
-}
+ overflow: hidden; /* Átfolyás elrejtése, ha a kép túl nagy */
+ }
 
 /* A kép beállítása */
 header img {
@@ -463,7 +463,7 @@ label {
 
     input[type="submit"]:hover {
         background-color: #0056b3;
-    }*/
+    }
 
     p.error {
         color: #ff0000;

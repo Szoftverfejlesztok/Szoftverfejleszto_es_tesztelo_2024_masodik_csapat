@@ -17,7 +17,7 @@ session_start();
     <script src="bootstrap.min.js"></script>
     <script src="main.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<body>
+
 
     <?php require_once("header.php"); ?>
 
@@ -27,11 +27,58 @@ session_start();
 
 
             <!-- Main Content -->
-            <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
+            <!--<main role="main" class="ml-sm-auto col-lg-8 px-md-4">-->
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="containerreg mt-3">
+        <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
   
 
+    fieldset {
+        width: 80%;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    h3 {
+        margin-top: 0;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="submit"] {
+               margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    input[type="submit"] {
+        background-color: #4d4d4d;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+ 
+</style>
 </head>
 <body>
     

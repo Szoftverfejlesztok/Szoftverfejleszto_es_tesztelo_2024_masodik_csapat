@@ -19,6 +19,8 @@ session_start();
     <script src="main.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 </head>
+<body>
+    
 
 
     <?php require_once("header.php"); ?>
@@ -29,9 +31,9 @@ session_start();
 
 
             <!-- Main Content -->
-            <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
+            <!--<main role="main" class="ml-sm-auto col-lg-8 px-md-4">-->
                 <!--itt kell tartalommal feltölteni az oldalt -->
-<body class=container>
+                <div class="container mt-3">
                 <h1>Házirend</h1>
 <p>
 A vásárokról és piacokról szóló 55/2009.(III.13.) Korm. rendelet 6.§ (1) bekezdése értelmében a Vásár házirendjét az üzemeltető az alábbiak szerint állapítja meg:
@@ -136,7 +138,7 @@ Privacy Settings
 <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
 
-                    <div class="container mt-3">
+                    
          
                     </div>
                 </main>
