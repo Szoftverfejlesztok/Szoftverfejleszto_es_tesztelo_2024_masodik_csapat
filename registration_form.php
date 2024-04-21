@@ -31,52 +31,69 @@ session_start();
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="containerreg mt-3">
         <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
   
+}
 
-    fieldset {
-        width: 80%;
-        margin: 50px auto;
-        background-color: #fff;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+div > .containerreg {
+      
+  position:relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 50%;
+  margin: 0 auto 100px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)
+}
 
-    h3 {
-        margin-top: 0;
-    }
 
-    label {
-        display: block;
-        margin-bottom: 5px;
-    }
+fieldset {
+  width: 80%;
+  margin: 30px auto;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
 
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="tel"],
-    input[type="submit"] {
-               margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-    }
+h3 {
+  margin-top: 0;
+}
 
-    input[type="submit"] {
-        background-color: #4d4d4d;
-        color: #fff;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+label {
+  display: block;
+  margin-bottom: 5px;
+}
 
-    input[type="submit"]:hover {
-        background-color: #0056b3;
-    }
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="submit"] {
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 90%;
+}
+
+input[type="submit"] {
+  background-color: #4d4d4d;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+    
+   
  
 </style>
 </head>
@@ -294,18 +311,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="submit" value="Küldés" name="submitRegisztral">
         </form>
     </fieldset>
-
-
-   
-
-<script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
-
-<?php 
+        <?php 
         displayMessages($error, $msg);
         require_once("footer.html"); 
-?>
+        ?>
+        </div>
+        <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
 </body>
-
-
 </html>

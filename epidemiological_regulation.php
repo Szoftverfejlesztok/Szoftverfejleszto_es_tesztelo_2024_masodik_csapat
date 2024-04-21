@@ -41,7 +41,7 @@ session_start();
 
         <b >FIGYELEM! </b>
 </div>
-<div id="container">
+<div>
 <p>
 Az alábbi táblázatban szereplő, hazánkkal szemben korlátozást bevezető harmadik országok esetében továbbra is érvényben vannak a korlátozások
  mindaddig, amíg az adott harmadik ország nem jelzi ennek ellenkezőjét. <br><br>
