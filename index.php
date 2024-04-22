@@ -57,16 +57,16 @@ if (isset($_GET["logout"])){//14. ha be van állítva a getben a logout akkor ő
 
 
             <!-- Main Content -->
-           <!-- <main role="main" class="ml-sm-auto col-lg-8 px-md-4">-->
+           <main role="main" class="col-lg-10 px-md-4">
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="container mt-3">
                         
-                        <h1>VÁSÁR</h1>
+                        <h1>VÁSÁR</h1><br><br>
 
                         <?php require_once("admin_next_vasar.php"); ?>
                         
                         <figure>
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2760.711539595866!2d19.867224776185033!3d46.2161930710962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47437d322b2fa027%3A0x15a3d790a61e4b55!2zTcOzcmFoYWxvbSB2w6Fzw6FydMSXcg!5e0!3m2!1shu!2shu!4v1708362443078!5m2!1shu!2shu" width="900" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2760.711539595866!2d19.867224776185033!3d46.2161930710962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47437d322b2fa027%3A0x15a3d790a61e4b55!2zTcOzcmFoYWxvbSB2w6Fzw6FydMSXcg!5e0!3m2!1shu!2shu!4v1708362443078!5m2!1shu!2shu" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                             <figcaption>Helyszín: 6782 Mórahalom, Szegedi út 114.</figcaption>
                         </figure>
                                                                     

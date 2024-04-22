@@ -31,10 +31,10 @@ session_start();
 
 
             <!-- Main Content -->
-            <!--<main role="main" class="ml-sm-auto col-lg-8 px-md-4">-->
+            <main role="main" class="ml-sm-auto col-lg-10 px-md-4">
                 <!--itt kell tartalommal feltölteni az oldalt -->
                 <div class="container mt-3">
-                <h1>Házirend</h1>
+                <h1>Házirend</h1><br><br>
 <p>
 A vásárokról és piacokról szóló 55/2009.(III.13.) Korm. rendelet 6.§ (1) bekezdése értelmében a Vásár házirendjét az üzemeltető az alábbiak szerint állapítja meg:
 <br><br>

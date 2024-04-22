@@ -30,7 +30,7 @@ session_start();
 
 
             <!-- Main Content-->
-            <!--<main role="main" class="ml-sm-auto col-lg-8 px-md-4">-->
+            <main role="main" class="ml-sm-auto col-lg-10 px-md-4">
                 <!--itt kell tartalommal feltölteni az oldalt -->
                 <div class="container mt-3">
                 <h1>Járványügyi szabályzat</h1>
@@ -43,7 +43,7 @@ session_start();
 </div>
 <div>
 <p>
-Az alábbi táblázatban szereplő, hazánkkal szemben korlátozást bevezető harmadik országok esetében továbbra is érvényben vannak a korlátozások
+A hazánkkal szemben korlátozást bevezető harmadik országok esetében továbbra is érvényben vannak a korlátozások
  mindaddig, amíg az adott harmadik ország nem jelzi ennek ellenkezőjét. <br><br>
 
 Minden harmadik ország saját hatáskörben dönt az importkorlátozások bevezetéséről vagy feloldásáról. Az ezzel kapcsolatos visszajelzésekkel az

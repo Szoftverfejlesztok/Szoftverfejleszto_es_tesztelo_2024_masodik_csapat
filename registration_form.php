@@ -19,17 +19,7 @@ session_start();
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
 
-    <?php require_once("header.php"); ?>
 
-    <div class="container-fluid">
-        <div class="row">
-            <?php require_once("sidebar_menu.php"); ?>
-
-
-            <!-- Main Content -->
-            <!--<main role="main" class="ml-sm-auto col-lg-8 px-md-4">-->
-                <!--itt kell tartalommal feltölteni az oldalt -->
-                    <div class="containerreg mt-3">
         <style>
 body {
   font-family: Arial, sans-serif;
@@ -98,6 +88,17 @@ input[type="submit"]:hover {
 </style>
 </head>
 <body>
+<?php require_once("header.php"); ?>
+
+<div class="container-fluid">
+    <div class="row">
+        <?php require_once("sidebar_menu.php"); ?>
+
+
+        <!-- Main Content -->
+        <main role="main" class="ml-sm-auto col-lg-10 px-md-4">
+            <!--itt kell tartalommal feltölteni az oldalt -->
+                <div class="containerreg mt-3">
     
 <?php
 if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){    

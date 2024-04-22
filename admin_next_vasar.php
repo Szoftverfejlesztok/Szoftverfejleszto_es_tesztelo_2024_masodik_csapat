@@ -93,15 +93,11 @@ if (isset($_POST["submitKivalaszt"]) && !empty($dbconn)){
 ?>
 
 
-<h2>A következő vásár időpontja:</h2>
+<h2>A következő vásár időpontja:</h2><br>
 <div>
     <div class="kiemel">
         <?php 
-        if (isset($_SESSION["user"]) && ($_SESSION["user"]["moderator"] == 1))
-        {
-        echo'
-        <a href="#" id="nextDatePopUp">Szerkesztés</a>';
-        }
+
         ?>
 
         <h2>
@@ -110,6 +106,10 @@ if (isset($_POST["submitKivalaszt"]) && !empty($dbconn)){
                 $nextTime = getNextDate($dbconn);
                 if (!empty($nextTime)){
                     echo $nextTime;
+                    if (isset($_SESSION["user"]) && ($_SESSION["user"]["moderator"] == 1))
+                    {
+                    echo '<br><a href="#" id="nextDatePopUp">Szerkesztés</a>';
+                    }
                 } else echo "Nincs dátum beállítva";
             } catch (PDOException $e){
                 $error = "Lekérdezési hiba: ".$e->getMessage();
