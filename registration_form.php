@@ -232,8 +232,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 
     // Kapcsolattartó ellenőrzése
-    $contactPerson = $_POST["contact"];
-    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $contactPerson)) {
+       $contactPerson = $_POST["contact"];
+    if (!preg_match("/^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű0-9 ]*$/u", $contactPerson)) {
         $errors[] = "<span style='color: red;'>A kapcsolattartó személy nevében csak betűk, számok és szóközök engedélyezettek!</span>";
     }
     
@@ -276,29 +276,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <fieldset>
         <h3>Regisztráció</h3>
         <form onsubmit="return validateForm()">
-            <label for="user_name">Felhasználónév: *</label>
-            <input type="text" id="user_name" name="user_name" placeholder="Felhasználónév"><br>
+            <label for="user_name">Felhasználónév: *<br> (Minimum 4 betű és/vagy szám)</label>
+            <input type="text" id="user_name" name="user_name" placeholder=""><br>
 
-            <label for="email">E-mail cím: *</label>
-            <input type="email" id="email" name="email" placeholder="E-mail"><br>
+            <label for="email">E-mail cím: *<br> (pl.: vasar@vasar.hu)</label>
+            <input type="email" id="email" name="email" placeholder=""><br>
 
-            <label for="password">Jelszó: *</label>
+            <label for="password">Jelszó: *<br> (Minimum 6 betű és/vagy szám)</label>
             <input type="password" id="password" name="password"><br>
 
             <label for="password_conf">Jelszó megerősítés: *</label>
             <input type="password" id="password_conf" name ="password_conf"><br>
 
-            <label for="name_company">Cég név: *</label>
-            <input type="text" id="name_company" name="name_company" placeholder="Cég neve"><br>
+            <label for="name_company">Árus/Cég név: *</label>
+            <input type="text" id="name_company" name="name_company" placeholder=""><br>
 
             <label for="contact">Kapcsolattartó:</label>
-            <input type="text" id="contact" name="contact" placeholder="Kapcsolattartó"><br>
+            <input type="text" id="contact" name="contact" placeholder=""><br>
 
-            <label for="telephone">Telefonszám: *</label>
-            <input type="tel" id="telephone" name="telephone" placeholder="pl.: 06701111333"><br>
+            <label for="telephone">Telefonszám: *<br> (pl.: 06701111333)</label>
+            <input type="tel" id="telephone" name="telephone" placeholder=""><br>
 
-            <label for="online_availability">Online elérhetőség:</label>
-            <input type="text" id="online_availability" name="online_availability" placeholder="pl.: https://www.facebook.com/"><br>
+            <label for="online_availability">Online elérhetőség: <br> (pl.: https://www.facebook.com/)</label>
+            <input type="text" id="online_availability" name="online_availability" placeholder=""><br>
 
             <label>Termék kategória *</label> 
             <select name="product_description" id="product_description">

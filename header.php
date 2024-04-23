@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
 
    <header class="text-center">
-        <img src="header_picture.jpg" alt="Piac" title="Piac">
+        <img src="header_picture2.jpg" alt="Piac" title="Piac">
     </header>
   
  <body>  
