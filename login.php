@@ -81,7 +81,7 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
         <div class="row">
             <?php require_once("sidebar_menu.php"); ?>
             <!-- Main Content -->
-            <!--<main role="main" class="ml-sm-auto col-lg-8 px-md-4">-->
+            <main role="main" class="col-lg-10 px-md-4">
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="container mt-3">
                     <?php   

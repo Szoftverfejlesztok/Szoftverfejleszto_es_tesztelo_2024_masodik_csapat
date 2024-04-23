@@ -77,8 +77,8 @@ function generateTable2($dbconn){
                     $form .= '<label>Jelenlegi jelszó: *</label>';
                     $form .= '<input type="password" name="password" required id="password"><br>';
 
-                    $form .= '<label>Új jelszó: *</label>';
-                    $form .= '<input type="password" name="password_new1" required id="password_new1"><br>';
+                    $form .= '<label>Új jelszó: *<br>(Minimum 6 betű és/vagy szám)</label>';
+                    $form .= '<input type="password" name="password_new1" required id="password_new1" minlength="6"><br>';
 
                     $form .= '<label>Jelszó megerősítése: *</label>';
                     $form .= '<input type="password" name="password_new2" required id="password_new2"><br>';
