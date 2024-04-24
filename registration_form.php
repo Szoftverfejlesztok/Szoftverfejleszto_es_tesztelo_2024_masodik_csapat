@@ -19,73 +19,6 @@ session_start();
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
 
-
-        <style>
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 0;
-  
-}
-
-div > .containerreg {
-      
-  position:relative;
-  z-index: 1;
-  background: #FFFFFF;
-  max-width: 50%;
-  margin: 0 auto 100px;
-  padding: 10px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)
-}
-
-
-fieldset {
-  width: 80%;
-  margin: 30px auto;
-  background-color: #fff;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  text-align: center;
-}
-
-h3 {
-  margin-top: 0;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="tel"],
-input[type="submit"] {
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  width: 90%;
-}
-
-input[type="submit"] {
-  background-color: #4d4d4d;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-input[type="submit"]:hover {
-  background-color: #0056b3;
-}
-    
-   
- 
-</style>
 </head>
 <body>
 <?php require_once("header.php"); ?>
@@ -96,9 +29,9 @@ input[type="submit"]:hover {
 
 
         <!-- Main Content -->
-        <main role="main" class="ml-sm-auto col-lg-10 px-md-4">
+        <main role="main" class="col-lg-9 px-md-4">
             <!--itt kell tartalommal feltölteni az oldalt -->
-                <div class="containerreg mt-3">
+                <div class="container mt-3">
     
 <?php
 if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){    
@@ -182,6 +115,16 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
  <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") { 
     // Felhasználónév ellenőrzése
+   /* $username = $_POST["user_name"];
+    if (strlen($username) < 4 || strlen($username) > 20) {
+        $errors[] = "<span style='color: red;'>A felhasználónévnek 4 és 20 karakter között kell lennie!</span>";
+    }
+    if (empty($username)) {
+        $errors[] = "<span style='color: red;'>A felhasználónév mező nem lehet üres!</span>";
+    }
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $username)) {
+        $errors[] = "<span style='color: red;'>A felhasználónévben csak betűk, számok és szóközök engedélyezettek!</span>";
+    }*/
     $username = $_POST["user_name"];
     if (strlen($username) < 4 || strlen($username) > 20) {
         $errors[] = "<span style='color: red;'>A felhasználónévnek 4 és 20 karakter között kell lennie!</span>";
@@ -193,6 +136,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "<span style='color: red;'>A felhasználónévben csak betűk, számok és szóközök engedélyezettek!</span>";
     }
 
+    // Ellenőrizzük, hogy van-e már ilyen felhasználó
+$sql = "SELECT * FROM user_data WHERE user_name='$username' AND (status = 0 OR status = 2 OR status = 3)";
+
+
+if ($result->status > 0) {
+    // Ellenőrizd a felhasználó státuszát
+    while ($status = $result->fetch_assoc()) {
+        if ($status["status"] == 0 || $status["status"] == 2 || $status["status"] == 3) {
+            // Ez a felhasználó érvénytelen!
+            $errors[] = "<span style='color: red;'>Ez a felhasználó érvénytelen!</span>";
+        }
+    }
+}
+    
     // Email cím ellenőrzése
     $email = $_POST["email"];
     if (empty($email)) {
@@ -274,49 +231,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
     <fieldset>
-        <h3>Regisztráció</h3>
-        <form onsubmit="return validateForm()">
-            <label for="user_name">Felhasználónév: *<br> (Minimum 4 betű és/vagy szám)</label>
-            <input type="text" id="user_name" name="user_name" placeholder=""><br>
+        <h2>Regisztráció</h2>
+        <div class="profile-page">
+        <div class="form profile-form">
+            <form onsubmit="return validateForm()">
+                <label for="user_name">Felhasználónév: *<br> (Minimum 4 betű és/vagy szám)</label>
+                <input type="text" id="user_name" name="user_name" placeholder=""><br>
 
-            <label for="email">E-mail cím: *<br> (pl.: vasar@vasar.hu)</label>
-            <input type="email" id="email" name="email" placeholder=""><br>
+                <label for="email">E-mail cím: *<br> (pl.: vasar@vasar.hu)</label>
+                <input type="email" id="email" name="email" placeholder=""><br>
 
-            <label for="password">Jelszó: *<br> (Minimum 6 betű és/vagy szám)</label>
-            <input type="password" id="password" name="password"><br>
+                <label for="password">Jelszó: *<br> (Minimum 6 betű és/vagy szám)</label>
+                <input type="password" id="password" name="password"><br>
 
-            <label for="password_conf">Jelszó megerősítés: *</label>
-            <input type="password" id="password_conf" name ="password_conf"><br>
+                <label for="password_conf">Jelszó megerősítés: *</label>
+                <input type="password" id="password_conf" name ="password_conf"><br>
 
-            <label for="name_company">Árus/Cég név: *</label>
-            <input type="text" id="name_company" name="name_company" placeholder=""><br>
+                <label for="name_company">Árus/Cég név: *</label>
+                <input type="text" id="name_company" name="name_company" placeholder=""><br>
 
-            <label for="contact">Kapcsolattartó:</label>
-            <input type="text" id="contact" name="contact" placeholder=""><br>
+                <label for="contact">Kapcsolattartó:</label>
+                <input type="text" id="contact" name="contact" placeholder=""><br>
 
-            <label for="telephone">Telefonszám: *<br> (pl.: 06701111333)</label>
-            <input type="tel" id="telephone" name="telephone" placeholder=""><br>
+                <label for="telephone">Telefonszám: *</label>
+                <input type="tel" id="telephone" name="telephone" placeholder="06701111333"><br>
 
-            <label for="online_availability">Online elérhetőség: <br> (pl.: https://www.facebook.com/)</label>
-            <input type="text" id="online_availability" name="online_availability" placeholder=""><br>
+                <label for="online_availability">Online elérhetőség: <br> (pl.: https://www.facebook.com/)</label>
+                <input type="text" id="online_availability" name="online_availability" placeholder=""><br>
 
-            <label>Termék kategória *</label> 
-            <select name="product_description" id="product_description">
-                <option value="">Válasszon termék kategóriát</option>
-                <option value="ruha">Méz</option>
-                <option value="szerszám">Kerti szerszám</option>
-                <option value="méz">Vetőmag</option>
-            </select><br>   
-            <br>
+                <label>Termék kategória *</label> 
+                <select name="product_description" id="product_description">
+                    <option value="">Válasszon termék kategóriát</option>
+                    <option value="ruha">Méz</option>
+                    <option value="szerszám">Kerti szerszám</option>
+                    <option value="méz">Vetőmag</option>
+                </select><br>   
+                <br>
 
-            <input type="submit" value="Küldés" name="submitRegisztral">
-        </form>
+                <input type="submit" value="Küldés" name="submitRegisztral">
+            </form>
+        </div>
+        </div>
     </fieldset>
-        <?php 
+
+    
+    
+    <?php 
         displayMessages($error, $msg);
         require_once("footer.html"); 
-        ?>
-        </div>
+    ?>
+        
         <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
 </body>
