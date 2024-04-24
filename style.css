@@ -508,6 +508,8 @@ p.error {
 .google-map {
   padding-bottom: 50%;
   position: relative;
+  margin: 0 auto; 
+  width: 80%;
 }
 
 .google-map iframe {
