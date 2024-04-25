@@ -1,9 +1,11 @@
 1. kör (az idegen kulcsok miatt az alsó két táblát külön lehet feltölteni, legalábbis én erre jutottam, lehet van rá valami jobb megoldás :)
 
 INSERT INTO `date_market` (`date`, `is_next`) VALUES
-('2024-03-17', 0),
 ('2024-04-21', 0),
-('2024-05-19', 0);
+('2024-05-19', 1),
+('2024-07-21', 0),
+('2024-08-18', 0),
+('2024-09-15', 0);
 
 INSERT INTO `place` (`place_number`, `place_price`) VALUES
 ('I/1', 1500),
@@ -104,25 +106,115 @@ INSERT INTO `place` (`place_number`, `place_price`) VALUES
 ('VIII/12', 1500);
 
 INSERT INTO `userdata` (`user_name`, `password`, `name_company`, `contact`, `telephone`, `email`, `online_availability`, `product_description`, `moderator`, `status`) VALUES
-('brumm1', '$2y$10$fcvyE16wTEMOZ6CtBVN7Yuv48sF0NQl1Bvxno6x25LooypieR8r6y', 'Brumm Kft', 'Jónás Patrícia', '+36705536254', 'brumm@gmail.com', 'www.brummkft.hu', 'Termékkínálatunkban többféle méz megtalálható, többek között akác, repce, vegyes virágméz.', 0, 1),
-('kovacsistvan', '$2y$10$z7siSByomNrOAb9MMYPKnukoZCAyuKxHp.Ftad8Bh2bs1QALcRy4u', 'Kovács István egyéni vállalkozó', 'Kovács István', '+36705486325', 'istvankovacs@gmail.com', 'facebook.com/kovacs.istvan/', 'Kerti szerszámok készítésével foglalkozok. ', 0, 1);
+('brumm1', '$2y$10$MrZyYfqK09DRvuvG/YouSuYo4MtRxYi4eWlopz6s41QtWdkMhm4qG', 'Brumm Kft', 'Jónás Patrícia', '+36705536254', 'brumm@gmail.com', 'www.brummkft.hu', 'Termékkínálatunkban többféle méz megtalálható, többek között akác, repce, vegyes virágméz.', 1, 1),
+('kovacspeter', '$2y$10$vOkt7.EcNH/C5Tull.DNmuuJQDmngZ34ttsuMfprSlLy1FlrqHpFS', 'AranyKéz', 'Kovács Péter', '+123456789', 'kovacspeter1@example.com', 'www.facebook.com/AranyKéz', 'Kézműves ékszerek különleges alkotások és egyedi darabok', 0, 1),
+('nagymaria', '$2y$10$keg5RS0LwNaXowr3EuCgi.eYgZpt9fBy/OFGKvMtt88jjUkKUxt9m', 'EcoBioTermék', 'Nagy Mária', '+987654321', 'nagymaria2@example.com', 'www.facebook.com/EcoBioTermék', 'Biogazdálkodásból származó termékek, organikus konyhai alapanyagok és higiéniai termékek', 0, 1),
+('kissgeza', '$2y$10$jzhI8nk25ppJU9CFH9.OyeQLvc7y.p/IkJRSQUn.LcUO66.SvpkHG', 'ZöldKert', 'Kiss Géza', '+111222333', 'kissgeza3@example.com', 'www.facebook.com/ZöldKert', 'Kerti növények, virágok és díszfák, kertészeti eszközök és kiegészítők', 0, 1),
+('tothistvan', '$2y$10$jWzoQ2JwfZmegTz6pYssp.eF8hvWBxv0hXdzpKosryPwG.IDdMpQu', 'Gazdakör', 'Tóth István', '+444555666', 'tothistvan4@example.com', 'www.facebook.com/Gazdakör', 'Friss zöldségek, gyümölcsök és szezonális termények közvetlenül a termelőtől', 0, 0),
+('szabolaura', '$2y$10$HLwGZWlOHr.L5YdNPyb8be.NrYVnHLOl.pC/HLYsdljl1aewpEyei', 'MűvészKuckó', 'Szabó Laura', '+777888999', 'szabolaura5@example.com', 'www.facebook.com/MűvészKuckó', 'Festmények, művészeti alkotások és díszítőelemek, egyedi ajándéktárgyak', 0, 1),
+('horvathandrea', '$2y$10$ZCUEVEEyZs.3yL.8UOfqbehKUk7KSm/yJxXPY.2dSBtyJSq13jg0G', 'BőrVilág', 'Horváth Andrea', '+123123123', 'horvathandrea6@example.com', 'www.facebook.com/BőrVilág', 'Kézzel készített bőröndök, táska és kiegészítők, prémium minőségű bőrtermékek', 0, 0),
+('molnaristvan', '$2y$10$DJMhKhmH0F1B5OWpywwgX.lPpBgXVwkuV.ML3csQChub9xShKl/mi', 'GyógyFűszerek', 'Molnár István', '+456456456', 'molnaristvan7@example.com', 'www.facebook.com/GyógyFűszerek', 'Gyógyító hatású fűszerek, teakeverékek és gyógynövények, természetes gyógymódok', 0, 1),
+('feherkata', '$2y$10$fdgk7fYLb7NmaXa7IeRXAuNQ3en3ojY4YLtalXXCBBHpTJ1H0y1xm', 'KerámiaMania', 'Fehér Kata', '+789789789', 'feherkata8@example.com', 'www.facebook.com/KerámiaMania', 'Kézzel készített kerámia díszek, egyedi cseréptárgyak és dekorációs elemek', 0, 1),
+('bakosbalazs', '$2y$10$5wAAK4nMh2yYCeeUXdvwr.IJACoQ15lp3i5TnvfgGojp4ta4hdbrW', 'PálinkaPince', 'Bakos Balázs', '+321321321', 'bakosbalazs9@example.com', 'www.facebook.com/PálinkaPince', 'Különleges ízű házi pálinkák, prémium minőségű gyümölcsből lepárolva', 0, 0),
+('galreka', '$2y$10$xK/GroI5EQFY6RqgChoWxuF7EpY5YH/DLc91UnFFrEs523mGhXe2W', 'TextilTrend', 'Gál Réka', '+654654654', 'galreka10@example.com', 'www.facebook.com/TextilTrend', 'Kézzel készített textíliák, szőttesek és ruhaneműk, valamint babaholmik', 0, 1);
+
+
+
+
+
+
 
 
 2.kör
 
 INSERT INTO `reservation` (`user_id`, `place_id`, `date_id`, `status`) VALUES
 (1, 1, 1, 1),
-(1, 2, 1, 0),
-(2, 3, 2, 1),
-(2, 4, 1, 0),
-(1, 1, 2, 1);
+(2, 2, 3, 0),
+(3, 12, 2, 1),
+(4, 27, 1, 0),
+(5, 32, 4, 1),
+(6, 28, 1, 1),
+(7, 36, 1, 0),
+(8, 29, 1, 1),
+(9, 42, 1, 0),
+(10, 55, 1, 1),
+(11, 58, 1, 0),
+(1, 1, 2, 1),
+(2, 2, 2, 1),
+(3, 12, 1, 1),
+(4, 27, 3, 1),
+(5, 32, 2, 1),
+(6, 28, 2, 1),
+(7, 36, 1, 0),
+(8, 29, 5, 1),
+(9, 42, 4, 0),
+(10, 55, 2, 1),
+(11, 58, 1, 0);
+
 
 INSERT INTO `product` (`product_category`) VALUES
-('méz'),
-('vetőmag'),
-('kerti szerszám');
+('Méz'),
+('Bőr'),
+('Vetőmag'),
+('Kerti szerszám'),
+('Ékszer'),
+('Ruhanemű'),
+('Élelmiszer'),
+('Cipő'),
+('Kézműves tárgy'),
+('Szőnyeg'),
+('Zöldség'), 
+('Gyümölcs'),
+('Hal'),
+('Hús'),
+('Szendvics'),
+('Sajt'),
+('Fűszer'),
+('Virág'),
+('Édesség'),
+('Gyógynövény'),
+('Állateledel'),
+('Babaruha'),
+('Kávé'),
+('Tea'),
+('Kerámia'),
+('Táska'),
+('Növény'),
+('Kézműves szappan'),
+('Faipari termék'),
+('Régiség'),
+('Óra'),
+('Játék'),
+('Szobanövény'),
+('Babaholmi'),
+('Tűzzománc'),
+('Bőráru'),
+('Ásvány'),
+('Népi kézműves termék'),
+('Pálinka');
 
-INSERT INTO `product_range` (`product_range_id`, `product_id`, `user_id`) VALUES
-(1, 1, 1),
-(2, 3, 2),
-(3, 1, 2);
+
+
+
+
+
+
+
+INSERT INTO `product_range` (`product_id`, `user_id`) VALUES
+(1, 1),
+(5, 2),
+(11, 3),
+(26, 4),
+(11, 5),
+(12, 5),
+(25, 6),
+(38, 6),
+(2, 7),
+(26, 7),
+(20, 8),
+(24, 8),
+(9, 9),
+(25, 9),
+(39, 10),
+(34, 11),
+(6, 11);
