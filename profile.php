@@ -13,7 +13,7 @@ if (!isset($_SESSION["user"])){
 
 function generateTable($dbconn){
             if (!empty($dbconn)){
-                $sql = "SELECT user_name, email, name_company, contact, telephone, online_availability FROM userdata WHERE user_id=:user_id";  // a futtatandó sql utasítás
+                $sql = "SELECT user_name, email, name_company, contact, telephone, online_availability, product_description FROM userdata WHERE user_id=:user_id";  // a futtatandó sql utasítás
                 $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
                 $query->bindValue("user_id", $_SESSION["user"]["user_id"], PDO::PARAM_STR);
                 $query->execute();  // lekérdezés futtatása
@@ -48,6 +48,14 @@ function generateTable($dbconn){
                         $form .= '<input type="url" name="online_availability" id="online_availability" value="';
                         $form .= $row["online_availability"]; 
                         $form .= '"><br>';
+
+                        $form .= '<label>Bemutatkozás: *</label>';
+                        $form .= '<textarea name="contact" id="contact" rows="4" cols="50" minlength="3" maxlength="300">';
+                        $form .= $row["product_description"]; 
+                        $form .= '"</textarea><br>';
+
+                        $form .= '<label>Termékkategória: *</label><br>';
+                        $form .= generateSelect($dbconn);
 
                         $form .= '<input type="submit" value="Módosít" name="submitModosit"><br><br>';
                         $form .= '</form>';
@@ -124,6 +132,27 @@ function updatePassword ($password, $password_new1, $password_new2, $dbconn){
         $query->bindValue("password", password_hash($password_new1, null), PDO::PARAM_STR);
         $query->bindValue("user_id", $_SESSION["user"]["user_id"], PDO::PARAM_STR);
         $query->execute();
+    }
+}
+
+function generateSelect($dbconn){
+    if (!empty($dbconn)){
+        $sql = "SELECT product_category, product_id from product ORDER BY product_category ASC";  // a futtatandó sql utasítás
+        $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
+        $query->execute();  // lekérdezés futtatása
+        $select = "";
+        if ($query->rowCount()>0){  // a visszaadott sorok száma
+            $select .= '<select name="product_id multiple">\n';
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
+                $select .= '<option required value= ';
+                $select .=$row["product_id"];
+                $select .='>';
+                $select .=$row["product_category"];
+                $select .="</option>";
+            }
+            $select .= "</select>\n";
+            return $select;
+        }
     }
 }
 
