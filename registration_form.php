@@ -44,17 +44,71 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
         $contact = $_POST['contact'];
         $telephone = $_POST['telephone'];
         $online_availability = $_POST['online_availability'];
+        $productDescription = $_POST['product_description'];
+        $productCategory = $_POST['product_category'];
+    } catch (PDOException $e) {
+        $error = "Adatbázis hiba: ".$e->getMessage(); 
+    } catch (Exception $e) {
+        $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
+    }
+        
+        try {
+            // Felhasználói adatok beszúrása az user_data táblába
+            $sqlUserData = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $queryUserData = $dbconn->prepare($sqlUserData);
+            $queryUserData->execute([$user_name, $password, $name_company, $contact, $telephone, strtolower($email), $online_availability, "TBD", "0"]);
+    
+            // Termék kategória beszúrása a product táblába
+            $sqlProductCategory = "INSERT INTO product (product_category) VALUES (?)";
+            $queryProductCategory = $dbconn->prepare($sqlProductCategory);
+            $queryProductCategory->execute([$productCategories]);
+        } catch (PDOException $e) {
+            $error = "Adatbázis hiba: ".$e->getMessage(); 
+        } catch (Exception $e) {
+            $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
+        }
+    }
+
+/*if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){    
+    try {
+        // Űrlapról érkező adatok beolvasása
+        $user_name = $_POST['user_name'];
+        $email = $_POST['email'];
+        $password = password_hash($_POST['password'], null);
+        $name_company = $_POST['name_company'];
+        $contact = $_POST['contact'];
+        $telephone = $_POST['telephone'];
+        $online_availability = $_POST['online_availability'];
+        $productDescription = $_POST['product_description'];
+        $productCategory = $_POST['product_category'];
+
 
         // SQL lekérdezés előkészítése és végrehajtása az adatok mentésére
-        $sqlRegistration = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, product_description, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+       /* $sqlRegistration = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, product_description, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $queryRegistration = $dbconn->prepare($sqlRegistration);
         $queryRegistration->execute([$user_name, $password, $name_company, $contact, $telephone, strtolower($email), $online_availability, "TBD", "0", "0"]);
     } catch (PDOException $e) {
         $error = "Adatbázis hiba: ".$e->getMessage(); 
     } catch (Exception $e) {
         $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
+    }*/
+         /*try {
+            // Felhasználói adatok beszúrása az user_data táblába
+            $sqlUserData = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $queryUserData = $dbconn->prepare($sqlUserData);
+            $queryUserData->execute([$user_name, $password, $name_company, $contact, $telephone, strtolower($email), $online_availability, "TBD", "0"]);
+    
+            // Termék kategória beszúrása a product táblába
+            $sqlProductCategory = "INSERT INTO product (product_category) VALUES (?)";
+            $queryProductCategory = $dbconn->prepare($sqlProductCategory);
+            $queryProductCategory->execute([$productCategories]);
+        } catch (PDOException $e) {
+            $error = "Adatbázis hiba: ".$e->getMessage(); 
+        } catch (Exception $e) {
+            $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
+        }
     }
-   }
+   }*/
 ?>
 
 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
@@ -71,6 +125,8 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
         var telephone = document.getElementById("telephone").value;
         var onlineAvailability = document.getElementById("online_availability").value;
         var productDescription = document.getElementById("product_description").value;
+        var productCategory = document.getElementById("product_category").value;
+
 
         if (username === "") {
             alert("Kérlek add meg a felhasználónevet!");
@@ -184,7 +240,7 @@ if ($result->status > 0) {
     // Cég név ellenőrzése
     $companyName = $_POST["name_company"];
     if (strlen($companyName) < 5 || strlen($companyName) > 50) {
-        $errors[] = "<span style='color: red;'>A cég névének 5 és 50 karakter között kell lennie!</span>";
+        $errors[] = "<span style='color: red;'>A cég nevének 5 és 50 karakter között kell lennie!</span>";
     }
     
 
@@ -209,10 +265,19 @@ if ($result->status > 0) {
     }
     
 
-    //Termék kategória választás ellenőrzése
+    //Termék leírás kitöltésének ellenőrzése
     $productDescription = $_POST["product_description"];
-    if (empty($productDescription)) {
-        $errors[] = "<span style='color: red;'>Kérlek, válassz egy termék leírást az opciók közül!</span>";
+    if (strlen($productDescription) < 3 || strlen($productDescription) > 50) {
+        $errors[] = "<span style='color: red;'>A termék leírásnak 3 és 300 karakter között kell lennie!</span>";
+    }
+
+    // Ellenőrizzük, hogy a product_category tömb létezik-e és nem üres-e
+    if (!isset($_POST['product_category']) || empty($_POST['product_category'])) {
+        // Termék kategóriák összefűzése szöveggé vesszővel elválasztva
+        $productCategories = implode(",", $_POST['product_category']);
+        
+        // Hibaüzenet hozzáadása a hibák tömbjéhez
+        $errors[] = "<span style='color: red;'>Válassz minimum 1 termék kategóriát!</span>";
     }
 
     // Ha van hiba, kiírjuk azokat
@@ -259,13 +324,20 @@ if ($result->status > 0) {
                 <label for="online_availability">Online elérhetőség: <br> (pl.: https://www.facebook.com/)</label>
                 <input type="text" id="online_availability" name="online_availability" placeholder=""><br>
 
-                <label>Termék kategória *</label> 
-                <select name="product_description" id="product_description">
-                    <option value="">Válasszon termék kategóriát</option>
-                    <option value="ruha">Méz</option>
-                    <option value="szerszám">Kerti szerszám</option>
-                    <option value="méz">Vetőmag</option>
-                </select><br>   
+                <label for="product_description">Termék leírás * <br> (pl.: Termékkínálatunkban többféle méz megtalálható, többek között akác, repce, vegyes virágméz)</label> 
+                <input type="text" id="product_description" name="product_description" placeholder="">
+
+                <label for="product_category">Termék kategória: * </label> <br>
+                <label for="mez">Méz</label>
+                <input type="checkbox" name="product_category[]" id="mez" value="mez">
+                <br>
+                <label for="szerszam">Kerti szerszám</label>
+                <input type="checkbox" name="product_category[]" id="szerszam" value="szerszam">
+                <br>
+                <label for="vetomag">Vetőmag</label>
+                <input type="checkbox" name="product_category[]" id="vetomag" value="vetomag">
+                
+                <br>   
                 <br>
 
                 <input type="submit" value="Küldés" name="submitRegisztral">

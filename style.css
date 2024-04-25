@@ -44,7 +44,7 @@ overflow-y: auto;
 
 .profile-page {
 width: 100%;
-padding: 8% 0 0;
+padding: 0% 0 0;
 margin:3%;
 }
 
@@ -329,11 +329,13 @@ ul {
 list-style-type: none;
 margin: 0;
 padding: 0;
+text-align: left;
 }
 
 /*nav bar elemek*/
 li {
 display: inline-block;
+
 }
 
 li a {
@@ -343,10 +345,21 @@ text-align: center;
 padding: 14px 16px;
 text-decoration: none;
 }
+
+.navbar-nav,
+.navbar-nav li {
+    text-align: left;
+}
+
+.navbar-brand {
+  width: 5%;
+  height: auto;
+}
 /*amikor ráhúzza az egeret milyen szín legyen a nav bar de ezt vmi felülírja*/
 li a:hover {
 background-color: #b0dc8c;
 }
+
 figure {
 
 padding: 4px;
