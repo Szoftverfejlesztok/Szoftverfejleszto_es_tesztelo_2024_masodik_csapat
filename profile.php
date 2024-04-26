@@ -50,9 +50,9 @@ function generateTable($dbconn){
                         $form .= '"><br>';
 
                         $form .= '<label>Bemutatkozás: *</label>';
-                        $form .= '<textarea name="product_description" id="product_description" rows="4" cols="50" minlength="3" maxlength="300">';
+                        $form .= '<textarea class="productDescription" name="product_description" id="product_description" rows="4" cols="50" minlength="3" maxlength="300">';
                         $form .= $row["product_description"]; 
-                        $form .= '"</textarea><br>';
+                        $form .= '</textarea><br>';
 
                         $form .= '<label>Termékkategória: *</label><br>';
                         $form .= generateCheckbox($dbconn);
@@ -168,7 +168,7 @@ function generateCheckbox($dbconn){
                 $query2->execute(); 
 
                 $check = $query2->rowCount()>0;
-                $product .='<input type="checkbox" id="product_id" name="product_ids[]" value="' . $row["product_id"] . '" ' . ($check ? " checked " : " " ).  '>';
+                $product .='<input class="productCheckBox" type="checkbox" id="product_id" name="product_ids[]" value="' . $row["product_id"] . '" ' . ($check ? " checked " : " " ).  '>';
                 $product .='<label for="product_id">' . $row["product_category"] . '</label>';
             }
             $product .='</div>';

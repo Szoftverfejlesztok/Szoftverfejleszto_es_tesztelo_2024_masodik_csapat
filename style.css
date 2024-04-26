@@ -53,6 +53,14 @@ max-width: 500px;
 text-align: center;
 }
 
+.productDescription {
+  width: 100%;
+}
+
+.productCheckBox{
+  width: 40%;
+}
+
 
 /*Adminisztrációs felületek */
 .admin-table {
@@ -91,7 +99,7 @@ cursor: pointer;
 
 /* Bejelentkezés */
 .login-page {
-width: 360px;
+width: 50%;
 padding: 8% 0 0;
 margin: auto;
 }
