@@ -40,7 +40,7 @@ function generateTable($dbconn){
                         $form .= '"><br>';
                         
                         $form .= '<label>Telefonszám: * <br>(pl.: 06301234567)</label>';
-                        $form .= '<input type="tel" name="telephone" id="contact" required pattern="^06[0-9]{9}$" value="';
+                        $form .= '<input type="tel" name="telephone" id="telephone" required pattern="^06[0-9]{9}$" value="';
                         $form .= $row["telephone"]; 
                         $form .= '"><br>';
 
@@ -50,12 +50,12 @@ function generateTable($dbconn){
                         $form .= '"><br>';
 
                         $form .= '<label>Bemutatkozás: *</label>';
-                        $form .= '<textarea name="contact" id="contact" rows="4" cols="50" minlength="3" maxlength="300">';
+                        $form .= '<textarea name="product_description" id="product_description" rows="4" cols="50" minlength="3" maxlength="300">';
                         $form .= $row["product_description"]; 
                         $form .= '"</textarea><br>';
 
                         $form .= '<label>Termékkategória: *</label><br>';
-                        $form .= generateSelect($dbconn);
+                        $form .= generateCheckbox($dbconn);
 
                         $form .= '<input type="submit" value="Módosít" name="submitModosit"><br><br>';
                         $form .= '</form>';
@@ -66,7 +66,7 @@ function generateTable($dbconn){
 }
 function generateTable2($dbconn){
         if (!empty($dbconn)){
-            $sql = "SELECT user_name, email, name_company, contact, telephone, online_availability FROM userdata WHERE user_id=:user_id";  // a futtatandó sql utasítás
+            $sql = "SELECT user_name, email, name_company, contact, telephone, online_availability, product_description FROM userdata WHERE user_id=:user_id";  // a futtatandó sql utasítás
             $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
             $query->bindValue("user_id", $_SESSION["user"]["user_id"], PDO::PARAM_STR);
             $query->execute();  // lekérdezés futtatása
@@ -97,18 +97,33 @@ function generateTable2($dbconn){
                 }
             }
 }
-function updateUserProfile ($email, $name_company, $contact, $telephone, $online_availability, $dbconn){
+function updateUserProfile ($email, $name_company, $contact, $telephone, $online_availability, $product_description, $product_ids, $dbconn){
         if (!empty($dbconn))
         {
-            $sql = "UPDATE userdata SET email =:email, name_company =:name_company, contact =:contact, telephone =:telephone, online_availability =:online_availability WHERE user_id=:user_id";
+            $sql = "UPDATE userdata SET email =:email, name_company =:name_company, contact =:contact, telephone =:telephone, online_availability =:online_availability, product_description =:product_description WHERE user_id=:user_id";
             $query = $dbconn->prepare($sql);
             $query->bindValue("email", strtolower($email), PDO::PARAM_STR);
             $query->bindValue("name_company", $name_company, PDO::PARAM_STR);
             $query->bindValue("contact", $contact, PDO::PARAM_STR);
             $query->bindValue("telephone", $telephone, PDO::PARAM_STR);
             $query->bindValue("online_availability", $online_availability, PDO::PARAM_STR);
+            $query->bindValue("product_description", $product_description, PDO::PARAM_STR);
+           // $query->bindValue("product_ids", $product_ids, PDO::PARAM_STR);
             $query->bindValue("user_id", $_SESSION["user"]["user_id"], PDO::PARAM_STR);
             $query->execute(); 
+            
+            $sqlDel = "DELETE FROM  product_range WHERE user_id =  :user_id";  // a futtatandó sql utasítás
+            $queryDel = $dbconn->prepare($sqlDel);  // előkészített lekérdezés létrehozása
+            $queryDel->bindValue("user_id", $_SESSION["user"]["user_id"], PDO::PARAM_STR);
+            $queryDel->execute();
+
+            foreach ($product_ids as $product_id){
+                $sql = 'INSERT INTO product_range (product_id, user_id) VALUES (:product_id, :user_id)';
+                $query = $dbconn->prepare($sql);
+                $query->bindValue("product_id", $product_id, PDO::PARAM_STR);
+                $query->bindValue("user_id", $_SESSION["user"]["user_id"], PDO::PARAM_STR);
+                $query->execute(); 
+            }
         }
 }
 
@@ -135,23 +150,29 @@ function updatePassword ($password, $password_new1, $password_new2, $dbconn){
     }
 }
 
-function generateSelect($dbconn){
+function generateCheckbox($dbconn){
     if (!empty($dbconn)){
         $sql = "SELECT product_category, product_id from product ORDER BY product_category ASC";  // a futtatandó sql utasítás
         $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
         $query->execute();  // lekérdezés futtatása
-        $select = "";
+        $product = "";
         if ($query->rowCount()>0){  // a visszaadott sorok száma
-            $select .= '<select name="product_id multiple">\n';
+            $product .='<div>';
             while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
-                $select .= '<option required value= ';
-                $select .=$row["product_id"];
-                $select .='>';
-                $select .=$row["product_category"];
-                $select .="</option>";
+                $userId = $_SESSION["user"]["user_id"];
+                $productId = $row["product_id"];
+                $sql2= "SELECT user_id FROM product_range WHERE product_id = :product_id AND user_id = :user_id";
+                $query2 = $dbconn->prepare($sql2); 
+                $query2->bindValue(":product_id", $productId, PDO::PARAM_STR);
+                $query2->bindValue(":user_id", $userId, PDO::PARAM_STR);
+                $query2->execute(); 
+
+                $check = $query2->rowCount()>0;
+                $product .='<input type="checkbox" id="product_id" name="product_ids[]" value="' . $row["product_id"] . '" ' . ($check ? " checked " : " " ).  '>';
+                $product .='<label for="product_id">' . $row["product_category"] . '</label>';
             }
-            $select .= "</select>\n";
-            return $select;
+            $product .='</div>';
+            return $product;
         }
     }
 }
@@ -163,8 +184,16 @@ if (isset($_POST["submitModosit"]) && !empty($dbconn)){
         $contact= trim($_POST["contact"]);
         $telephone= trim($_POST["telephone"]);   
         $online_availability= trim($_POST["online_availability"]);
-        updateUserProfile($email, $name_company, $contact, $telephone, $online_availability, $dbconn);
-        $msg = "Sikeres profil módosítás";
+        $product_description= trim($_POST["product_description"]);
+
+        if (!isset($_POST["product_ids"])) {
+            $error = "Legalább egy termék kategória kötelező!";
+        } else {
+            $product_ids = $_POST["product_ids"];
+            updateUserProfile($email, $name_company, $contact, $telephone, $online_availability, $product_description, $product_ids, $dbconn);
+            $msg = "Sikeres profil módosítás";
+        }
+
     } catch(ProfileException $e){
         $error = "Hiba lépett fel a profilmódostás közben.".  $e->getMessage();
     } catch (PDOException $e){
