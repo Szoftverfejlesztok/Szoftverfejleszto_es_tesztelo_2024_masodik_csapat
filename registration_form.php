@@ -65,28 +65,20 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
         }
     }
 
-    function generateCheckbox($dbconn){
+    function generateProductCheckbox($dbconn){
         if (!empty($dbconn)){
             $sql = "SELECT product_category, product_id from product ORDER BY product_category ASC";  // a futtatandó sql utasítás
             $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
             $query->execute();  // lekérdezés futtatása
             $product = "";
             if ($query->rowCount()>0){  // a visszaadott sorok száma
-                $product .='<div>';
                 while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
-                    $userId = $_SESSION["user"]["user_id"];
+                    $productCategory = $row["product_category"];
                     $productId = $row["product_id"];
-                    $sql2= "SELECT user_id FROM product_range WHERE product_id = :product_id AND user_id = :user_id";
-                    $query2 = $dbconn->prepare($sql2); 
-                    $query2->bindValue(":product_id", $productId, PDO::PARAM_STR);
-                    $query2->bindValue(":user_id", $userId, PDO::PARAM_STR);
-                    $query2->execute(); 
-    
-                    $check = $query2->rowCount()>0;
-                    $product .='<input class="productCheckBox" type="checkbox" id="product_id" name="product_ids[]" value="' . $row["product_id"] . '" ' . ($check ? " checked " : " " ).  '>';
-                    $product .='<label for="product_id">' . $row["product_category"] . '</label>';
+                    $product .='<label class="checkbox-container">' . $productCategory;
+                    $product .='<input type="checkbox" name="product" id="' . $productId .'" value="' . $productId .'">';
+                    $product .='<span class="checkmark"></span> </label>';
                 }
-                $product .='</div>';
                 return $product;
             }
         }
@@ -383,202 +375,15 @@ if ($result_check['count'] > 0) {
                 <input type="text" id="product_description" name="product_description" placeholder="">
 
                 <label for="product_category">Termék kategória: * </label> <br> <br>
-
-                        <!--<label class="checkbox-container">Méz
-                            <input type="checkbox" name="product_category[]" id="mez" value="mez">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Bőr
-                            <input type="checkbox" name="product_category[]" id="bor" value="bor">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Vetőmag
-                            <input type="checkbox" name="product_category[]" id="vetomag" value="vetomag">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Kerti szerszám
-                            <input type="checkbox" name="product_category[]" id="kerti_szerszam" value="kerti_szerszam">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Ékszer
-                            <input type="checkbox" name="product_category[]" id="ekszer" value="ekszer">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Ruhanemű
-                            <input type="checkbox" name="product_category[]" id="ruhanemu" value="ruhanemu">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Élelmiszer
-                            <input type="checkbox" name="product_category[]" id="elelmiszer" value="elelmiszer">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Cipő
-                            <input type="checkbox" name="product_category[]" id="cipo" value="cipo">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Kézműves tárgy
-                            <input type="checkbox" name="product_category[]" id="kezmuves_targy" value="kezmuves_targy">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Szőnyeg
-                            <input type="checkbox" name="product_category[]" id="szonyeg" value="szonyeg">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Zöldség
-                            <input type="checkbox" name="product_category[]" id="zoldseg" value="zoldseg">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Gyümölcs
-                            <input type="checkbox" name="product_category[]" id="gyumolcs" value="gyumolcs">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Hal
-                            <input type="checkbox" name="product_category[]" id="hal" value="hal">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Hús
-                            <input type="checkbox" name="product_category[]" id="hus" value="hus">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Szendvics
-                            <input type="checkbox" name="product_category[]" id="szendvics" value="szendvics">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Sajt
-                            <input type="checkbox" name="product_category[]" id="sajt" value="sajt">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Fűszer
-                            <input type="checkbox" name="product_category[]" id="fuszer" value="fuszer">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Virág
-                            <input type="checkbox" name="product_category[]" id="virag" value="virag">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Édesség
-                            <input type="checkbox" name="product_category[]" id="edessegek" value="edessegek">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Gyógynövény
-                            <input type="checkbox" name="product_category[]" id="gyogynoveny" value="gyogynoveny">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Állateledel
-                            <input type="checkbox" name="product_category[]" id="allateledel" value="allateledel">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Babaruha
-                            <input type="checkbox" name="product_category[]" id="babaruha" value="babaruha">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Kávé
-                            <input type="checkbox" name="product_category[]" id="kave" value="kave">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Tea
-                            <input type="checkbox" name="product_category[]" id="tea" value="tea">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Kerámia
-                            <input type="checkbox" name="product_category[]" id="keramia" value="keramia">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Táska
-                            <input type="checkbox" name="product_category[]" id="taska" value="taska">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Növény
-                            <input type="checkbox" name="product_category[]" id="noveny" value="noveny">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Kézműves szappan
-                            <input type="checkbox" name="product_category[]" id="kezmuves_szappan" value="kezmuves_szappan">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Faipari termék
-                            <input type="checkbox" name="product_category[]" id="faipari_termek" value="faipari_termek">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Régiség
-                            <input type="checkbox" name="product_category[]" id="regiseg" value="regiseg">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Óra
-                            <input type="checkbox" name="product_category[]" id="ora" value="ora">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Játék
-                            <input type="checkbox" name="product_category[]" id="jatek" value="jatek">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Szobanövény
-                            <input type="checkbox" name="product_category[]" id="szobanoveny" value="szobanoveny">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Babaholmi
-                            <input type="checkbox" name="product_category[]" id="babaholmi" value="babaholmi">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Tűzzománc
-                            <input type="checkbox" name="product_category[]" id="tuzzomanc" value="tuzzomanc">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Bőráru
-                            <input type="checkbox" name="product_category[]" id="boraaru" value="boraaru">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Ásvány
-                            <input type="checkbox" name="product_category[]" id="asvany" value="asvany">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Népi kézműves termék
-                            <input type="checkbox" name="product_category[]" id="nepi_kezmuves_termek" value="nepi_kezmuves_termek">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="checkbox-container">Pálinka
-                            <input type="checkbox" name="product_category[]" id="palinka" value="palinka">
-                            <span class="checkmark"></span>
-                        </label>-->
-                                
+                <?php
+                    try {
+                        echo generateProductCheckbox($dbconn);
+                    } catch (PDOException $e){
+                        $error = "Lekérdezési hiba: ".$e->getMessage();
+                    } catch (Exception $e){
+                        $error = "Hiba lépett fel a belépési adatok lekérése közben: ".$e->getMessage();
+                    }
+                ?>                                
                 <br>   
                 <br>
 
