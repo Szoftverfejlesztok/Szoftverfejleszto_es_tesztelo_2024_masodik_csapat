@@ -163,25 +163,16 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
  <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") { 
     // Felhasználónév ellenőrzése
-   /* $username = $_POST["user_name"];
+   $username = $_POST["user_name"];
     if (strlen($username) < 4 || strlen($username) > 20) {
         $errors[] = "<span style='color: red;'>A felhasználónévnek 4 és 20 karakter között kell lennie!</span>";
     }
     if (empty($username)) {
         $errors[] = "<span style='color: red;'>A felhasználónév mező nem lehet üres!</span>";
     }
-    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $username)) {
-        $errors[] = "<span style='color: red;'>A felhasználónévben csak betűk, számok és szóközök engedélyezettek!</span>";
-    }*/
-    $username = $_POST["user_name"];
-    if (strlen($username) < 4 || strlen($username) > 20) {
-        $errors[] = "<span style='color: red;'>A felhasználónévnek 4 és 20 karakter között kell lennie!</span>";
-    }
-    if (empty($username)) {
-        $errors[] = "<span style='color: red;'>A felhasználónév mező nem lehet üres!</span>";
-    }
-    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $username)) {
-        $errors[] = "<span style='color: red;'>A felhasználónévben csak betűk, számok és szóközök engedélyezettek!</span>";
+   
+    if (!preg_match("/^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű0-9 ]*$/u", $contactPerson)) {
+        $errors[] = "<span style='color: red;'>A kapcsolattartó személy nevében csak betűk, számok és szóközök engedélyezettek!</span>";
     }
 
    // Ellenőrizd, hogy a felhasználónév már szerepel-e az adatbázisban
@@ -194,7 +185,7 @@ $result_check = $query_check->fetch(PDO::FETCH_ASSOC);
 if ($result_check['count'] > 0) {
     // Ha a felhasználónév már foglalt, írjunk ki hibaüzenetet
     $errors[] = "<span style='color: red;'>A felhasználónév már foglalt!</span>";
-} else {
+} /*else {
     // Ha a felhasználónév még nem foglalt, folytasd a regisztrációt
 
     // Ellenőrizd, hogy a felhasználó már regisztrált-e
@@ -210,7 +201,7 @@ if ($result_check['count'] > 0) {
     } else {
         // Ha a felhasználónév még nem létezik, folytasd a regisztrációt
         // Felhasználó regisztrálása
-       */ $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+       */ /*$hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $sql = "INSERT INTO userdata (user_name, password) VALUES (:user_name, :password)";
         $query = $dbconn->prepare($sql);
         $query->bindParam(":user_name", $user_name, PDO::PARAM_STR);
@@ -223,7 +214,7 @@ if ($result_check['count'] > 0) {
         } else {
             // Sikertelen regisztráció
             $errors[] = "<span style='color: red;'>Hiba történt a regisztráció során!</span>";
-        }
+        }*/
     /*}*/
 /*}*/
     
@@ -258,15 +249,14 @@ if ($result_check['count'] > 0) {
         $errors[] = "<span style='color: red;'>A jelszó és a jelszó megerősítés nem egyezik meg!</span>";
     }
 
-    // Cég név ellenőrzése
+       
     $companyName = $_POST["name_company"];
-    if (strlen($companyName) < 5 || strlen($companyName) > 50) {
-        $errors[] = "<span style='color: red;'>A cég nevének 5 és 50 karakter között kell lennie!</span>";
+    if (strlen($companyName) < 5 || strlen($companyName) > 50 || preg_match('/[^a-zA-Z0-9.]/', $companyName)) {
+    $errors[] = "<span style='color: red;'>A cég nevének 5 és 50 karakter között kell lennie, és csak betűket, számokat és pontot tartalmazhat!</span>";
     }
-    
 
     // Kapcsolattartó ellenőrzése
-       $contactPerson = $_POST["contact"];
+    $contactPerson = $_POST["contact"];
     if (!preg_match("/^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű0-9 ]*$/u", $contactPerson)) {
         $errors[] = "<span style='color: red;'>A kapcsolattartó személy nevében csak betűk, számok és szóközök engedélyezettek!</span>";
     }
@@ -275,7 +265,7 @@ if ($result_check['count'] > 0) {
     // Telefonszám ellenőrzése
     $telephone = $_POST["telephone"];
     if (!preg_match("/^06[0-9]{9}$/", $telephone)) {
-        $errors[] = "<span style='color: red;'>Érvénytelen telefonszám formátum. Kérlek, használj 11 számjegyet, és az első két számjegy legyen 06!</span>";;
+        $errors[] = "<span style='color: red;'>Érvénytelen telefonszám formátum. Kérlek, használj 11 számjegyet!</span>";;
     }
     
 
