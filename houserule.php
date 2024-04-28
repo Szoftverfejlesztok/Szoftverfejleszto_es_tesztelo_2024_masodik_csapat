@@ -35,7 +35,7 @@ session_start();
                 <!--itt kell tartalommal feltölteni az oldalt -->
                 <div class="container mt-3">
                 <h1>Házirend</h1><br><br>
-<p>
+<p class="epi_p">
 A vásárokról és piacokról szóló 55/2009.(III.13.) Korm. rendelet 6.§ (1) bekezdése értelmében a Vásár házirendjét az üzemeltető az alábbiak szerint állapítja meg:
 <br><br>
 1. A zavartalan működés és a későbbi sikerek érdekében a házirendben foglalt szabályok betartása a piacon jelen lévő valamennyi természetes és jogi személyre, illetve jogi személyiséggel nem rendelkező szervezetre kötelező érvénnyel kiterjed.

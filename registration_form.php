@@ -45,7 +45,7 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
         $telephone = $_POST['telephone'];
         $online_availability = $_POST['online_availability'];
         $productDescription = $_POST['product_description'];
-        $productCategory = $_POST['product_category'];
+        /*$productCategory = $_POST['product_category'];*/
     } catch (PDOException $e) {
         $error = "Adatbázis hiba: ".$e->getMessage(); 
     } catch (Exception $e) {
@@ -53,19 +53,42 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
     }
         
         try {
-            // Felhasználói adatok beszúrása az userdata táblába
-            $sqlUserData = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            // Felhasználói adatok beszúrása az user_data táblába
+            $sqlUserData = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, product_description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $queryUserData = $dbconn->prepare($sqlUserData);
-            $queryUserData->execute([$user_name, $password, $name_company, $contact, $telephone, strtolower($email), $online_availability, "TBD", "0"]);
+            $queryUserData->execute([$user_name, $password, $name_company, $contact, $telephone, strtolower($email), $online_availability, $productDescription]);
     
-            // Termék kategória beszúrása a product táblába
-            $sqlProductCategory = "INSERT INTO product (product_category) VALUES (?)";
-            $queryProductCategory = $dbconn->prepare($sqlProductCategory);
-            $queryProductCategory->execute([$productCategories]);
-        } catch (PDOException $e) {
+                    } catch (PDOException $e) {
             $error = "Adatbázis hiba: ".$e->getMessage(); 
         } catch (Exception $e) {
             $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
+        }
+    }
+
+    function generateCheckbox($dbconn){
+        if (!empty($dbconn)){
+            $sql = "SELECT product_category, product_id from product ORDER BY product_category ASC";  // a futtatandó sql utasítás
+            $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
+            $query->execute();  // lekérdezés futtatása
+            $product = "";
+            if ($query->rowCount()>0){  // a visszaadott sorok száma
+                $product .='<div>';
+                while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
+                    $userId = $_SESSION["user"]["user_id"];
+                    $productId = $row["product_id"];
+                    $sql2= "SELECT user_id FROM product_range WHERE product_id = :product_id AND user_id = :user_id";
+                    $query2 = $dbconn->prepare($sql2); 
+                    $query2->bindValue(":product_id", $productId, PDO::PARAM_STR);
+                    $query2->bindValue(":user_id", $userId, PDO::PARAM_STR);
+                    $query2->execute(); 
+    
+                    $check = $query2->rowCount()>0;
+                    $product .='<input class="productCheckBox" type="checkbox" id="product_id" name="product_ids[]" value="' . $row["product_id"] . '" ' . ($check ? " checked " : " " ).  '>';
+                    $product .='<label for="product_id">' . $row["product_category"] . '</label>';
+                }
+                $product .='</div>';
+                return $product;
+            }
         }
     }
 
@@ -93,7 +116,7 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
         $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
     }*/
          /*try {
-            // Felhasználói adatok beszúrása az userdata táblába
+            // Felhasználói adatok beszúrása az user_data táblába
             $sqlUserData = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $queryUserData = $dbconn->prepare($sqlUserData);
             $queryUserData->execute([$user_name, $password, $name_company, $contact, $telephone, strtolower($email), $online_availability, "TBD", "0"]);
@@ -171,7 +194,16 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
  <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") { 
     // Felhasználónév ellenőrzése
-  
+   /* $username = $_POST["user_name"];
+    if (strlen($username) < 4 || strlen($username) > 20) {
+        $errors[] = "<span style='color: red;'>A felhasználónévnek 4 és 20 karakter között kell lennie!</span>";
+    }
+    if (empty($username)) {
+        $errors[] = "<span style='color: red;'>A felhasználónév mező nem lehet üres!</span>";
+    }
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $username)) {
+        $errors[] = "<span style='color: red;'>A felhasználónévben csak betűk, számok és szóközök engedélyezettek!</span>";
+    }*/
     $username = $_POST["user_name"];
     if (strlen($username) < 4 || strlen($username) > 20) {
         $errors[] = "<span style='color: red;'>A felhasználónévnek 4 és 20 karakter között kell lennie!</span>";
@@ -183,16 +215,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "<span style='color: red;'>A felhasználónévben csak betűk, számok és szóközök engedélyezettek!</span>";
     }
 
-    // Ellenőrizzük, hogy van-e már ilyen felhasználó
-    // Ellenőrzés, hogy az adott felhasználónév regisztrálható-e
-    $sql = "SELECT * FROM userdata WHERE user_name='$username' OR (status = 0 OR status = 2 OR status = 3)";
-    $result = $dbconn->query($sql);
+   // Ellenőrizd, hogy a felhasználónév már szerepel-e az adatbázisban
+$sql_check = "SELECT COUNT(*) as count FROM userdata WHERE user_name = :user_name";
+$query_check = $dbconn->prepare($sql_check);
+$query_check->bindParam(":user_name", $user_name, PDO::PARAM_STR);
+$query_check->execute();
+$result_check = $query_check->fetch(PDO::FETCH_ASSOC);
 
-    if ($result->rowCount() > 0) {
-    // Ha találunk olyan rekordot, ahol a felhasználónév megegyezik, vagy a státusz 0, 2 vagy 3
-    // akkor kiírunk egy hibaüzenetet
-    $errors[] = "<span style='color: red;'>Ez a felhasználónév nem regisztrálható az adatbázisba! Válasszon másikat!</span>";
+if ($result_check['count'] > 0) {
+    // Ha a felhasználónév már foglalt, írjunk ki hibaüzenetet
+    $errors[] = "<span style='color: red;'>A felhasználónév már foglalt!</span>";
+} else {
+    // Ha a felhasználónév még nem foglalt, folytasd a regisztrációt
+
+    // Ellenőrizd, hogy a felhasználó már regisztrált-e
+    $sql_check_existing = "SELECT COUNT(*) as count FROM userdata WHERE user_name = :user_name";
+    $query_check_existing = $dbconn->prepare($sql_check_existing);
+    $query_check_existing->bindParam(":user_name", $user_name, PDO::PARAM_STR);
+    $query_check_existing->execute();
+    $result_check_existing = $query_check_existing->fetch(PDO::FETCH_ASSOC);
+
+    if ($result_check_existing['count'] > 0) {
+        // Ha a felhasználónév már létezik, ne engedjük a regisztrációt
+        $errors[] = "<span style='color: red;'>A felhasználónév már foglalt!</span>";
+    } else {
+        // Ha a felhasználónév még nem létezik, folytasd a regisztrációt
+        // Felhasználó regisztrálása
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO userdata (user_name, password) VALUES (:user_name, :password)";
+        $query = $dbconn->prepare($sql);
+        $query->bindParam(":user_name", $user_name, PDO::PARAM_STR);
+        $query->bindParam(":password", $hashed_password, PDO::PARAM_STR);
+        $query->execute();
+        // Ellenőrzés, hogy sikeres volt-e a regisztráció
+        if ($query->rowCount() > 0) {
+            // Sikeres regisztráció
+            $success = "<span style='color: green;'>Sikeres regisztráció!</span>";
+        } else {
+            // Sikertelen regisztráció
+            $errors[] = "<span style='color: red;'>Hiba történt a regisztráció során!</span>";
+        }
     }
+}
     
     // Email cím ellenőrzése
     $email = $_POST["email"];
@@ -258,15 +322,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (strlen($productDescription) < 3 || strlen($productDescription) > 50) {
         $errors[] = "<span style='color: red;'>A termék leírásnak 3 és 300 karakter között kell lennie!</span>";
     }
+    if (empty($productDescription)) {
+        $errors[] = "<span style='color: red;'>A Termékleírás mező nem lehet üres!</span>";
+    }
 
-    // Ellenőrizzük, hogy a product_category tömb létezik-e és nem üres-e
+   /* // Ellenőrizzük, hogy a product_category tömb létezik-e és nem üres-e
     if (!isset($_POST['product_category']) || empty($_POST['product_category'])) {
         // Termék kategóriák összefűzése szöveggé vesszővel elválasztva
         $productCategories = implode(",", $_POST['product_category']);
         
         // Hibaüzenet hozzáadása a hibák tömbjéhez
         $errors[] = "<span style='color: red;'>Válassz minimum 1 termék kategóriát!</span>";
-    }
+    }*/
 
     // Ha van hiba, kiírjuk azokat
     if (!empty($errors)) {
@@ -316,8 +383,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" id="product_description" name="product_description" placeholder="">
 
                 <label for="product_category">Termék kategória: * </label> <br> <br>
-                
-                        <label class="checkbox-container">Méz
+
+                        <!--<label class="checkbox-container">Méz
                             <input type="checkbox" name="product_category[]" id="mez" value="mez">
                             <span class="checkmark"></span>
                         </label>
@@ -510,7 +577,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label class="checkbox-container">Pálinka
                             <input type="checkbox" name="product_category[]" id="palinka" value="palinka">
                             <span class="checkmark"></span>
-                        </label>
+                        </label>-->
                                 
                 <br>   
                 <br>
@@ -524,9 +591,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     
     <?php 
-        displayMessages($error, $msg);
-        require_once("footer.html"); 
-    ?>
+        displayMessages($error, $msg);?>
+    <div class="footerreg">
+        <?php require_once("footer.html"); ?>
+        </div>
+    
         
         <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>

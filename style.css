@@ -312,7 +312,7 @@ h2 {
   text-align: center;
 }*/
 
-p {
+p > .epip {
 text-align: justify;
 
 }
@@ -541,3 +541,14 @@ p.error {
   position: absolute;
 }
  
+.footerreg{
+  background-color: #9ad768; 
+  padding-left: 50px;
+  text-align: center; /* Balra igazítás */
+  flex-basis: 100%; /* Teljes szélesség a kisebb képernyőkre */
+  font-size: 14px;
+  /* border-top: solid 1px; */
+  padding-top: 8px;
+  padding-bottom: 1px;
+  width: 100%
+}

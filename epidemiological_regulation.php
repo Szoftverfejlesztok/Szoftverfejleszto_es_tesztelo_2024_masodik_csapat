@@ -42,7 +42,7 @@ session_start();
         <b >FIGYELEM! </b>
 </div>
 <div>
-<p>
+<p class="epi_p">
 A hazánkkal szemben korlátozást bevezető harmadik országok esetében továbbra is érvényben vannak a korlátozások
  mindaddig, amíg az adott harmadik ország nem jelzi ennek ellenkezőjét. <br><br>
 
