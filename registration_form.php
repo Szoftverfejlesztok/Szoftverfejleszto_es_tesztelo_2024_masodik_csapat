@@ -45,20 +45,37 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
         $telephone = $_POST['telephone'];
         $online_availability = $_POST['online_availability'];
         $productDescription = $_POST['product_description'];
-        /*$productCategory = $_POST['product_category'];*/
+        if (!isset($_POST["product_ids"])) {
+            $error = "Legalább egy termék kategória kötelező!";
+        } else {
+            $product_ids = $_POST["product_ids"];
+        }
     } catch (PDOException $e) {
         $error = "Adatbázis hiba: ".$e->getMessage(); 
     } catch (Exception $e) {
         $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
     }
+
+
         
         try {
             // Felhasználói adatok beszúrása az user_data táblába
             $sqlUserData = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, product_description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $queryUserData = $dbconn->prepare($sqlUserData);
             $queryUserData->execute([$user_name, $password, $name_company, $contact, $telephone, strtolower($email), $online_availability, $productDescription]);
-    
-                    } catch (PDOException $e) {
+            $sql = "SELECT user_id FROM userdata WHERE user_name=:felhasznalonev";
+            $query = $dbconn->prepare($sql);
+            $query->bindValue("felhasznalonev", $user_name, PDO::PARAM_STR);
+            $query->execute();
+            $user = $query->fetch(PDO::FETCH_ASSOC); //kiolvassuk az adatokat
+        foreach ($product_ids as $product_id){
+                $sql = 'INSERT INTO product_range (product_id, user_id) VALUES (:product_id, :user_id)';
+                $query = $dbconn->prepare($sql);
+                $query->bindValue("product_id", $product_id, PDO::PARAM_STR);
+                $query->bindValue("user_id", $user["user_id"], PDO::PARAM_STR);
+                $query->execute(); 
+            }
+        } catch (PDOException $e) {
             $error = "Adatbázis hiba: ".$e->getMessage(); 
         } catch (Exception $e) {
             $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
@@ -76,7 +93,7 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
                     $productCategory = $row["product_category"];
                     $productId = $row["product_id"];
                     $product .='<label class="checkbox-container">' . $productCategory;
-                    $product .='<input type="checkbox" name="product" id="' . $productId .'" value="' . $productId .'">';
+                    $product .='<input type="checkbox" name="product_ids[]" id="' . $productId .'" value="' . $productId .'">';
                     $product .='<span class="checkmark"></span> </label>';
                 }
                 return $product;
@@ -84,46 +101,6 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
         }
     }
 
-/*if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){    
-    try {
-        // Űrlapról érkező adatok beolvasása
-        $user_name = $_POST['user_name'];
-        $email = $_POST['email'];
-        $password = password_hash($_POST['password'], null);
-        $name_company = $_POST['name_company'];
-        $contact = $_POST['contact'];
-        $telephone = $_POST['telephone'];
-        $online_availability = $_POST['online_availability'];
-        $productDescription = $_POST['product_description'];
-        $productCategory = $_POST['product_category'];
-
-
-        // SQL lekérdezés előkészítése és végrehajtása az adatok mentésére
-       /* $sqlRegistration = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, product_description, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $queryRegistration = $dbconn->prepare($sqlRegistration);
-        $queryRegistration->execute([$user_name, $password, $name_company, $contact, $telephone, strtolower($email), $online_availability, "TBD", "0", "0"]);
-    } catch (PDOException $e) {
-        $error = "Adatbázis hiba: ".$e->getMessage(); 
-    } catch (Exception $e) {
-        $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
-    }*/
-         /*try {
-            // Felhasználói adatok beszúrása az user_data táblába
-            $sqlUserData = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, moderator, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $queryUserData = $dbconn->prepare($sqlUserData);
-            $queryUserData->execute([$user_name, $password, $name_company, $contact, $telephone, strtolower($email), $online_availability, "TBD", "0"]);
-    
-            // Termék kategória beszúrása a product táblába
-            $sqlProductCategory = "INSERT INTO product (product_category) VALUES (?)";
-            $queryProductCategory = $dbconn->prepare($sqlProductCategory);
-            $queryProductCategory->execute([$productCategories]);
-        } catch (PDOException $e) {
-            $error = "Adatbázis hiba: ".$e->getMessage(); 
-        } catch (Exception $e) {
-            $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
-        }
-    }
-   }*/
 ?>
 
 <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
@@ -208,7 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
    // Ellenőrizd, hogy a felhasználónév már szerepel-e az adatbázisban
-$sql_check = "SELECT COUNT(*) as count FROM userdata WHERE user_name = :user_name";
+/*$sql_check = "SELECT COUNT(*) as count FROM userdata WHERE user_name = :user_name";
 $query_check = $dbconn->prepare($sql_check);
 $query_check->bindParam(":user_name", $user_name, PDO::PARAM_STR);
 $query_check->execute();
@@ -233,7 +210,7 @@ if ($result_check['count'] > 0) {
     } else {
         // Ha a felhasználónév még nem létezik, folytasd a regisztrációt
         // Felhasználó regisztrálása
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+       */ $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $sql = "INSERT INTO userdata (user_name, password) VALUES (:user_name, :password)";
         $query = $dbconn->prepare($sql);
         $query->bindParam(":user_name", $user_name, PDO::PARAM_STR);
@@ -247,8 +224,8 @@ if ($result_check['count'] > 0) {
             // Sikertelen regisztráció
             $errors[] = "<span style='color: red;'>Hiba történt a regisztráció során!</span>";
         }
-    }
-}
+    /*}*/
+/*}*/
     
     // Email cím ellenőrzése
     $email = $_POST["email"];
@@ -318,14 +295,7 @@ if ($result_check['count'] > 0) {
         $errors[] = "<span style='color: red;'>A Termékleírás mező nem lehet üres!</span>";
     }
 
-   /* // Ellenőrizzük, hogy a product_category tömb létezik-e és nem üres-e
-    if (!isset($_POST['product_category']) || empty($_POST['product_category'])) {
-        // Termék kategóriák összefűzése szöveggé vesszővel elválasztva
-        $productCategories = implode(",", $_POST['product_category']);
-        
-        // Hibaüzenet hozzáadása a hibák tömbjéhez
-        $errors[] = "<span style='color: red;'>Válassz minimum 1 termék kategóriát!</span>";
-    }*/
+   
 
     // Ha van hiba, kiírjuk azokat
     if (!empty($errors)) {
