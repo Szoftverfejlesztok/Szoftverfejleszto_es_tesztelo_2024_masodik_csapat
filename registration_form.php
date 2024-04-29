@@ -171,9 +171,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "<span style='color: red;'>A felhasználónév mező nem lehet üres!</span>";
     }
    
-    if (!preg_match("/^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű0-9 ]*$/u", $contactPerson)) {
+   /* if (!preg_match("/^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű0-9 ]*$/u", $contactPerson)) {
         $errors[] = "<span style='color: red;'>A kapcsolattartó személy nevében csak betűk, számok és szóközök engedélyezettek!</span>";
-    }
+    }*/
 
    // Ellenőrizd, hogy a felhasználónév már szerepel-e az adatbázisban
 /*$sql_check = "SELECT COUNT(*) as count FROM userdata WHERE user_name = :user_name";
@@ -249,16 +249,20 @@ if ($result_check['count'] > 0) {
         $errors[] = "<span style='color: red;'>A jelszó és a jelszó megerősítés nem egyezik meg!</span>";
     }
 
-       
+    //Cégnév/Árus neve
     $companyName = $_POST["name_company"];
-    if (strlen($companyName) < 5 || strlen($companyName) > 50 || preg_match('/[^a-zA-Z0-9.]/', $companyName)) {
-    $errors[] = "<span style='color: red;'>A cég nevének 5 és 50 karakter között kell lennie, és csak betűket, számokat és pontot tartalmazhat!</span>";
+    if (mb_strlen($companyName, 'UTF-8') < 5 || mb_strlen($companyName, 'UTF-8') > 50 || preg_match('/[^a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű0-9.\s]/u', $companyName)) {
+        $errors[] = "<span style='color: red;'>A cég nevének 5 és 50 karakter között kell lennie, és csak betűket, számokat, pontot, és szóközt tartalmazhat!</span>";
     }
 
     // Kapcsolattartó ellenőrzése
-    $contactPerson = $_POST["contact"];
-    if (!preg_match("/^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű0-9 ]*$/u", $contactPerson)) {
+    /*$contactPerson = $_POST["contact"];
+   if (!preg_match("/^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű0-9 ]*$/u", $contactPerson)) {
         $errors[] = "<span style='color: red;'>A kapcsolattartó személy nevében csak betűk, számok és szóközök engedélyezettek!</span>";
+    } */
+    $contactPerson = $_POST["contact"];
+    if (!preg_match("/^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű0-9 .,!@#\$%^&*()-_+=?<>;:'\"\/]*$/u", $contactPerson)) {
+    $errors[] = "<span style='color: red;'>A kapcsolattartó személy nevében csak betűk, számok, szóközök és bizonyos speciális karakterek engedélyezettek!</span>";
     }
     
 
@@ -319,7 +323,7 @@ if ($result_check['count'] > 0) {
                 <label for="password_conf">Jelszó megerősítés: *</label>
                 <input type="password" id="password_conf" name ="password_conf"><br>
 
-                <label for="name_company">Árus/Cég név: *</label>
+                <label for="name_company">Árus/Cég név: *<br> (pl.: Árus Kft.)</label>
                 <input type="text" id="name_company" name="name_company" placeholder=""><br>
 
                 <label for="contact">Kapcsolattartó:</label>
