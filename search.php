@@ -121,16 +121,11 @@ session_start();
 
 
                     ?>
-                    <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                    const keres = document.getElementById('keres');
-                    const keresEredmeny =document.getElementById('keresEredmeny');
-
-                        keres.addEventListener('click', function() {
-                            keresEredmeny.classList.add("hidden");
-                        });
-                    });
-                    </script>
+                
+                    <div id="market_picture">
+                        <img src="market_picture.png" alt="piac kép">
+                     
+                    </div>
 
                 </div>
             </main>
@@ -147,31 +142,6 @@ session_start();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
-    <style>
-        .search table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-left: 0; /*balra helyezés - nem műkszik*/
-            background-color: inherit;
-            
-        }
-        .search tr, .search th, .search td {
-            border: 1px solid #ddd;
-            padding: 10px; /* A sorok közötti nagyobb hely */
-            text-align: left;
-        }
-            /* Sötétebb sorok */
-        tr:nth-child(even) {
-            background: rgba(211, 211, 211, 0.2);
-            }
-      
-
-            #keresEredmeny {
-                display: block; /* Alapértelmezett megjelenés */
-            }
-            #keresEredmeny.hidden {
-                display: none; }
-  </style>
 
 </body>
 </html>

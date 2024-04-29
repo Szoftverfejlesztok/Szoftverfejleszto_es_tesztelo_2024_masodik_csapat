@@ -40,7 +40,7 @@ session_start();
                         
                         try{
                           // Kiállítók lekérdezése
-                          $sqlKiallitok = "SELECT name_company, product_description, online_availability, telephone, email FROM userdata WHERE status = 1;";
+                          $sqlKiallitok = "SELECT name_company, product_description, online_availability, telephone, email FROM userdata WHERE status = 1 ORDER BY name_company;";
                           $queryKiallitok = $dbconn->prepare($sqlKiallitok);
                           $queryKiallitok->execute();
                         
