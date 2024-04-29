@@ -185,38 +185,7 @@ $result_check = $query_check->fetch(PDO::FETCH_ASSOC);
 if ($result_check['count'] > 0) {
     // Ha a felhasználónév már foglalt, írjunk ki hibaüzenetet
     $errors[] = "<span style='color: red;'>A felhasználónév már foglalt!</span>";
-} /*else {
-    // Ha a felhasználónév még nem foglalt, folytasd a regisztrációt
-
-    // Ellenőrizd, hogy a felhasználó már regisztrált-e
-    $sql_check_existing = "SELECT COUNT(*) as count FROM userdata WHERE user_name = :user_name";
-    $query_check_existing = $dbconn->prepare($sql_check_existing);
-    $query_check_existing->bindParam(":user_name", $user_name, PDO::PARAM_STR);
-    $query_check_existing->execute();
-    $result_check_existing = $query_check_existing->fetch(PDO::FETCH_ASSOC);
-
-    if ($result_check_existing['count'] > 0) {
-        // Ha a felhasználónév már létezik, ne engedjük a regisztrációt
-        $errors[] = "<span style='color: red;'>A felhasználónév már foglalt!</span>";
-    } else {
-        // Ha a felhasználónév még nem létezik, folytasd a regisztrációt
-        // Felhasználó regisztrálása
-       */ /*$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO userdata (user_name, password) VALUES (:user_name, :password)";
-        $query = $dbconn->prepare($sql);
-        $query->bindParam(":user_name", $user_name, PDO::PARAM_STR);
-        $query->bindParam(":password", $hashed_password, PDO::PARAM_STR);
-        $query->execute();
-        // Ellenőrzés, hogy sikeres volt-e a regisztráció
-        if ($query->rowCount() > 0) {
-            // Sikeres regisztráció
-            $success = "<span style='color: green;'>Sikeres regisztráció!</span>";
-        } else {
-            // Sikertelen regisztráció
-            $errors[] = "<span style='color: red;'>Hiba történt a regisztráció során!</span>";
-        }*/
-    /*}*/
-/*}*/
+} */
     
     // Email cím ellenőrzése
     $email = $_POST["email"];
@@ -356,14 +325,17 @@ if ($result_check['count'] > 0) {
         </div>
         </div>
     </fieldset>
-
+                        </div>
+                    </div> 
+                </div>
+            </main>
     
     
     <?php 
-        displayMessages($error, $msg);?>
-    <div class="footerreg">
-        <?php require_once("footer.html"); ?>
-        </div>
+        displayMessages($error, $msg);
+        require_once("footer.html"); 
+    ?>
+        
     
         
         <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

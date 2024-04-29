@@ -56,10 +56,10 @@ text-align: center;
 .productDescription {
   width: 100%;
 }
-
+/*
 .productCheckBox{
   width: 40%;
-}
+}*/
 
 
 /*Adminisztrációs felületek */
@@ -513,7 +513,7 @@ p.error {
   /* border-top: solid 1px; */
   padding-top: 8px;
   padding-bottom: 1px;
-  width: 100%
+  max-width: 100%
 }
 
 

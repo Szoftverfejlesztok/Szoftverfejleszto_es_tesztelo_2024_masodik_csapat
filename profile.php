@@ -168,8 +168,12 @@ function generateCheckbox($dbconn){
                 $query2->execute(); 
 
                 $check = $query2->rowCount()>0;
-                $product .='<input class="productCheckBox" type="checkbox" id="product_id" name="product_ids[]" value="' . $row["product_id"] . '" ' . ($check ? " checked " : " " ).  '>';
-                $product .='<label for="product_id">' . $row["product_category"] . '</label>';
+                $productCategory = $row["product_category"];
+                    $productId = $row["product_id"];
+                   $product .='<label class="checkbox-container">' . $productCategory; 
+                    $product .='<input type="checkbox" id="product_id" name="product_ids[]" value="' . $row["product_id"] . '" ' . ($check ? " checked " : " " ).  '>';
+                    $product .='<span class="checkmark"></span> </label>';
+                    
             }
             $product .='</div>';
             return $product;
