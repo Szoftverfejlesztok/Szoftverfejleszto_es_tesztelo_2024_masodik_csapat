@@ -117,9 +117,9 @@ function updateUserProfile ($email, $name_company, $contact, $telephone, $online
             $queryDel->bindValue("user_id", $_SESSION["user"]["user_id"], PDO::PARAM_STR);
             $queryDel->execute();
 
-            foreach ($product_ids as $product_id){
-                $sql = 'INSERT INTO product_range (product_id, user_id) VALUES (:product_id, :user_id)';
-                $query = $dbconn->prepare($sql);
+            foreach ($product_ids as $product_id){   //az asszociatív többől kiveszek 1 db termékkategória id-t
+                $sql = 'INSERT INTO product_range (product_id, user_id) VALUES (:product_id, :user_id)'; 
+                $query = $dbconn->prepare($sql); 
                 $query->bindValue("product_id", $product_id, PDO::PARAM_STR);
                 $query->bindValue("user_id", $_SESSION["user"]["user_id"], PDO::PARAM_STR);
                 $query->execute(); 
@@ -155,8 +155,8 @@ function generateCheckbox($dbconn){
         $sql = "SELECT product_category, product_id from product ORDER BY product_category ASC";  // a futtatandó sql utasítás
         $query = $dbconn->prepare($sql);  // előkészített lekérdezés létrehozása
         $query->execute();  // lekérdezés futtatása
-        $product = "";
-        if ($query->rowCount()>0){  // a visszaadott sorok száma
+        $product = ""; //ez egy div-et rak össze, amibe bekerülnek a checkboxok
+        if ($query->rowCount()>0){  // a visszaadott sorok száma , ha nem egy sorunk van már lefut
             $product .='<div>';
             while ($row = $query->fetch(PDO::FETCH_ASSOC)){ // az eredmény kiolvasása soronként egy asszociatív tömbbe
                 $userId = $_SESSION["user"]["user_id"];
