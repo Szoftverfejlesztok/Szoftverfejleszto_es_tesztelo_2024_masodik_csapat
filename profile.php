@@ -25,7 +25,7 @@ function generateTable($dbconn){
                         $form .= '<fieldset>';
 
                         $form .= '<label>Árus/Cég neve: *</label>';
-                        $form .= '<input type="text" name="name_company" id="name_company" required value="';
+                        $form .= '<input type="text" name="name_company" id="name_company" required minlength="5" maxlength="50" value="';
                         $form .= $row["name_company"]; 
                         $form .= '"><br>';
 
@@ -35,7 +35,7 @@ function generateTable($dbconn){
                         $form .= '"><br>';
                         
                         $form .= '<label>Kapcsolattartó: </label>';
-                        $form .= '<input type="text" name="contact" id="contact" value="';
+                        $form .= '<input type="text" name="contact" id="contact"  maxlength="50" value="';
                         $form .= $row["contact"]; 
                         $form .= '"><br>';
                         
@@ -78,7 +78,7 @@ function generateTable2($dbconn){
                     $form .= '<fieldset>';
 
                     $form .= '<label>Felhasználónév: *</label>';
-                    $form .= '<input type="text" name="user_name" id="user_name" readonly value="';
+                    $form .= '<input type="text" name="user_name" id="user_name" readonly minlength="4" value="';
                     $form .= $row["user_name"]; 
                     $form .= '"><br>';
 
