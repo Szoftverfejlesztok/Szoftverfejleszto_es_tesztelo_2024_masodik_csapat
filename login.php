@@ -48,7 +48,7 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
             "moderator"=>$user["moderator"],
             "status"=>$user["status"]
         );//írjuk be a session tömbbe a felhasználói adatainkat
-        setcookie("user_id",$user["user_id"],time()+60*3); //be kell állítani a cookiet, csak a felhasználói azonosítóját tároljuk,1.hogy hívjuk 2. milyen érétke van 3.mikor járjon le (4. site melyik részére érvényes)
+        setcookie("user_id",$user["user_id"],time()+60*60*24); //be kell állítani a cookiet, csak a felhasználói azonosítóját tároljuk,1.hogy hívjuk 2. milyen érétke van 3.mikor járjon le (4. site melyik részére érvényes)
 
         header("location:index.php"); //átírányítás 
 
@@ -91,7 +91,7 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
                                 <input type="text" placeholder="Felhasználónév" name= "felhnev"/>
                                 <input type="password" placeholder="Jelszó" name="jelszo"/>
                                 <input type="submit" value="Bejelentkezés" name="submitBejelentkezes">
-                                <p class="message">Nem regisztrált még? <a href="regisztracios_urlap.php">Új regisztráció létrehozása</a></p>
+                                <p class="message">Nem regisztrált még? <a href="registration_form.php">Új regisztráció létrehozása</a></p>
                             </form>
                         </div>
                     </div>

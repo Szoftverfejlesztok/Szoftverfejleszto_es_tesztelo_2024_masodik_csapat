@@ -76,9 +76,13 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
                 $query->execute(); 
             }
         } catch (PDOException $e) {
-            $error = "Adatbázis hiba: ".$e->getMessage(); 
+            if( $e->getCode() == 23000) {
+                $error = "Felhasználónév hiba!";
+            } else {
+                $error = "Adatbázis hiba: ".$e->getMessage(); 
+            }        
         } catch (Exception $e) {
-            $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
+            $error = "Hiba történt a regisztráció rögztése közben: ".$e->getMessage(); 
         }
     }
 
@@ -176,16 +180,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }*/
 
    // Ellenőrizd, hogy a felhasználónév már szerepel-e az adatbázisban
-/*$sql_check = "SELECT COUNT(*) as count FROM userdata WHERE user_name = :user_name";
-$query_check = $dbconn->prepare($sql_check);
-$query_check->bindParam(":user_name", $user_name, PDO::PARAM_STR);
-$query_check->execute();
-$result_check = $query_check->fetch(PDO::FETCH_ASSOC);
+/*     $sql_check = "SELECT COUNT(*) as count FROM userdata WHERE user_name = :user_name";
+    $query_check = $dbconn->prepare($sql_check);
+    $query_check->bindParam(":user_name", $user_name, PDO::PARAM_STR);
+    $query_check->execute();
+    $result_check = $query_check->fetch(PDO::FETCH_ASSOC);
 
-if ($result_check['count'] > 0) {
-    // Ha a felhasználónév már foglalt, írjunk ki hibaüzenetet
-    $errors[] = "<span style='color: red;'>A felhasználónév már foglalt!</span>";
-} */
+    if ($result_check['count'] > 0) {
+        // Ha a felhasználónév már foglalt, írjunk ki hibaüzenetet
+        $errors[] = "<span style='color: red;'>A felhasználónév már foglalt!</span>";
+    }  */
     
     // Email cím ellenőrzése
     $email = $_POST["email"];
@@ -259,18 +263,18 @@ if ($result_check['count'] > 0) {
     }
 
    
-
-    // Ha van hiba, kiírjuk azokat
-    if (!empty($errors)) {
-        foreach ($errors as $error) {
-            echo "<p>$error</p>";
+    if(!empty($error)) {
+        // a minden oldalon jelen levő hiba kirás nem üres, nincs teendő, csak ne dobjunk sikeres üzenetet
+    } else if (isset($errors) && !empty($errors)) {
+        foreach ($errors as $error_) {
+            echo "<p>$error_</p>";
         }
     } else {
         // Ha nincs hiba, folytathatjuk a regisztráció feldolgozását vagy adatbázisba mentését.
         // Például: adatbázisba mentés, bejelentkeztetés stb.
         echo "<script>window.onload = function() { alert('Sikeres regisztráció!'); }</script>";
-    
     }
+
 }
 
 ?>
