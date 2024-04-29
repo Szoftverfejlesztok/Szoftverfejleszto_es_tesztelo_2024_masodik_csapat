@@ -84,15 +84,7 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
             <main role="main" class="col-lg-10 px-md-4">
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="container mt-3">
-                    <?php   
-                        if (!empty($error)){
-                        echo "<p class=\"error\">$error</p>\n";
-                        }
-                        if (!empty($msg)){
-                        echo "<p class=\"msg\">$msg</p>\n";
-                         }
-                    ?>
-
+                   
                     <div class="login-page">
                         <div class="form">
                             <form class="login-form" action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
