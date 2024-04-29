@@ -50,7 +50,7 @@ function generateTable($dbconn){
                         $form .= '"><br>';
 
                         $form .= '<label>Bemutatkozás: *</label>';
-                        $form .= '<textarea class="productDescription" name="product_description" id="product_description" rows="4" cols="50" minlength="3" maxlength="300">';
+                        $form .= '<textarea class="productDescription" name="product_description" id="product_description" rows="4" cols="50" required minlength="3" maxlength="300">';
                         $form .= $row["product_description"]; 
                         $form .= '</textarea><br>';
 
