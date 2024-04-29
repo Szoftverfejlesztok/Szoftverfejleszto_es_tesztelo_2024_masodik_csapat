@@ -123,7 +123,7 @@ session_start();
                     ?>
                 
                     <div id="market_picture">
-                        <img src="market_picture.png" alt="piac kép">
+                        <img src="market_picture2.png" alt="piac kép">
                      
                     </div>
 
