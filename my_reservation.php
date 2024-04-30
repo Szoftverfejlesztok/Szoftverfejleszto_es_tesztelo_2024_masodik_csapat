@@ -11,7 +11,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vásár</title>
+    <title>Helyfoglalásaim</title>
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="jquery.min.js"></script>
@@ -27,12 +27,10 @@ session_start();
         <div class="row">
             <?php require_once("sidebar_menu.php"); ?>
 
-
             <!-- Main Content -->
             <main role="main" class="ml-sm-auto col-lg-9 px-md-4">
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="container mt-3">
-                    
                     <?php
                     try {
                         $user_id = $_SESSION["user"]["user_id"];
@@ -71,7 +69,7 @@ session_start();
                         $queryTorol->execute();
 
                         if($queryJovahagy->rowCount() > 0){
-                            #amennyiben van találat kiírjuk - jóváhagyásra vár
+                            //amennyiben van találat kiírjuk - jóváhagyásra vár
                                 echo '<h4>Jóváhagyásra váró helyfoglalási kérelmek:</h4>';
                                 echo "<div class='search'><table>";
                                 echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
@@ -83,7 +81,7 @@ session_start();
                             echo "<h4>Nincs jóváhagyásra váró helyfoglalási kérelem!</h4>";
                         }
                         if($queryElfogad->rowCount() > 0){
-                            #amennyiben van találat kiírjuk - jóváhagyott
+                            //amennyiben van találat kiírjuk - jóváhagyott
                                 echo '<h4>Jóváhagyott helyfoglalási kérelmek:</h4>';
                                 echo "<div class='search'><table>";
                                 echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
@@ -95,7 +93,7 @@ session_start();
                             echo "<h4>Nincs jóváhagyott helyfoglalási kérelem!</h4>";
                         }               
                         if($queryTorol->rowCount() > 0){
-                            #amennyiben van találat kiírjuk - törölt
+                            //amennyiben van találat kiírjuk - törölt
                                 echo '<h4>Törölt helyfoglalási kérelmek:</h4>';
                                 echo "<div class='search'><table>";
                                 echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
@@ -113,11 +111,6 @@ session_start();
                         $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
                     }
                     ?>
-
-
-
-
-         
                     </div>
             </main>
         </div>

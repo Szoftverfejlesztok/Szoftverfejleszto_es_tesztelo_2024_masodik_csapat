@@ -11,7 +11,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vásár</title>
+    <title>Megerősítés</title>
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="jquery.min.js"></script>
@@ -26,7 +26,6 @@ session_start();
     <div class="container-fluid">
         <div class="row">
             <?php require_once("sidebar_menu.php"); ?>
-
 
             <!-- Main Content -->
             <main role="main" class="ml-sm-auto col-lg-8 px-md-4">
@@ -51,7 +50,6 @@ session_start();
                             $sqlPlaceData = "SELECT place_number, place_price FROM place WHERE place_id = $selectedHelyId";
                             $queryPlaceData = $dbconn->prepare($sqlPlaceData);
                             $queryPlaceData->execute();
-                      
                         
                             if($queryUserData->rowCount() == 1 && $queryVasarData->rowCount() == 1 && $queryPlaceData->rowCount() == 1) {
                                 $userData = $queryUserData->fetch(PDO::FETCH_ASSOC);
@@ -85,7 +83,6 @@ session_start();
                         $error = "Hibás adatátadás!";
                     }
                     ?>
-                    
                 </div>
             </main>
         </div>

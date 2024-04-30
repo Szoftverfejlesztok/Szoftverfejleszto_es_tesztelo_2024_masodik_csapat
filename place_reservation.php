@@ -11,7 +11,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vásár</title>
+    <title>helyfoglalási kérelem</title>
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="jquery.min.js"></script>
@@ -51,9 +51,7 @@ session_start();
                         } catch (Exception $e) {
                             $error = "Hiba történt a vásár időpontok lekérése közben: ".$e->getMessage(); 
                         }
-   
                         ?>
-                        
                     </select>
 
                     <h4 id="szabadHelyekCimke" style="display: none;">Ebben az időpontban a következő helyek szabadok:</h4>
@@ -66,9 +64,10 @@ session_start();
                     <script>
                         const vasarDatumLista = document.getElementById('vasarDatumLista');
                         const szabadHelyekLista = document.getElementById('szabadHelyekLista');
-
+                         // Vásár dátum változás eseménykezelője
                         vasarDatumLista.addEventListener('change', function() {
                             submitHely.style.display = 'none';
+                            // Kiválasztott dátum értékének lekérése (date_id)
                             const selectedDateId = vasarDatumLista.value;
                             if(selectedDateId != "") {
                                 // AJAX kérés a szabad helyek legördülő lista feltöltésére
@@ -84,23 +83,25 @@ session_start();
                                         }
                                     }
                                 };
+                                 // AJAX kérés küldése a szervernek
                                 xhr.open('GET', 'places.php?dateId=' + selectedDateId, true);
                                 xhr.send();
-                            } else {
+                            } else { // Ha nincs kiválasztott dátum, a szabad helyek listát és címkét elrejtjük
                                 szabadHelyekLista.style.display = 'none';
                                 szabadHelyekCimke.style.display = 'none';
                             }
                         });
-
+                        // Szabad helyek lista változás eseménykezelője
                         szabadHelyekLista.addEventListener('change', function() {
+                            // Kiválasztott hely értékének lekérése
                             const selectedHelyId = szabadHelyekLista.value;
                             if(selectedHelyId != "") {
-                                submitHely.style.display = 'block'; // Kiválasztom gomb megjelenítése
+                                submitHely.style.display = 'block'; // Kiválasztom gomb megjelenítése, ha van kiválasztott hely
                             } else {
                                 submitHely.style.display = 'none';
                             }
                         });
-
+                        // Kiválasztom gomb kattintás eseménykezelője
                         submitHely.addEventListener('click', function() {
                             const selectedDateId = vasarDatumLista.value;
                             const selectedHelyId = szabadHelyekLista.value;
