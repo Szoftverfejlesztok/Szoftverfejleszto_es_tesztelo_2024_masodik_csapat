@@ -94,7 +94,7 @@ div.form.profile-form {
 
 /* Bejelentkezés */
 .login-page {
-  width: 50%;
+  width: 100%;
   padding: 8% 0 0;
   margin: auto;
 }
@@ -221,7 +221,7 @@ body {
 /* Váltakozó színű táblázat, seller.php-ban */
 .sellers table {
   border-collapse: collapse;
-  width: 100%;
+  width: auto;
   margin-left: 0;
   background-color: inherit;
 
