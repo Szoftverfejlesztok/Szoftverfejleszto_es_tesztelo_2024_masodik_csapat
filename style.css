@@ -242,7 +242,7 @@ tr:nth-child(even) {
 /*keresés-táblázat*/
 .search table {
   border-collapse: collapse;
-  width: auto;
+  width: 100%;
   margin-left: 0;
   background-color: inherit;
 
