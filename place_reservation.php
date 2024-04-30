@@ -1,13 +1,14 @@
 <?php
 $error = "";        // hibakezelés
-$msg = ""; 
+$msg = "";
 
-require_once("dbconnect.php");
-session_start(); 
+require_once ("dbconnect.php");
+session_start();
 
 ?>
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,13 +20,14 @@ session_start();
     <script src="main.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 </head>
+
 <body>
 
-    <?php require_once("header.php"); ?>
+    <?php require_once ("header.php"); ?>
 
     <div class="container-fluid">
         <div class="row">
-            <?php require_once("sidebar_menu.php"); ?>
+            <?php require_once ("sidebar_menu.php"); ?>
 
 
             <!-- Main Content -->
@@ -43,18 +45,19 @@ session_start();
                             $queryVasarok->execute();
 
                             // A vásárok időpontjainak kiírása a legördülő listába
-                            while($row = $queryVasarok->fetch(PDO::FETCH_ASSOC)) {
+                            while ($row = $queryVasarok->fetch(PDO::FETCH_ASSOC)) {
                                 echo "<option value='" . $row["date_id"] . "'>" . $row["date"] . "</option>";
                             }
-                        } catch (PDOException $e){
-                            $error = "Adatbázis hiba: ".$e->getMessage(); 
+                        } catch (PDOException $e) {
+                            $error = "Adatbázis hiba: " . $e->getMessage();
                         } catch (Exception $e) {
-                            $error = "Hiba történt a vásár időpontok lekérése közben: ".$e->getMessage(); 
+                            $error = "Hiba történt a vásár időpontok lekérése közben: " . $e->getMessage();
                         }
                         ?>
                     </select>
 
-                    <h4 id="szabadHelyekCimke" style="display: none;">Ebben az időpontban a következő helyek szabadok:</h4>
+                    <h4 id="szabadHelyekCimke" style="display: none;">Ebben az időpontban a következő helyek szabadok:
+                    </h4>
                     <select id="szabadHelyekLista" style="display: none;">
                         <!-- Placeholder a szabad helyek legördülő listához -->
                     </select>
@@ -64,15 +67,15 @@ session_start();
                     <script>
                         const vasarDatumLista = document.getElementById('vasarDatumLista');
                         const szabadHelyekLista = document.getElementById('szabadHelyekLista');
-                         // Vásár dátum változás eseménykezelője
-                        vasarDatumLista.addEventListener('change', function() {
+                        // Vásár dátum változás eseménykezelője
+                        vasarDatumLista.addEventListener('change', function () {
                             submitHely.style.display = 'none';
                             // Kiválasztott dátum értékének lekérése (date_id)
                             const selectedDateId = vasarDatumLista.value;
-                            if(selectedDateId != "") {
+                            if (selectedDateId != "") {
                                 // AJAX kérés a szabad helyek legördülő lista feltöltésére
                                 const xhr = new XMLHttpRequest();
-                                xhr.onreadystatechange = function() {
+                                xhr.onreadystatechange = function () {
                                     if (xhr.readyState === XMLHttpRequest.DONE) {
                                         if (xhr.status === 200) {
                                             szabadHelyekLista.innerHTML = xhr.responseText;
@@ -83,7 +86,7 @@ session_start();
                                         }
                                     }
                                 };
-                                 // AJAX kérés küldése a szervernek
+                                // AJAX kérés küldése a szervernek
                                 xhr.open('GET', 'places.php?dateId=' + selectedDateId, true);
                                 xhr.send();
                             } else { // Ha nincs kiválasztott dátum, a szabad helyek listát és címkét elrejtjük
@@ -92,17 +95,17 @@ session_start();
                             }
                         });
                         // Szabad helyek lista változás eseménykezelője
-                        szabadHelyekLista.addEventListener('change', function() {
+                        szabadHelyekLista.addEventListener('change', function () {
                             // Kiválasztott hely értékének lekérése
                             const selectedHelyId = szabadHelyekLista.value;
-                            if(selectedHelyId != "") {
+                            if (selectedHelyId != "") {
                                 submitHely.style.display = 'block'; // Kiválasztom gomb megjelenítése, ha van kiválasztott hely
                             } else {
                                 submitHely.style.display = 'none';
                             }
                         });
                         // Kiválasztom gomb kattintás eseménykezelője
-                        submitHely.addEventListener('click', function() {
+                        submitHely.addEventListener('click', function () {
                             const selectedDateId = vasarDatumLista.value;
                             const selectedHelyId = szabadHelyekLista.value;
                             // Átnavigálunk a megerosites.php és átadjuk a selectedDateId és a selectedHelyId értékét
@@ -121,9 +124,9 @@ session_start();
         </div>
     </div>
 
-    <?php 
-        displayMessages($error, $msg);
-        require_once("footer.html"); 
+    <?php
+    displayMessages($error, $msg);
+    require_once ("footer.html");
     ?>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -132,4 +135,5 @@ session_start();
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
 </body>
+
 </html>

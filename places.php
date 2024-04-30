@@ -1,8 +1,8 @@
 <?php
-require_once("dbconnect.php");
-session_start(); 
+require_once ("dbconnect.php");
+session_start();
 // Ellenőrizzük, hogy van-e érték a vásárokidőpontok listából
-if(isset($_GET['dateId'])){
+if (isset($_GET['dateId'])) {
     $dateId = $_GET['dateId'];
 
     // Lekérdezés a szabad helyeket tartalmazó legördülő lista feltöltéséhez
@@ -17,7 +17,7 @@ if(isset($_GET['dateId'])){
     if ($queryHelyek->rowCount() > 0) {
         echo "<option value=''>--Válasszon helyet--</option>";
         // Adatok kiírása
-        while($row = $queryHelyek->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $queryHelyek->fetch(PDO::FETCH_ASSOC)) {
             echo "<option value='" . $row["place_id"] . "'>" . $row["place_number"] . "</option>";
         }
     } else {

@@ -1,13 +1,14 @@
 <?php
 $error = "";        // hibakezelés
-$msg = ""; 
+$msg = "";
 
-require_once("dbconnect.php");
-session_start(); 
+require_once ("dbconnect.php");
+session_start();
 
 ?>
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,18 +20,19 @@ session_start();
     <script src="main.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 </head>
+
 <body>
 
-    <?php require_once("header.php"); ?>
+    <?php require_once ("header.php"); ?>
 
     <div class="container-fluid">
         <div class="row">
-            <?php require_once("sidebar_menu.php"); ?>
+            <?php require_once ("sidebar_menu.php"); ?>
 
             <!-- Main Content -->
             <main role="main" class="ml-sm-auto col-lg-9 px-md-4">
                 <!--itt kell tartalommal feltölteni az oldalt -->
-                    <div class="container mt-3">
+                <div class="container mt-3">
                     <?php
                     try {
                         $user_id = $_SESSION["user"]["user_id"];
@@ -68,61 +70,62 @@ session_start();
                         $queryTorol = $dbconn->prepare($sqlTorol);
                         $queryTorol->execute();
 
-                        if($queryJovahagy->rowCount() > 0){
+                        if ($queryJovahagy->rowCount() > 0) {
                             //amennyiben van találat kiírjuk - jóváhagyásra vár
-                                echo '<h4>Jóváhagyásra váró helyfoglalási kérelmek:</h4>';
-                                echo "<div class='search'><table>";
-                                echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
-                                while($row = $queryJovahagy->fetch(PDO::FETCH_ASSOC)){
-                                    echo "<tr><td>".$row["date"]."</td><td>".$row["place_number"]."</td></tr>";
-                                }
-                                echo "</table><br><br></div>";}
-                        else{
+                            echo '<h4>Jóváhagyásra váró helyfoglalási kérelmek:</h4>';
+                            echo "<div class='search'><table>";
+                            echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
+                            while ($row = $queryJovahagy->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<tr><td>" . $row["date"] . "</td><td>" . $row["place_number"] . "</td></tr>";
+                            }
+                            echo "</table><br><br></div>";
+                        } else {
                             echo "<h4>Nincs jóváhagyásra váró helyfoglalási kérelem!</h4>";
                         }
-                        if($queryElfogad->rowCount() > 0){
+                        if ($queryElfogad->rowCount() > 0) {
                             //amennyiben van találat kiírjuk - jóváhagyott
-                                echo '<h4>Jóváhagyott helyfoglalási kérelmek:</h4>';
-                                echo "<div class='search'><table>";
-                                echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
-                                while($row = $queryElfogad->fetch(PDO::FETCH_ASSOC)){
-                                    echo "<tr><td>".$row["date"]."</td><td>".$row["place_number"]."</td></tr>";
-                                }
-                                echo "</table><br><br></div>";}
-                        else{
+                            echo '<h4>Jóváhagyott helyfoglalási kérelmek:</h4>';
+                            echo "<div class='search'><table>";
+                            echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
+                            while ($row = $queryElfogad->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<tr><td>" . $row["date"] . "</td><td>" . $row["place_number"] . "</td></tr>";
+                            }
+                            echo "</table><br><br></div>";
+                        } else {
                             echo "<h4>Nincs jóváhagyott helyfoglalási kérelem!</h4>";
-                        }               
-                        if($queryTorol->rowCount() > 0){
+                        }
+                        if ($queryTorol->rowCount() > 0) {
                             //amennyiben van találat kiírjuk - törölt
-                                echo '<h4>Törölt helyfoglalási kérelmek:</h4>';
-                                echo "<div class='search'><table>";
-                                echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
-                                while($row = $queryTorol->fetch(PDO::FETCH_ASSOC)){
-                                        echo "<tr><td>".$row["date"]."</td><td>".$row["place_number"]."</td></tr>"; }
-                                echo "</table><br><br></div>";}
-
-                        else {
+                            echo '<h4>Törölt helyfoglalási kérelmek:</h4>';
+                            echo "<div class='search'><table>";
+                            echo "<br><tr><th>Vásár dátuma</th><th>Foglalt hely sorszáma</th></tr>";
+                            while ($row = $queryTorol->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<tr><td>" . $row["date"] . "</td><td>" . $row["place_number"] . "</td></tr>";
+                            }
+                            echo "</table><br><br></div>";
+                        } else {
                             echo '<h4>Nincs törölt helyfoglalási kérelem!</h4>';
                         }
-                    
-                    } catch (PDOException $e){
-                        $error = "Adatbázis hiba: ".$e->getMessage(); 
+
+                    } catch (PDOException $e) {
+                        $error = "Adatbázis hiba: " . $e->getMessage();
                     } catch (Exception $e) {
-                        $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: ".$e->getMessage(); 
+                        $error = "Hiba történt a helyfoglalási kérelmek lekérése közben: " . $e->getMessage();
                     }
                     ?>
-                    </div>
+                </div>
             </main>
         </div>
     </div>
 
-    <?php 
-        displayMessages($error, $msg);
-        require_once("footer.html"); 
+    <?php
+    displayMessages($error, $msg);
+    require_once ("footer.html");
     ?>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
 </body>
+
 </html>
