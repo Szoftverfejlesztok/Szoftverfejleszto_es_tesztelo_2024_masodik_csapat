@@ -6,14 +6,13 @@ require_once("dbconnect.php");
 session_start(); 
 
 //itt fontos a sorrend:
-if (isset($_GET["logout"])){//14. ha be van állítva a getben a logout akkor ő ki akart jelentkezni
+if (isset($_GET["logout"])){
     // ki kell venni a felhasználói adatokat a sessionből és így tudja hogy kijelentkezni akar (session destroy lerombol, session unset = kiüríti a tartalmát pl nyelvi beállítás is lehet benne
     unset($_SESSION["user"]);  // a sessionben lévő user tömböt megszünteti
-    setcookie("id","",time()-1);//17. törölje a cookiekat a kijelentkezéssel, cookiet nem lehet törölni csak lejártra állítani
-    unset($_COOKIE["id"]);  //szerver oldali tömbből is kidobom a kukikat
+    setcookie("id","",time()-1);//törli a cookiekat a kijelentkezéssel, cookiet nem lehet törölni csak lejártra állítani
+    unset($_COOKIE["id"]);  //szerver oldali tömbből is kidobjuk a cookikat
     $msg = "Sikeres kijelentkezés!";
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -54,7 +53,6 @@ if (isset($_GET["logout"])){//14. ha be van állítva a getben a logout akkor ő
     <div class="container-fluid">
         <div class="row">
             <?php require_once("sidebar_menu.php"); ?>
-
 
             <!-- Main Content -->
            <main role="main" class="col-lg-10 px-md-4">
@@ -100,7 +98,6 @@ if (isset($_GET["logout"])){//14. ha be van állítva a getben a logout akkor ő
             </main>
         </div>
     </div>
-   
 
     <?php 
         displayMessages($error, $msg);

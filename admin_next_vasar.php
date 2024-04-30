@@ -54,7 +54,6 @@ function setNextDate($dateId, $dbconn){
     if (empty($dateId)){
         throw new FairException("Jelölje ki a beállítani kívánt vásári dátumot!");
     }
-
     $sqlInaktiv = "UPDATE date_market SET is_next = 0"; //a tábla összes elemének nullára állítja az is_next mezőjét
     $queryInaktiv = $dbconn->prepare($sqlInaktiv);
     $queryInaktiv->execute();
@@ -92,14 +91,9 @@ if (isset($_POST["submitKivalaszt"]) && !empty($dbconn)){
 }
 ?>
 
-
 <h2>A következő vásár időpontja:</h2><br>
 <div>
     <div class="kiemel">
-        <?php 
-
-        ?>
-
         <h2>
             <?php
             try {

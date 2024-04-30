@@ -18,7 +18,7 @@ if (isset($_POST["submitBejelentkezes"]) && !empty($dbconn)){    //11.
         $queryLogin = $dbconn->prepare($sqlLogin);
         $queryLogin->bindValue("felhasznalonev", $login, PDO::PARAM_STR);
         $queryLogin->execute();
-        if ($queryLogin->rowCount() != 1){ //hogyha rowcount nem egyelő 1 el akkor azaz nem egy felhasználót kaptunk vissza jó esetben 0-át
+        if ($queryLogin->rowCount() != 1){ //ha rowcount nem egyelő 1 el akkor nem egy felhasználót kaptunk vissza, jó esetben 0-át
             throw new UserLoginException("Hibás felhasználói azonosító");
         }
         $user = $queryLogin->fetch(PDO::FETCH_ASSOC); //kiolvassuk az adatokat

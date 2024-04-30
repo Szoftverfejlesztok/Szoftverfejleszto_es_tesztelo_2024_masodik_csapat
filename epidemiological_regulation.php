@@ -12,7 +12,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vásár</title>
+    <title>Járványügyi szabályzat</title>
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="jquery.min.js"></script>
@@ -27,7 +27,6 @@ session_start();
     <div class="container-fluid">
         <div class="row">
             <?php require_once("sidebar_menu.php"); ?>
-
 
             <!-- Main Content-->
             <main role="main" class="ml-sm-auto col-lg-10 px-md-4">
@@ -57,8 +56,6 @@ teljesülniük kell, így a tervezett szállítmány indítása előtt javasolju
 Az alábbi információ csak tájékoztató jellegű, a járványügyi helyzet függvényében a korlátozások változhatnak, ezért a szállítások előtt
 javasoljuk, hogy közvetlenül tájékozódjanak az aktuális helyzetről!</b></p>
 </div>
-                    
-         
                     </div>
                 </main>
         </div>
@@ -75,7 +72,5 @@ javasoljuk, hogy közvetlenül tájékozódjanak az aktuális helyzetről!</b></
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
-
-    
 </body>
 </html>

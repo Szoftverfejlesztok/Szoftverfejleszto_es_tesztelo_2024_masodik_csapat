@@ -84,13 +84,10 @@ if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){
         <div class="row">
             <?php require_once("sidebar_menu.php"); ?>
 
-
             <!-- Main Content -->
             <main role="main" class="ml-sm-auto col-lg-9 px-md-4">
                 <!--itt kell tartalommal feltölteni az oldalt -->
                     <div class="container mt-3">
-
-
                     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
                     <h2>Új termékkategóriák felvétele</h2><br><br>
 
@@ -123,9 +120,6 @@ if (isset($_POST["submitHozzaad"]) && !empty($dbconn)){
         displayMessages($error, $msg);
         require_once("footer.html"); 
     ?>
-
-
-
 
 </body>
 </html>

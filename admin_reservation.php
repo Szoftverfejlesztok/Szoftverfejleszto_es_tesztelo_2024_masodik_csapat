@@ -14,7 +14,6 @@ function setReservationStatus($reservation_id, $status, $dbconn){
     if (empty($reservation_id)){
         throw new ReservationAdminException("Jelölje ki a módosítani kivánt helyfoglalási kérelmet!");
     }
-
     $sql = "UPDATE reservation SET status = $status WHERE reservation_id=:reservation_id";
     $query = $dbconn->prepare($sql);
     $query->bindValue("reservation_id", $reservation_id, PDO::PARAM_STR);
@@ -73,7 +72,6 @@ function getReservationCountForStatus($status, $dbconn) {
     }
 }
 
-
 if (isset($_POST["submitJovahagy"]) && !empty($dbconn)){    
     try {
         $reservation_id= trim($_POST["reservation_id"]);
@@ -84,7 +82,6 @@ if (isset($_POST["submitJovahagy"]) && !empty($dbconn)){
     } catch (PDOException $e){
         $error = "Adatbázis hiba: ".$e->getMessage(); 
     }
-  
 }
 
 if (isset($_POST["submitElutasit"]) && !empty($dbconn)){    
@@ -97,7 +94,6 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
     } catch (PDOException $e){
         $error = "Adatbázis hiba: ".$e->getMessage(); 
     }
-
 }
 
 ?>
@@ -126,7 +122,6 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
     <div class="container-fluid">
         <div class="row">
             <?php require_once("sidebar_menu.php"); ?>
-
 
             <!-- Main Content -->
             <main role="main" class="ml-sm-auto col-lg-9 px-md-4">
@@ -191,5 +186,6 @@ if (isset($_POST["submitElutasit"]) && !empty($dbconn)){
         displayMessages($error, $msg);
         require_once("footer.html"); 
     ?>
+    
 </body>
 </html>

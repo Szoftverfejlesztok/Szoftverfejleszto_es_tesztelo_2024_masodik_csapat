@@ -10,7 +10,6 @@ if (!isset($_SESSION["user"])){
     exit;
 }
 
-
 function generateTable($dbconn){
             if (!empty($dbconn)){
                 $sql = "SELECT user_name, email, name_company, contact, telephone, online_availability, product_description FROM userdata WHERE user_id=:user_id";  // a futtatandó sql utasítás
@@ -62,7 +61,6 @@ function generateTable($dbconn){
                         return $form;
                     }
                 }
-
 }
 function generateTable2($dbconn){
         if (!empty($dbconn)){
@@ -108,7 +106,6 @@ function updateUserProfile ($email, $name_company, $contact, $telephone, $online
             $query->bindValue("telephone", $telephone, PDO::PARAM_STR);
             $query->bindValue("online_availability", $online_availability, PDO::PARAM_STR);
             $query->bindValue("product_description", $product_description, PDO::PARAM_STR);
-           // $query->bindValue("product_ids", $product_ids, PDO::PARAM_STR);
             $query->bindValue("user_id", $_SESSION["user"]["user_id"], PDO::PARAM_STR);
             $query->execute(); 
             
@@ -172,8 +169,7 @@ function generateCheckbox($dbconn){
                     $productId = $row["product_id"];
                    $product .='<label class="checkbox-container">' . $productCategory; 
                     $product .='<input type="checkbox" id="product_id" name="product_ids[]" value="' . $row["product_id"] . '" ' . ($check ? " checked " : " " ).  '>';
-                    $product .='<span class="checkmark"></span> </label>';
-                    
+                    $product .='<span class="checkmark"></span> </label>';        
             }
             $product .='</div>';
             return $product;

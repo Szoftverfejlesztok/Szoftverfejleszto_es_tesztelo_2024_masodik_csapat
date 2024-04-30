@@ -67,7 +67,6 @@ function getUserCountForStatus($status, $dbconn){
     } 
 }
 
-
 if (isset($_POST["submitAktival"]) && !empty($dbconn)){    
     try {
         $user_id= trim($_POST["user_id"]);
@@ -78,7 +77,6 @@ if (isset($_POST["submitAktival"]) && !empty($dbconn)){
     }catch (PDOException $e){
         $error = "Adatbázis hiba: ".$e->getMessage(); 
     }
-
 }
 
 if (isset($_POST["submitDeaktival"]) && !empty($dbconn)){   
@@ -91,7 +89,6 @@ if (isset($_POST["submitDeaktival"]) && !empty($dbconn)){
     }catch (PDOException $e){
         $error = "Adatbázis hiba: ".$e->getMessage(); 
     }
-
 }
 
 if (isset($_POST["submitTorol"]) && !empty($dbconn)){    
@@ -104,7 +101,6 @@ if (isset($_POST["submitTorol"]) && !empty($dbconn)){
     } catch (PDOException $e){
         $error = "Adatbázis hiba: ".$e->getMessage(); 
     }
-
 }
 
 ?>
@@ -128,7 +124,6 @@ if (isset($_POST["submitTorol"]) && !empty($dbconn)){
     <div class="container-fluid">
         <div class="row">
             <?php require_once("sidebar_menu.php"); ?>
-
 
             <!-- Main Content -->
             <main role="main" class="ml-sm-auto col-lg-9 px-md-4">

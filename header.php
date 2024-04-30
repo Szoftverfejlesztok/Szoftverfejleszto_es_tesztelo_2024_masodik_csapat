@@ -39,7 +39,6 @@
 <!-- Esetleges üzenetet megjelenítő paragraph -->
 <p class="text-white bg-success p-3 d-none text-center" id="confirmMessage" style="font-size: 1.5rem;"></p>
 
-
 <?php
 // Kirja a $error változó tartalmát, ha nem üres
 function displayMessages($error, $msg) {
