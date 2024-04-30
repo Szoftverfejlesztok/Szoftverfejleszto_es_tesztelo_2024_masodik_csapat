@@ -3,6 +3,7 @@
 INSERT INTO `date_market` (`date`, `is_next`) VALUES
 ('2024-04-21', 0),
 ('2024-05-19', 1),
+('2024-06-16', 0),
 ('2024-07-21', 0),
 ('2024-08-18', 0),
 ('2024-09-15', 0);
@@ -106,17 +107,17 @@ INSERT INTO `place` (`place_number`, `place_price`) VALUES
 ('VIII/12', 1500);
 
 INSERT INTO `userdata` (`user_name`, `password`, `name_company`, `contact`, `telephone`, `email`, `online_availability`, `product_description`, `moderator`, `status`) VALUES
-('brumm1', '$2y$10$MrZyYfqK09DRvuvG/YouSuYo4MtRxYi4eWlopz6s41QtWdkMhm4qG', 'Brumm Kft', 'Jónás Patrícia', '+36705536254', 'brumm@gmail.com', 'www.brummkft.hu', 'Termékkínálatunkban többféle méz megtalálható, többek között akác, repce, vegyes virágméz.', 1, 1),
-('kovacspeter', '$2y$10$vOkt7.EcNH/C5Tull.DNmuuJQDmngZ34ttsuMfprSlLy1FlrqHpFS', 'AranyKéz', 'Kovács Péter', '+123456789', 'kovacspeter1@example.com', 'www.facebook.com/AranyKéz', 'Kézműves ékszerek különleges alkotások és egyedi darabok', 0, 1),
-('nagymaria', '$2y$10$keg5RS0LwNaXowr3EuCgi.eYgZpt9fBy/OFGKvMtt88jjUkKUxt9m', 'EcoBioTermék', 'Nagy Mária', '+987654321', 'nagymaria2@example.com', 'www.facebook.com/EcoBioTermék', 'Biogazdálkodásból származó termékek, organikus konyhai alapanyagok és higiéniai termékek', 0, 1),
-('kissgeza', '$2y$10$jzhI8nk25ppJU9CFH9.OyeQLvc7y.p/IkJRSQUn.LcUO66.SvpkHG', 'ZöldKert', 'Kiss Géza', '+111222333', 'kissgeza3@example.com', 'www.facebook.com/ZöldKert', 'Kerti növények, virágok és díszfák, kertészeti eszközök és kiegészítők', 0, 1),
-('tothistvan', '$2y$10$jWzoQ2JwfZmegTz6pYssp.eF8hvWBxv0hXdzpKosryPwG.IDdMpQu', 'Gazdakör', 'Tóth István', '+444555666', 'tothistvan4@example.com', 'www.facebook.com/Gazdakör', 'Friss zöldségek, gyümölcsök és szezonális termények közvetlenül a termelőtől', 0, 0),
-('szabolaura', '$2y$10$HLwGZWlOHr.L5YdNPyb8be.NrYVnHLOl.pC/HLYsdljl1aewpEyei', 'MűvészKuckó', 'Szabó Laura', '+777888999', 'szabolaura5@example.com', 'www.facebook.com/MűvészKuckó', 'Festmények, művészeti alkotások és díszítőelemek, egyedi ajándéktárgyak', 0, 1),
-('horvathandrea', '$2y$10$ZCUEVEEyZs.3yL.8UOfqbehKUk7KSm/yJxXPY.2dSBtyJSq13jg0G', 'BőrVilág', 'Horváth Andrea', '+123123123', 'horvathandrea6@example.com', 'www.facebook.com/BőrVilág', 'Kézzel készített bőröndök, táska és kiegészítők, prémium minőségű bőrtermékek', 0, 0),
-('molnaristvan', '$2y$10$DJMhKhmH0F1B5OWpywwgX.lPpBgXVwkuV.ML3csQChub9xShKl/mi', 'GyógyFűszerek', 'Molnár István', '+456456456', 'molnaristvan7@example.com', 'www.facebook.com/GyógyFűszerek', 'Gyógyító hatású fűszerek, teakeverékek és gyógynövények, természetes gyógymódok', 0, 1),
-('feherkata', '$2y$10$fdgk7fYLb7NmaXa7IeRXAuNQ3en3ojY4YLtalXXCBBHpTJ1H0y1xm', 'KerámiaMania', 'Fehér Kata', '+789789789', 'feherkata8@example.com', 'www.facebook.com/KerámiaMania', 'Kézzel készített kerámia díszek, egyedi cseréptárgyak és dekorációs elemek', 0, 1),
-('bakosbalazs', '$2y$10$5wAAK4nMh2yYCeeUXdvwr.IJACoQ15lp3i5TnvfgGojp4ta4hdbrW', 'PálinkaPince', 'Bakos Balázs', '+321321321', 'bakosbalazs9@example.com', 'www.facebook.com/PálinkaPince', 'Különleges ízű házi pálinkák, prémium minőségű gyümölcsből lepárolva', 0, 0),
-('galreka', '$2y$10$xK/GroI5EQFY6RqgChoWxuF7EpY5YH/DLc91UnFFrEs523mGhXe2W', 'TextilTrend', 'Gál Réka', '+654654654', 'galreka10@example.com', 'www.facebook.com/TextilTrend', 'Kézzel készített textíliák, szőttesek és ruhaneműk, valamint babaholmik', 0, 1);
+('brumm1', '$2y$10$MrZyYfqK09DRvuvG/YouSuYo4MtRxYi4eWlopz6s41QtWdkMhm4qG', 'Brumm Kft', 'Jónás Patrícia', '06705536254', 'brumm@gmail.com', 'https://www.brummkft.hu', 'Termékkínálatunkban többféle méz megtalálható, többek között akác, repce, vegyes virágméz.', 1, 1),
+('kovacspeter', '$2y$10$vOkt7.EcNH/C5Tull.DNmuuJQDmngZ34ttsuMfprSlLy1FlrqHpFS', 'AranyKéz', 'Kovács Péter', '06303456789', 'kovacspeter1@example.com', 'https://www.facebook.com/AranyKéz', 'Kézműves ékszerek különleges alkotások és egyedi darabok', 0, 1),
+('nagymaria', '$2y$10$keg5RS0LwNaXowr3EuCgi.eYgZpt9fBy/OFGKvMtt88jjUkKUxt9m', 'EcoBioTermék', 'Nagy Mária', '06207654321', 'nagymaria2@example.com', 'https://www.facebook.com/EcoBioTermék', 'Biogazdálkodásból származó termékek, organikus konyhai alapanyagok és higiéniai termékek', 0, 1),
+('kissgeza', '$2y$10$jzhI8nk25ppJU9CFH9.OyeQLvc7y.p/IkJRSQUn.LcUO66.SvpkHG', 'ZöldKert', 'Kiss Géza', '06701222333', 'kissgeza3@example.com', 'https://www.facebook.com/ZöldKert', 'Kerti növények, virágok és díszfák, kertészeti eszközök és kiegészítők', 0, 1),
+('tothistvan', '$2y$10$jWzoQ2JwfZmegTz6pYssp.eF8hvWBxv0hXdzpKosryPwG.IDdMpQu', 'Gazdakör', 'Tóth István', '06304555666', 'tothistvan4@example.com', 'https://www.facebook.com/Gazdakör', 'Friss zöldségek, gyümölcsök és szezonális termények közvetlenül a termelőtől', 0, 0),
+('szabolaura', '$2y$10$HLwGZWlOHr.L5YdNPyb8be.NrYVnHLOl.pC/HLYsdljl1aewpEyei', 'MűvészKuckó', 'Szabó Laura', '06707888999', 'szabolaura5@example.com', 'https://www.facebook.com/MűvészKuckó', 'Festmények, művészeti alkotások és díszítőelemek, egyedi ajándéktárgyak', 0, 1),
+('horvathandrea', '$2y$10$ZCUEVEEyZs.3yL.8UOfqbehKUk7KSm/yJxXPY.2dSBtyJSq13jg0G', 'BőrVilág', 'Horváth Andrea', '06303123123', 'horvathandrea6@example.com', 'https://www.facebook.com/BőrVilág', 'Kézzel készített bőröndök, táska és kiegészítők, prémium minőségű bőrtermékek', 0, 0),
+('molnaristvan', '$2y$10$DJMhKhmH0F1B5OWpywwgX.lPpBgXVwkuV.ML3csQChub9xShKl/mi', 'GyógyFűszerek', 'Molnár István', '06705646456', 'molnaristvan7@example.com', 'https://www.facebook.com/GyógyFűszerek', 'Gyógyító hatású fűszerek, teakeverékek és gyógynövények, természetes gyógymódok', 0, 1),
+('feherkata', '$2y$10$fdgk7fYLb7NmaXa7IeRXAuNQ3en3ojY4YLtalXXCBBHpTJ1H0y1xm', 'KerámiaMania', 'Fehér Kata', '06309789789', 'feherkata8@example.com', 'https://www.facebook.com/KerámiaMania', 'Kézzel készített kerámia díszek, egyedi cseréptárgyak és dekorációs elemek', 0, 1),
+('bakosbalazs', '$2y$10$5wAAK4nMh2yYCeeUXdvwr.IJACoQ15lp3i5TnvfgGojp4ta4hdbrW', 'PálinkaPince', 'Bakos Balázs', '06202132321', 'bakosbalazs9@example.com', 'https://www.facebook.com/PálinkaPince', 'Különleges ízű házi pálinkák, prémium minőségű gyümölcsből lepárolva', 0, 0),
+('galreka', '$2y$10$xK/GroI5EQFY6RqgChoWxuF7EpY5YH/DLc91UnFFrEs523mGhXe2W', 'TextilTrend', 'Gál Réka', '06705465454', 'galreka10@example.com', 'https://www.facebook.com/TextilTrend', 'Kézzel készített textíliák, szőttesek és ruhaneműk, valamint babaholmik', 0, 1);
 
 
 
