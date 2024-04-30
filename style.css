@@ -41,7 +41,6 @@ overflow-y: auto;
 }
 
 /* Profil */
-
 .profile-page {
 width: 100%;
 padding: 0% 0 0;
@@ -245,7 +244,6 @@ div > .container {
 width: 90%; /* Konténer szélessége*/ 
 max-width: 1200px; /* Maximum szélesség */
 margin: 0 auto;  /*Középre igazítás */
-
 padding: 20px; /* Belső margó */
 }
 
@@ -278,7 +276,6 @@ p > .epip {
 text-align: justify;
 
 }
-
 
 /* A header elem beállítása */
 header {
@@ -343,7 +340,6 @@ padding: 4px;
 text-align: center;
 }
 
-
 /*helyfoglalós kép*/
 img {
 width: 50%;
@@ -381,7 +377,7 @@ float: left;
 margin: 20px 20px 20px 0;
 max-width: 100%;
 height: auto;
-  }
+}
 
 /*helyfoglalás felugró ablak index.php-ben */
 .popup_index {
@@ -405,7 +401,6 @@ text-align: center;
   cursor: pointer;
   font-size: 30px;
 }
-
 
 /* helyfoglalás  */
 #vasarDatumLista{
