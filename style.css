@@ -55,10 +55,7 @@ text-align: center;
 .productDescription {
   width: 100%;
 }
-/*
-.productCheckBox{
-  width: 40%;
-}*/
+
 
 
 /*Adminisztrációs felületek */
@@ -268,9 +265,6 @@ h2 {
   text-align: center;
 }
 
-/*div > #market_picture {
-  text-align: center;
-}*/
 
 p > .epip {
 text-align: justify;
@@ -387,7 +381,7 @@ top: 30%;
 left: 50%;
 transform: translate(-50%, -50%);
 background: hsl(150, 2%, 80%);
-/* background: linear-gradient(90deg, rgb(238, 238, 236) 0%, rgba(118,184,82,1) 50%); */
+
 padding: 20px;
 border: 1px solid #ccc;
 box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -415,68 +409,6 @@ margin-bottom: 20px;
 margin-top: 20px;
 }
 
-/* regisztrációs űrlap
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 0;
-  
-}
-
-div > .containerreg {
-      
-  position:relative;
-  z-index: 1;
-  background: #FFFFFF;
-  max-width: 50%;
-  margin: 0 auto 100px;
-  padding: 10px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)
-}
-
-
-fieldset {
-  width: 80%;
-  margin: 30px auto;
-  background-color: #fff;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  text-align: center;
-}
-
-h3 {
-  margin-top: 0;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="tel"],
-input[type="submit"] {
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  width: 80%;
-}
-
-input[type="submit"] {
-  background-color: #4d4d4d;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-input[type="submit"]:hover {
-  background-color: #0056b3;
-}*/
 
 p.error {
       color: #ff0000;
@@ -499,16 +431,5 @@ p.error {
   position: absolute;
 }
  
-.footerreg{
-  background-color: #9ad768; 
-  padding-left: 50px;
-  text-align: center; /* Balra igazítás */
-  flex-basis: 100%; /* Teljes szélesség a kisebb képernyőkre */
-  font-size: 14px;
-  /* border-top: solid 1px; */
-  padding-top: 8px;
-  padding-bottom: 1px;
-  max-width: 100%
-}
 
 

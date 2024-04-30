@@ -59,7 +59,7 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
 
         
         try {
-            // Felhasználói adatok beszúrása az user_data táblába
+            // Felhasználói adatok beszúrása az userdata táblába
             $sqlUserData = "INSERT INTO userdata (user_name, password, name_company, contact, telephone, email, online_availability, product_description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $queryUserData = $dbconn->prepare($sqlUserData);
             $queryUserData->execute([$user_name, $password, $name_company, $contact, $telephone, strtolower($email), $online_availability, $productDescription]);
@@ -152,7 +152,6 @@ if (isset($_POST["submitRegisztral"]) && !empty($dbconn)){
             return false;
         }
 
-        // További validációk a cég név, kapcsolattartó, telefonszám és online elérhetőség esetén...
 
         return true;
     }
@@ -174,22 +173,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($username)) {
         $errors[] = "<span style='color: red;'>A felhasználónév mező nem lehet üres!</span>";
     }
-   
-   /* if (!preg_match("/^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű0-9 ]*$/u", $contactPerson)) {
-        $errors[] = "<span style='color: red;'>A kapcsolattartó személy nevében csak betűk, számok és szóközök engedélyezettek!</span>";
-    }*/
-
-   // Ellenőrizd, hogy a felhasználónév már szerepel-e az adatbázisban
-/*     $sql_check = "SELECT COUNT(*) as count FROM userdata WHERE user_name = :user_name";
-    $query_check = $dbconn->prepare($sql_check);
-    $query_check->bindParam(":user_name", $user_name, PDO::PARAM_STR);
-    $query_check->execute();
-    $result_check = $query_check->fetch(PDO::FETCH_ASSOC);
-
-    if ($result_check['count'] > 0) {
-        // Ha a felhasználónév már foglalt, írjunk ki hibaüzenetet
-        $errors[] = "<span style='color: red;'>A felhasználónév már foglalt!</span>";
-    }  */
     
     // Email cím ellenőrzése
     $email = $_POST["email"];
@@ -228,11 +211,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "<span style='color: red;'>A cég nevének 5 és 50 karakter között kell lennie, és csak betűket, számokat, pontot, és szóközt tartalmazhat!</span>";
     }
 
-    // Kapcsolattartó ellenőrzése
-    /*$contactPerson = $_POST["contact"];
-   if (!preg_match("/^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű0-9 ]*$/u", $contactPerson)) {
-        $errors[] = "<span style='color: red;'>A kapcsolattartó személy nevében csak betűk, számok és szóközök engedélyezettek!</span>";
-    } */
+    
     $contactPerson = $_POST["contact"];
     if (!preg_match("/^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű0-9 .,!@#\$%^&*()-_+=?<>;:'\"\/]*$/u", $contactPerson)) {
     $errors[] = "<span style='color: red;'>A kapcsolattartó személy nevében csak betűk, számok, szóközök és bizonyos speciális karakterek engedélyezettek!</span>";
